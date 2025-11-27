@@ -72,6 +72,7 @@ Bối cảnh & yêu cầu dự án:
 
 2. Công nghệ & kiến trúc mong muốn
 
+- `src/` Thư mục nguồn ứng dụng
 - Next.js App Router (thư mục `app/`).
 - TypeScript, React Server Components là mặc định, chỉ dùng Client Components khi cần.
 - Tailwind CSS cho styling.

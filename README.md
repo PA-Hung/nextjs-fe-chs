@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Chau Homestay Frontend
 
-## Getting Started
+Frontend Next.js 15 (App Router) cho website [chauhomestay.com](https://chauhomestay.com), kết nối với backend NestJS hiện có để quản lý căn hộ The Sóng, villa và blog/guide book.
 
-First, run the development server:
+### Công nghệ chính
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Next.js App Router (React Server Components mặc định)
+- TypeScript + Tailwind CSS
+- Tích hợp API NestJS qua REST
+- SEO-first: metadata động, Open Graph, chuẩn bị JSON-LD
+
+### Cấu trúc thư mục
+
+```
+src/
+  app/            // Routing & layout
+  auth/           // Hệ thống authentication (API client, context, hooks, UI)
+  components/     // (sẽ bổ sung) UI components tái sử dụng
+  lib/            // Helpers, config, types dùng chung
+public/           // Assets tĩnh
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Thiết lập môi trường
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Tạo file `.env.local` tại root dự án:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+NEXT_PUBLIC_API_URL=https://api.chauhomestay.com
+AUTH_ACCESS_COOKIE_NAME=chauhomestay_access
+AUTH_REFRESH_COOKIE_NAME=chauhomestay_refresh
+AUTH_REQUEST_TIMEOUT_MS=8000
+```
 
-## Learn More
+Các biến có thể điều chỉnh tùy môi trường deploy.
 
-To learn more about Next.js, take a look at the following resources:
+### Chạy dự án
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm install
+npm run dev # chạy ở http://localhost:3200
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Hệ thống Authentication
 
-## Deploy on Vercel
+- Module `src/auth/` gồm:
+  - `api.ts`: Gọi NestJS REST API (`/auth/login`, `/auth/me`, `/auth/refresh`…)
+  - `session.ts`: Server session + cookies (access & refresh token)
+  - `actions.ts`: Server Actions `loginAction`, `logoutAction`
+  - `context/`, `hooks/`, `components/`: AuthProvider, `useAuth`, `LoginForm`
+- Root layout fetch session server-side và bọc toàn app bằng `AuthProvider`
+- Form đăng nhập mẫu đặt ở trang chủ (`src/app/page.tsx`)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Lint & format
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+npm run lint
+```
+
+### Ghi chú thêm
+
+- Luôn ưu tiên Server Components để giảm bundle
+- Chỉ dùng Client Components cho phần interactive (ví dụ LoginForm)
+- Cập nhật metadata từng page bằng `generateMetadata` khi xây màn hình mới
