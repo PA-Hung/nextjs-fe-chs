@@ -1,21 +1,17 @@
-"use client";
-
-import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-const navLinks = [
-  { label: "Căn hộ", href: "#apartments" },
-  { label: "Tiện ích", href: "#amenities" },
-  { label: "Đánh giá khách", href: "#reviews" },
-  { label: "Khám phá Vũng Tàu", href: "#explore" },
-  { label: "Liên hệ", href: "#cta" },
-];
+import { SiteFooter } from "@/components/layout/SiteFooter";
+import { SiteHeader } from "@/components/layout/SiteHeader";
 
 const heroHighlights = [
-  { id: 1, text: "Vị trí gần biển, đi bộ 5–7 phút" },
-  { id: 2, text: "Tiện ích hồ bơi, sauna, khu vui chơi" },
-  { id: 3, text: "Phục vụ nhiệt tình, hỗ trợ 24/7" },
+  { id: 1, text: "Hồ bơi vô cực trên tầng 36, view biển cực đẹp" },
+  { id: 2, text: "Sky Gym, Yoga, Sauna & Steam thư giãn trên cao" },
+  { id: 3, text: "Công viên nước & hồ bơi trẻ em riêng" },
+  { id: 4, text: "Khu game, phòng đọc sách, phòng sinh hoạt chung" },
+  { id: 5, text: "Sảnh đón sang trọng chuẩn resort" },
+  { id: 6, text: "Shophouse, dịch vụ tiện ích ngay tại khuôn viên chung cư" },
+  { id: 7, text: "Bãi đậu xe rộng rãi, an ninh 24/7" },
 ];
 
 const benefits = [
@@ -100,8 +96,7 @@ const exploreSpots = [
   {
     title: "Mũi Nghinh Phong",
     desc: "Đón bình minh, chụp ảnh cổng trời, nên đi buổi sáng sớm.",
-    image:
-      "https://images.pexels.com/photos/462162/pexels-photo-462162.jpeg?auto=compress&cs=tinysrgb&w=800",
+    image: "/thesong/Tien-ich-The-Song-Vung-Tau3.jpeg",
   },
   {
     title: "Bãi Sau",
@@ -115,112 +110,64 @@ const exploreSpots = [
   },
 ];
 
+const beachBackgroundStyle = {
+  backgroundImage:
+    "radial-gradient(circle at 15% 20%, rgba(255,255,255,0.6), transparent 45%), radial-gradient(circle at 80% 0%, rgba(255,255,255,0.4), transparent 40%), linear-gradient(180deg, #E8F6FF 0%, #F5FBFF 45%, #FFF7EA 100%)",
+};
+
+const WaveDivider = () => (
+  <>
+    <div className="wave-divider mx-auto w-full max-w-6xl drop-shadow-[0_12px_28px_rgba(0,85,164,0.15)]" aria-hidden="true">
+      <svg viewBox="0 0 1440 140" className="h-16 w-full transition-transform duration-1000" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#d7f0ff" />
+            <stop offset="50%" stopColor="#c0e6ff" />
+            <stop offset="100%" stopColor="#ffe7c4" />
+          </linearGradient>
+        </defs>
+        <path
+          d="M0,60 C160,120 320,-5 520,50 C720,105 880,10 1080,60 C1240,100 1360,80 1440,70 L1440,140 L0,140 Z"
+          fill="url(#waveGradient)"
+          opacity="0.8"
+          className="wave-primary"
+        />
+        <path
+          d="M0,85 C120,140 300,20 520,85 C740,150 1000,20 1220,85 C1360,120 1440,110 1440,110 L1440,140 L0,140 Z"
+          fill="#ffffff"
+          opacity="0.55"
+          className="wave-secondary"
+        />
+      </svg>
+    </div>
+  </>
+);
+
 export default function Home() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const handleToggleMenu = () => {
-    setIsMenuOpen((prev) => !prev);
-  };
-
-  const handleCloseMenu = () => {
-    setIsMenuOpen(false);
-  };
-
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900">
-      <header className="sticky top-0 z-50 border-b border-white/30 bg-white/70 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-3">
-            <div className="relative h-12 w-12 overflow-hidden rounded-2xl bg-white shadow">
-              <Image
-                src="/logo.png"
-                alt="Logo Châu Homestay"
-                fill
-                sizes="48px"
-                className="object-contain"
-                priority
-              />
-            </div>
-            <div className="flex flex-col">
-              <span className="text-lg font-semibold text-slate-900">Châu Homestay</span>
-              <span className="text-xs uppercase tracking-[0.3em] text-slate-500">
-                The Sóng Vũng Tàu
-              </span>
-            </div>
-          </div>
-          <nav className="hidden items-center gap-6 text-sm font-medium text-slate-600 md:flex">
-            {navLinks.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className="transition hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300"
-              >
-                {item.label}
-              </a>
-            ))}
-          </nav>
-          <div className="flex items-center gap-3">
-            <Link
-              href="https://zalo.me"
-              className="hidden rounded-full bg-[#0055A4] px-5 py-2 text-sm font-semibold text-white shadow-md transition hover:bg-[#0b67c6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#80b9ff] md:inline-flex"
-            >
-              Đặt phòng qua Zalo
-            </Link>
-            <button
-              type="button"
-              onClick={handleToggleMenu}
-              aria-label="Mở menu"
-              aria-expanded={isMenuOpen}
-              className="rounded-full border border-slate-200 p-2 text-slate-700 transition hover:border-slate-400 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300 md:hidden"
-            >
-              <span className="sr-only">Menu</span>
-              <svg
-                className="h-5 w-5"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={1.8}
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path strokeLinecap="round" d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
-          </div>
-        </div>
-        {isMenuOpen ? (
-          <div className="border-t border-slate-100 bg-white/95 px-4 py-4 shadow-lg md:hidden">
-            <div className="flex flex-col gap-4 text-sm font-medium text-slate-600">
-              {navLinks.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  tabIndex={0}
-                  onClick={handleCloseMenu}
-                  className="rounded-full px-4 py-2 transition hover:bg-slate-100 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300"
-                >
-                  {item.label}
-                </a>
-              ))}
-              <Link
-                href="https://zalo.me"
-                className="rounded-full bg-[#0055A4] px-4 py-2 text-center font-semibold text-white transition hover:bg-[#0b67c6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#80b9ff]"
-              >
-                Đặt phòng qua Zalo
-              </Link>
-            </div>
-          </div>
-        ) : null}
-      </header>
+    <div className="min-h-screen text-slate-900" style={beachBackgroundStyle}>
+      <SiteHeader />
 
-      <main className="mx-auto flex max-w-6xl flex-col gap-20 px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
-        <section className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr]" id="hero">
+      <main className="mx-auto flex max-w-6xl flex-col gap-16 px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+        <section
+          className="grid gap-10 rounded-[48px] bg-white/75 p-6 shadow-2xl shadow-sky-100/70 ring-1 ring-white/50 lg:grid-cols-[1.1fr_0.9fr]"
+          id="hero"
+        >
           <article className="space-y-6">
-            <p className="text-sm uppercase tracking-[0.4em] text-[#0055A4]">Châu Homestay</p>
-            <h1 className="text-4xl font-semibold leading-tight text-slate-900 sm:text-5xl">
-              Căn hộ nghỉ dưỡng tại
-              <br />
-              The Sóng Vũng Tàu
-            </h1>
+            <div className="inline-flex items-center gap-2 rounded-full bg-[#FFF2D6] px-4 py-1 text-xs font-semibold uppercase tracking-[0.4em] text-[#c78b37]">
+              🌞 Summer
+              <span className="tracking-normal text-[#0055A4]">Staycation</span>
+            </div>
+            <div className="rounded-[32px] bg-gradient-to-r from-[#e0f3ff] to-transparent p-1">
+              <div className="rounded-[28px] bg-white/80 px-6 py-4">
+                <p className="text-sm uppercase tracking-[0.4em] text-[#0055A4]">Châu Homestay</p>
+                <h1 className="text-[1.4rem] font-semibold leading-snug text-slate-900 sm:text-[1.9rem]">
+                  Căn hộ nghỉ dưỡng tại
+                  <br />
+                  The Sóng Vũng Tàu
+                </h1>
+              </div>
+            </div>
             <p className="text-lg text-slate-600">
               Châu Homestay mang đến không gian căn hộ hiện đại, đầy đủ tiện nghi, vài bước ra biển,
               phù hợp gia đình và nhóm bạn tìm kiếm kỳ nghỉ ấm cúng.
@@ -228,7 +175,7 @@ export default function Home() {
             <ul className="space-y-4">
               {heroHighlights.map((item) => (
                 <li key={item.id} className="flex items-center gap-3 text-sm text-slate-700">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-[#0055A4]">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#E1F4FF] text-[#0055A4] shadow-inner">
                     ✓
                   </span>
                   <span>{item.text}</span>
@@ -237,7 +184,7 @@ export default function Home() {
             </ul>
             <div className="flex flex-col gap-4 sm:flex-row">
               <Link
-                href="#apartments"
+                href="/can-ho-the-song"
                 className="rounded-full bg-[#0055A4] px-6 py-3 text-center text-sm font-semibold text-white shadow-lg shadow-[#0055a420] transition hover:-translate-y-0.5 hover:bg-[#0b67c6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#80b9ff]"
               >
                 Xem các căn hộ
@@ -254,8 +201,8 @@ export default function Home() {
             <div className="col-span-2 overflow-hidden rounded-[30px]">
               <div className="relative h-72 w-full overflow-hidden rounded-[30px]">
                 <Image
-                  src="https://images.pexels.com/photos/6444258/pexels-photo-6444258.jpeg?auto=compress&cs=tinysrgb&w=900"
-                  alt="Căn hộ The Sóng Vũng Tàu"
+                  src="/apartment/president/z7238038173562_f901c91e2457a32e242b7ed98c2e486d.jpg"
+                  alt="Phòng ngủ sáng tràn ánh sáng"
                   fill
                   sizes="(min-width:1024px) 540px, 100vw"
                   className="object-cover transition hover:scale-105"
@@ -268,8 +215,8 @@ export default function Home() {
             <div className="overflow-hidden rounded-[26px]">
               <div className="relative h-48 w-full">
                 <Image
-                  src="https://images.pexels.com/photos/1884237/pexels-photo-1884237.jpeg?auto=compress&cs=tinysrgb&w=600"
-                  alt="Hồ bơi vô cực"
+                  src="/apartment/Havila-Luxury/Havila-Luxury-15.jpg"
+                  alt="Không gian bếp ấm cúng"
                   fill
                   sizes="(min-width:640px) 260px, 100vw"
                   className="object-cover transition hover:scale-105"
@@ -279,8 +226,8 @@ export default function Home() {
             <div className="overflow-hidden rounded-[26px]">
               <div className="relative h-48 w-full">
                 <Image
-                  src="/thesong/Tien-ich-The-Song-Vung-Tau9.jpeg"
-                  alt="View tiện ích The Sóng"
+                  src="/apartment/Luxury/z7237609503012_b673252d3dd5eea2f29e7a8465fa3952.jpg"
+                  alt="Gian bếp rộng mở"
                   fill
                   sizes="(min-width:640px) 260px, 100vw"
                   className="object-cover transition hover:scale-105"
@@ -290,8 +237,8 @@ export default function Home() {
             <div className="col-span-2 overflow-hidden rounded-[26px]">
               <div className="relative h-48 w-full">
                 <Image
-                  src="https://images.pexels.com/photos/2089698/pexels-photo-2089698.jpeg?auto=compress&cs=tinysrgb&w=900"
-                  alt="Phòng ngủ Japandi"
+                  src="/apartment/suite/z7238034694549_2dc9301a265e41b47f28036912bcd439.jpg"
+                  alt="Góc bếp rộng rãi tại căn hộ suite"
                   fill
                   sizes="(min-width:1024px) 540px, 100vw"
                   className="object-cover transition hover:scale-105"
@@ -301,7 +248,9 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="benefits" className="space-y-8">
+        <WaveDivider />
+
+        <section id="benefits" className="space-y-8 rounded-[40px] bg-white/70 p-8 shadow-xl shadow-sky-100/60">
           <div className="space-y-3 text-center">
             <p className="text-sm uppercase tracking-[0.3em] text-[#b88b5a]">Lợi ích</p>
             <h2 className="text-3xl font-semibold text-slate-900">Lợi ích khi ở Châu Homestay</h2>
@@ -324,6 +273,8 @@ export default function Home() {
             ))}
           </div>
         </section>
+
+        <WaveDivider />
 
         <section id="apartments" className="space-y-8">
           <div className="flex flex-col gap-3 text-left">
@@ -380,10 +331,14 @@ export default function Home() {
           </div>
         </section>
 
+        <WaveDivider />
+
         <section
           id="amenities"
-          className="grid gap-10 rounded-[40px] bg-white/80 p-8 shadow-xl shadow-slate-200/50 md:grid-cols-2"
+          className="relative grid gap-10 overflow-hidden rounded-[40px] bg-white/80 p-8 shadow-xl shadow-slate-200/50 md:grid-cols-2"
         >
+          <div className="pointer-events-none absolute -right-6 -top-6 h-32 w-32 rounded-full bg-[#FFF2D6] opacity-50 blur-2xl" />
+          <div className="pointer-events-none absolute -bottom-10 left-6 h-24 w-24 rounded-full bg-[#b3e5ff] opacity-50 blur-2xl" />
           <article className="space-y-5">
             <p className="text-sm uppercase tracking-[0.3em] text-[#b88b5a]">Tiện ích</p>
             <h2 className="text-3xl font-semibold text-slate-900">
@@ -397,13 +352,13 @@ export default function Home() {
               {amenityList.map((amenity) => (
                 <li key={amenity} className="flex items-center gap-3 text-sm text-slate-700">
                   <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-100 text-[#0055A4]">
-                    •
+                  ✓
                   </span>
                   <span>{amenity}</span>
-                </li>
+            </li>
               ))}
-            </ul>
-          </article>
+          </ul>
+        </article>
           <div className="relative overflow-hidden rounded-[34px]">
             <div className="relative h-full min-h-[320px] w-full">
               <Image
@@ -419,6 +374,41 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        <WaveDivider />
+
+        <section
+          className="relative overflow-hidden rounded-[40px] text-white"
+          aria-label="Trải nghiệm thực tế"
+        >
+          <div
+            className="bg-fixed bg-cover bg-center"
+            style={{ backgroundImage: "url('/thesong/Tien-ich-The-Song-Vung-Tau4.jpeg')" }}
+          >
+            <div className="bg-gradient-to-r from-[#023b77]/80 via-[#0055a4]/70 to-[#f7b267]/40 px-6 py-20 sm:px-8 lg:px-16">
+              <div className="mx-auto flex max-w-4xl flex-col items-center gap-6 text-center">
+                <p className="text-sm uppercase tracking-[0.4em] text-white/80">Trải nghiệm</p>
+                <h2 className="text-3xl font-semibold leading-tight">
+                  Cảm nhận làn gió biển và không gian tiện ích The Sóng ngay từ khi lướt trang
+                </h2>
+                <p className="text-base text-white/80">
+                  Hệ tiện ích được đầu tư đồng bộ tạo nên những khoảnh khắc thư giãn hiếm có giữa
+                  lòng thành phố biển. Scroll nhẹ để cảm nhận hiệu ứng parallax mô phỏng trải nghiệm
+                  thực tế khi dạo bước trong khuôn viên.
+                </p>
+                <Link
+                  href="#cta"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/10 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/20"
+                >
+                  Xem video tour 3 phút
+                  <span aria-hidden>➜</span>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <WaveDivider />
 
         <section id="reviews" className="space-y-8">
           <div className="space-y-3 text-center">
@@ -448,7 +438,12 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="explore" className="space-y-8">
+        <WaveDivider />
+
+        <section
+          id="explore"
+          className="space-y-8 rounded-[40px] bg-gradient-to-b from-white/90 to-[#fff4e3]/80 p-8 shadow-xl shadow-slate-200/60"
+        >
           <div className="space-y-3 text-center">
             <p className="text-sm uppercase tracking-[0.3em] text-[#b88b5a]">Khám phá</p>
             <h2 className="text-3xl font-semibold text-slate-900">Khám phá Vũng Tàu</h2>
@@ -474,9 +469,12 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="space-y-3 p-5">
-                  <h3 className="text-xl font-semibold text-slate-900">{spot.title}</h3>
+                  <div className="flex items-center gap-2 text-[#c78b37]">
+                    <span aria-hidden>🏖️</span>
+                    <h3 className="text-xl font-semibold text-slate-900">{spot.title}</h3>
+                  </div>
                   <p className="text-sm text-slate-600">{spot.desc}</p>
-                  <Link
+            <Link
                     href="#cta"
                     className="text-sm font-semibold text-[#0055A4] underline-offset-4 transition hover:underline"
                   >
@@ -490,7 +488,7 @@ export default function Home() {
 
         <section
           id="cta"
-          className="rounded-[40px] bg-gradient-to-r from-[#0055A4] to-[#0b67c6] p-8 text-white shadow-2xl"
+          className="rounded-[40px] bg-gradient-to-r from-[#0055A4] via-[#1a7fff] to-[#f4c481] p-8 text-white shadow-2xl"
         >
           <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             <div className="space-y-3">
@@ -514,15 +512,13 @@ export default function Home() {
                 className="rounded-full border border-white/60 px-6 py-3 text-center text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
               >
                 Gọi cho chúng tôi
-              </Link>
-            </div>
+            </Link>
           </div>
-        </section>
+        </div>
+      </section>
       </main>
 
-      <footer className="border-t border-white/60 bg-white/70 py-8 text-center text-xs text-slate-500">
-        © {new Date().getFullYear()} Châu Homestay – The Sóng Vũng Tàu.
-      </footer>
+      <SiteFooter />
     </div>
   );
 }
