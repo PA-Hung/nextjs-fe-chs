@@ -1,7 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
+import { FaRulerCombined, FaBed, FaBath, FaUsers, FaMapMarkerAlt } from "react-icons/fa";
 
 import type { ZaloProduct } from "@/lib/types/zalo";
+import { createProductSlug } from "@/lib/utils/slug";
 
 const currencyFormatter = new Intl.NumberFormat("vi-VN", {
   style: "currency",
@@ -27,6 +29,7 @@ const getBadgeLabel = (product: ZaloProduct) => {
 
 export const ApartmentCard = ({ product }: ApartmentCardProps) => {
   const badge = getBadgeLabel(product);
+  const productSlug = createProductSlug(product.name);
 
   return (
     <article className="flex h-full flex-col rounded-[32px] border border-slate-100 bg-white shadow-[0_25px_45px_rgba(15,23,42,0.08)] transition hover:-translate-y-1 hover:shadow-[0_35px_55px_rgba(15,23,42,0.15)]">
@@ -44,30 +47,50 @@ export const ApartmentCard = ({ product }: ApartmentCardProps) => {
         </span>
       </div>
 
-      <div className="flex flex-1 flex-col gap-3 p-6">
-        <div className="space-y-1">
-          <Link href={`/can-ho-the-song/${product._id}`}>
-            <h3 className="text-xl font-semibold text-slate-900">{product.name}</h3>
+      <div className="flex flex-1 flex-col p-6">
+        <div className="space-y-3">
+          <Link href={`/can-ho-the-song/${productSlug}`}>
+            <h3 className="mb-3 text-base font-semibold leading-tight text-slate-900 transition hover:text-[#b88b5a]">
+              {product.name}
+            </h3>
           </Link>
-          <p className="text-sm text-slate-500">
-            {product.area}m² · {product.bedrooms} phòng ngủ · {product.bathrooms} phòng tắm · Tối đa {product.maxGuests} khách
-          </p>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-slate-600">
+            <div className="flex items-center gap-1.5">
+              <FaRulerCombined className="h-4 w-4 text-slate-400" />
+              <span>{product.area}m²</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <FaBed className="h-4 w-4 text-slate-400" />
+              <span>{product.bedrooms}</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <FaBath className="h-4 w-4 text-slate-400" />
+              <span>{product.bathrooms}</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <FaUsers className="h-4 w-4 text-slate-400" />
+              <span>Tối đa {product.maxGuests}</span>
+            </div>
+          </div>
         </div>
-        <p className="text-sm text-slate-600 line-clamp-2">{product.location}</p>
-        <div className="space-y-2">
-          <p className="text-base font-semibold text-[#b88b5a]">
-            Từ {currencyFormatter.format(product.priceNormal)}/đêm
+        <div className="mt-3 flex items-start gap-1.5 text-sm leading-relaxed text-slate-600">
+          <FaMapMarkerAlt className="mt-0.5 h-4 w-4 shrink-0 text-slate-400" />
+          <p className="line-clamp-2">{product.location}</p>
+        </div>
+        <div className="mt-4 space-y-3">
+          <p className="text-lg font-semibold text-[#b88b5a]">
+            Giá từ {currencyFormatter.format(product.priceNormal)}/đêm
           </p>
           <div className="flex flex-wrap gap-3">
             <Link
               href="https://zalo.me"
-              className="flex-1 rounded-full bg-[#0055A4] px-4 py-2 text-center text-sm font-semibold text-white transition hover:bg-[#0b67c6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#80b9ff]"
+              className="flex-1 rounded-full bg-[#0055A4] px-4 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-[#0b67c6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#80b9ff]"
             >
               Đặt qua Zalo
             </Link>
             <Link
-              href={`/can-ho-the-song/${product._id}`}
-              className="flex-1 rounded-full border border-slate-200 px-4 py-2 text-center text-sm font-semibold text-slate-700 transition hover:border-slate-400 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300"
+              href={`/can-ho-the-song/${productSlug}`}
+              className="flex-1 rounded-full border border-slate-200 px-4 py-2.5 text-center text-sm font-semibold text-slate-700 transition hover:border-slate-400 hover:bg-slate-50 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300"
             >
               Xem chi tiết
             </Link>
