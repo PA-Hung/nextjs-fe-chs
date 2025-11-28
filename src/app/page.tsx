@@ -4,6 +4,7 @@ import Link from "next/link";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { AmenitiesSection } from "@/components/common/AmenitiesSection";
+import { ReviewsSection } from "@/components/common/ReviewsSection";
 import { ApartmentCard } from "@/components/apartment/ApartmentCard";
 import { getZaloProducts } from "@/lib/api/zalo";
 import type { ZaloProduct } from "@/lib/types/zalo";
@@ -61,6 +62,60 @@ const reviews = [
     tag: "Team 6 người",
     content:
       "Layout căn hộ hợp lý, có đủ bếp và dụng cụ nấu BBQ. Bạn host tư vấn rất kỹ về lịch trình ăn uống.",
+  },
+  {
+    name: "Chị M. – Hà Nội",
+    tag: "Gia đình 5 người",
+    content:
+      "View biển từ ban công quá đẹp, sáng sớm ngắm bình minh không thể nào quên. Căn hộ decor rất tinh tế, đầy đủ tiện nghi.",
+  },
+  {
+    name: "Anh K. – Đà Nẵng",
+    tag: "Nhóm bạn 8 người",
+    content:
+      "Hồ bơi vô cực trên tầng 36 view cực đẹp, chụp ảnh sống ảo không cần chỉnh. Khu BBQ trên rooftop rất tiện cho party cuối tuần.",
+  },
+  {
+    name: "Chị N. – Cần Thơ",
+    tag: "Gia đình 3 người",
+    content:
+      "Bé nhà mình mê khu vui chơi trẻ em, còn mình thì thích phòng gym và sauna. Vị trí gần biển, đi bộ vài phút là tới.",
+  },
+  {
+    name: "Anh P. – TP.HCM",
+    tag: "Cặp đôi",
+    content:
+      "Không gian rất lãng mạn, ban công view biển hoàng hôn đẹp xuất sắc. Host nhiệt tình, tư vấn các địa điểm ăn uống rất hay.",
+  },
+  {
+    name: "Chị Q. – Bình Phước",
+    tag: "Gia đình 6 người",
+    content:
+      "Căn hộ rộng rãi, đủ chỗ cho cả gia đình. Bếp đầy đủ dụng cụ, nấu ăn rất tiện. Khu vực an ninh tốt, yên tâm để trẻ con chơi.",
+  },
+  {
+    name: "Anh R. – Long An",
+    tag: "Team building 10 người",
+    content:
+      "Phòng tiệc trên tầng thượng rất rộng, tổ chức team building hoàn hảo. Hồ bơi và sky bar view đẹp, mọi người đều thích.",
+  },
+  {
+    name: "Chị S. – An Giang",
+    tag: "Gia đình 4 người",
+    content:
+      "Lần đầu đến Vũng Tàu, chọn Châu Homestay là đúng đắn. Căn hộ sạch sẽ, view đẹp, tiện ích đầy đủ. Sẽ quay lại lần sau.",
+  },
+  {
+    name: "Anh V. – TP.HCM",
+    tag: "Nhóm bạn 7 người",
+    content:
+      "Giá cả hợp lý so với chất lượng. Hồ bơi vô cực và khu BBQ là điểm cộng lớn. Host phản hồi nhanh, hỗ trợ tận tình.",
+  },
+  {
+    name: "Chị Y. – Đồng Tháp",
+    tag: "Gia đình 5 người",
+    content:
+      "Decor căn hộ theo phong cách Japandi rất đẹp, không gian ấm cúng. Bé con thích khu vui chơi, người lớn thích phòng gym và sauna.",
   },
 ];
 
@@ -330,33 +385,7 @@ export default async function Home() {
 
         <WaveDivider />
 
-        <section id="reviews" className="space-y-8">
-          <div className="space-y-3 text-center">
-            <p className="text-sm uppercase tracking-[0.3em] text-[#b88b5a]">Đánh giá</p>
-            <h2 className="text-3xl font-semibold text-slate-900">
-              Khách nói gì về Châu Homestay?
-            </h2>
-            <p className="text-base text-slate-600">Những trải nghiệm chân thật từ khách lưu trú.</p>
-          </div>
-          <div className="grid gap-6 md:grid-cols-3">
-            {reviews.map((review) => (
-              <article
-                key={review.name}
-                className="rounded-3xl border border-slate-100 bg-white/90 p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-2xl"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="h-12 w-12 rounded-full bg-slate-100" />
-                  <div>
-                    <p className="text-sm font-semibold text-slate-900">{review.name}</p>
-                    <span className="text-xs text-slate-500">{review.tag}</span>
-                  </div>
-                </div>
-                <div className="mt-4 flex items-center gap-1 text-[#f4b400]">★★★★★</div>
-                <p className="mt-3 italic text-sm text-slate-700">&ldquo;{review.content}&rdquo;</p>
-              </article>
-            ))}
-          </div>
-        </section>
+        <ReviewsSection reviews={reviews} />
 
         <WaveDivider />
 
