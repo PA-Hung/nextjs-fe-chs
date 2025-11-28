@@ -33,6 +33,7 @@ export default async function ApartmentsPage({ searchParams }: ApartmentsPagePro
 
   try {
     productsData = await getZaloProducts({ current, pageSize });
+
   } catch {
     return (
       <div className="min-h-screen text-slate-900" style={beachBackgroundStyle}>

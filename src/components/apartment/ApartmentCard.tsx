@@ -46,8 +46,9 @@ export const ApartmentCard = ({ product }: ApartmentCardProps) => {
 
       <div className="flex flex-1 flex-col gap-3 p-6">
         <div className="space-y-1">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#b88b5a]">{product.code}</p>
-          <h3 className="text-xl font-semibold text-slate-900">{product.name}</h3>
+          <Link href={`/can-ho-the-song/${product._id}`}>
+            <h3 className="text-xl font-semibold text-slate-900">{product.name}</h3>
+          </Link>
           <p className="text-sm text-slate-500">
             {product.area}m² · {product.bedrooms} phòng ngủ · {product.bathrooms} phòng tắm · Tối đa {product.maxGuests} khách
           </p>
@@ -65,7 +66,7 @@ export const ApartmentCard = ({ product }: ApartmentCardProps) => {
               Đặt qua Zalo
             </Link>
             <Link
-              href={`/can-ho-the-song/${product.code.toLowerCase()}`}
+              href={`/can-ho-the-song/${product._id}`}
               className="flex-1 rounded-full border border-slate-200 px-4 py-2 text-center text-sm font-semibold text-slate-700 transition hover:border-slate-400 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300"
             >
               Xem chi tiết
