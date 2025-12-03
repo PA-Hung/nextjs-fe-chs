@@ -3,14 +3,15 @@ import Link from "next/link";
 const footerLinks = [
   { label: "Trang chủ", href: "/" },
   { label: "Căn hộ The Sóng", href: "/can-ho-the-song" },
-  { label: "Blog/Guide Book", href: "#explore" },
-  { label: "Liên hệ", href: "#cta" },
+  { label: "Villa", href: "/villa" },
+  { label: "Guide Book", href: "/blog" },
+  { label: "Liên hệ", href: "/lien-he" },
 ];
 
 const infoItems = [
   { label: "Hotline", value: "0963 686 963" },
   { label: "Zalo", value: "0963 686 963" },
-  { label: "Địa chỉ", value: "28 Thi Sách, P.Vũng Tàu, TP Hồ Chí Minh" },
+  { label: "Địa chỉ", value: "28 Thi Sách, Phường Vũng Tàu, TP Hồ Chí Minh" },
 ];
 
 export const SiteFooter = () => {

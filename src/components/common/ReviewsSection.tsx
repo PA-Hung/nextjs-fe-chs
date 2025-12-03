@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 
+import { Button } from "@/components/ui/button";
+
 export interface Review {
     name: string;
     tag: string;
@@ -76,10 +78,12 @@ export const ReviewsSection = ({ reviews }: ReviewsSectionProps) => {
                 </div>
                 {/* Navigation Buttons */}
                 <div className="absolute left-0 top-1/2 z-10 -translate-x-4 -translate-y-1/2">
-                    <button
+                    <Button
                         onClick={scrollPrev}
                         disabled={!canScrollPrev}
-                        className="rounded-full bg-white/90 p-2 shadow-lg transition hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed"
+                        variant="outline"
+                        size="icon"
+                        className="rounded-full bg-white/90 p-2 shadow-lg transition-all duration-150 hover:bg-white active:scale-90 active:shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
                         aria-label="Đánh giá trước"
                     >
                         <svg
@@ -90,13 +94,15 @@ export const ReviewsSection = ({ reviews }: ReviewsSectionProps) => {
                         >
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                         </svg>
-                    </button>
+                    </Button>
                 </div>
                 <div className="absolute right-0 top-1/2 z-10 -translate-y-1/2 translate-x-4">
-                    <button
+                    <Button
                         onClick={scrollNext}
                         disabled={!canScrollNext}
-                        className="rounded-full bg-white/90 p-2 shadow-lg transition hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed"
+                        variant="outline"
+                        size="icon"
+                        className="rounded-full bg-white/90 p-2 shadow-lg transition-all duration-150 hover:bg-white active:scale-90 active:shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
                         aria-label="Đánh giá sau"
                     >
                         <svg
@@ -107,7 +113,7 @@ export const ReviewsSection = ({ reviews }: ReviewsSectionProps) => {
                         >
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
-                    </button>
+                    </Button>
                 </div>
             </div>
         </section>

@@ -4,6 +4,8 @@ import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 
+import { Button } from "@/components/ui/button";
+
 const amenityData = [
     {
         image: "/thesong/Tien-ich-The-Song-Vung-Tau.jpeg",
@@ -139,10 +141,12 @@ export const AmenitiesSection = () => {
                 </div>
                 {/* Navigation Buttons */}
                 <div className="absolute inset-y-0 left-0 z-20 flex items-center px-2">
-                    <button
+                    <Button
                         onClick={scrollPrev}
                         disabled={!canScrollPrev}
-                        className="rounded-full bg-white/90 p-2 shadow-lg transition hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed"
+                        variant="outline"
+                        size="icon"
+                        className="rounded-full bg-white/90 p-2 shadow-lg transition-all duration-150 hover:bg-white active:scale-90 active:shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
                         aria-label="Ảnh trước"
                     >
                         <svg
@@ -153,13 +157,15 @@ export const AmenitiesSection = () => {
                         >
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                         </svg>
-                    </button>
+                    </Button>
                 </div>
                 <div className="absolute inset-y-0 right-0 z-20 flex items-center px-2">
-                    <button
+                    <Button
                         onClick={scrollNext}
                         disabled={!canScrollNext}
-                        className="rounded-full bg-white/90 p-2 shadow-lg transition hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed"
+                        variant="outline"
+                        size="icon"
+                        className="rounded-full bg-white/90 p-2 shadow-lg transition-all duration-150 hover:bg-white active:scale-90 active:shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
                         aria-label="Ảnh sau"
                     >
                         <svg
@@ -170,15 +176,17 @@ export const AmenitiesSection = () => {
                         >
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
-                    </button>
+                    </Button>
                 </div>
                 {/* Dots Indicator */}
                 <div className="absolute bottom-6 left-1/2 z-10 flex -translate-x-1/2 gap-2">
                     {amenityData.map((_, index) => (
-                        <button
+                        <Button
                             key={index}
                             onClick={() => emblaApi?.scrollTo(index)}
-                            className={`h-2 rounded-full transition-all ${index === selectedIndex ? "w-8 bg-white" : "w-2 bg-white/50"
+                            variant="ghost"
+                            size="icon"
+                            className={`h-2 rounded-full p-0 transition-all ${index === selectedIndex ? "w-8 bg-white" : "w-2 bg-white/50"
                                 }`}
                             aria-label={`Chuyển đến ${amenityData[index].title}`}
                         />

@@ -4,6 +4,8 @@ import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 
+import { Button } from "@/components/ui/button";
+
 interface ImageCarouselProps {
     images: string[];
     productName: string;
@@ -84,11 +86,12 @@ export const ImageCarousel = ({ images, productName }: ImageCarouselProps) => {
                 <div className="overflow-hidden" ref={emblaThumbsRef}>
                     <div className="flex gap-2">
                         {images.map((image, index) => (
-                            <button
+                            <Button
                                 key={index}
                                 type="button"
                                 onClick={() => onThumbClick(index)}
-                                className={`relative min-w-0 flex-[0_0_20%] transition-all ${index === selectedIndex
+                                variant="ghost"
+                                className={`relative min-w-0 flex-[0_0_20%] p-0 transition-all ${index === selectedIndex
                                     ? "p-1"
                                     : "opacity-60 hover:opacity-100"
                                     }`}
@@ -108,7 +111,7 @@ export const ImageCarousel = ({ images, productName }: ImageCarouselProps) => {
                                         className="object-cover"
                                     />
                                 </div>
-                            </button>
+                            </Button>
                         ))}
                     </div>
                 </div>

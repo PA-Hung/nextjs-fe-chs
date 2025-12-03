@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 import { useAuth } from "@/auth/hooks/useAuth";
+import { Button } from "@/components/ui/button";
 
 interface FormState {
   email: string;
@@ -105,13 +106,13 @@ const LoginForm = () => {
         </p>
       ) : null}
 
-      <button
+      <Button
         type="submit"
         className="mt-6 flex w-full items-center justify-center rounded-xl bg-amber-600 px-4 py-3 text-center text-base font-semibold text-white transition hover:bg-amber-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300 disabled:cursor-not-allowed disabled:opacity-60"
         disabled={loading}
       >
         {loading ? "Đang xử lý..." : "Đăng nhập"}
-      </button>
+      </Button>
     </form>
   );
 };

@@ -29,10 +29,11 @@ const getBadgeLabel = (product: ZaloProduct) => {
 
 export const ApartmentCard = ({ product }: ApartmentCardProps) => {
   const badge = getBadgeLabel(product);
-  const productSlug = createProductSlug(product.name);
+  // Ưu tiên dùng slug từ API, fallback về generate từ name nếu chưa có
+  const productSlug = product.slug || createProductSlug(product.name);
 
   return (
-    <article className="flex h-full flex-col rounded-[32px] border border-slate-100 bg-white shadow-[0_25px_45px_rgba(15,23,42,0.08)] transition hover:-translate-y-1 hover:shadow-[0_35px_55px_rgba(15,23,42,0.15)]">
+    <article className="flex h-full flex-col rounded-[32px] border border-slate-100 bg-white transition hover:border-[#0055A4]">
       <div className="relative h-56 overflow-hidden rounded-[32px] rounded-b-none">
         <Image
           src={product.coverImageUrl || product.images[0]}
@@ -42,7 +43,7 @@ export const ApartmentCard = ({ product }: ApartmentCardProps) => {
           className="object-cover"
           priority={false}
         />
-        <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-slate-900 shadow">
+        <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-slate-900">
           {badge}
         </span>
       </div>

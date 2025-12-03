@@ -1,23 +1,22 @@
 import "server-only";
 
-import { appConfig } from "@/lib/config";
+import { buildApiUrl } from "@/lib/config";
 import type { ZaloProduct, ZaloProductListResponse } from "@/lib/types/zalo";
 import { createProductSlug, parseSlugToId } from "@/lib/utils/slug";
 
 const API_TIMEOUT = 15000;
 
-export async function getZaloProducts(params?: {
+type ProductTypeFilter = "căn hộ" | "villa";
+
+interface GetZaloProductsParams {
   current?: number;
   pageSize?: number;
-}) {
-  const { current = 1, pageSize = 9 } = params ?? {};
+  bedrooms?: number;
+  productType?: ProductTypeFilter;
+}
 
-  const apiUrl = appConfig.apiBaseUrl;
-  if (!apiUrl) {
-    throw new Error(
-      "API base URL is not configured. Please set NEXT_PUBLIC_API_URL."
-    );
-  }
+export async function getZaloProducts(params?: GetZaloProductsParams) {
+  const { current = 1, pageSize = 9, bedrooms, productType } = params ?? {};
 
   const searchParams = new URLSearchParams({
     current: String(current),
@@ -25,12 +24,20 @@ export async function getZaloProducts(params?: {
     sort: "-createdAt",
   });
 
+  if (bedrooms && bedrooms > 0) {
+    searchParams.set("bedrooms", String(bedrooms));
+  }
+
+  if (productType) {
+    searchParams.set("productType", productType);
+  }
+
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), API_TIMEOUT);
 
   try {
     const response = await fetch(
-      `${apiUrl}/api/v1/zalo-products?${searchParams.toString()}`,
+      `${buildApiUrl("/zalo-products")}?${searchParams.toString()}`,
       {
         signal: controller.signal,
         cache: "no-store",
@@ -50,18 +57,11 @@ export async function getZaloProducts(params?: {
 }
 
 export async function getZaloProductById(id: string) {
-  const apiUrl = appConfig.apiBaseUrl;
-  if (!apiUrl) {
-    throw new Error(
-      "API base URL is not configured. Please set NEXT_PUBLIC_API_URL."
-    );
-  }
-
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), API_TIMEOUT);
 
   try {
-    const response = await fetch(`${apiUrl}/api/v1/zalo-products/${id}`, {
+    const response = await fetch(buildApiUrl(`/zalo-products/${id}`), {
       signal: controller.signal,
       cache: "no-store",
       headers: {
@@ -102,7 +102,7 @@ export async function getZaloProductById(id: string) {
 
 /**
  * Lấy sản phẩm theo slug
- * Hỗ trợ cả slug mới (chỉ tên) và slug cũ (có ID), và ID thuần (backward compatible)
+ * Ưu tiên query trực tiếp theo slug từ API, fallback về cách cũ nếu cần
  */
 export async function getZaloProductBySlug(slug: string) {
   // Kiểm tra nếu slug là ID thuần (24 ký tự hex - MongoDB ObjectId format)
@@ -115,10 +115,51 @@ export async function getZaloProductBySlug(slug: string) {
     }
   }
 
-  // Query tất cả sản phẩm và tìm theo slug
+  // Ưu tiên: Thử query trực tiếp theo slug từ API (nếu BE có endpoint này)
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), API_TIMEOUT);
+
+  try {
+    // Thử endpoint mới: /api/v1/zalo-products/by-slug/:slug
+    const response = await fetch(
+      buildApiUrl(`/zalo-products/by-slug/${slug}`),
+      {
+        signal: controller.signal,
+        cache: "no-store",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (response.ok) {
+      const payload = (await response.json()) as {
+        statusCode: number;
+        message: string;
+        data: ZaloProduct;
+      };
+
+      if (payload.data) {
+        return payload.data;
+      }
+    }
+  } catch {
+    // Nếu endpoint không tồn tại hoặc lỗi, fallback về cách cũ
+  } finally {
+    clearTimeout(timeout);
+  }
+
+  // Fallback: Query tất cả sản phẩm và tìm theo slug
   const allProducts = await getZaloProducts({ current: 1, pageSize: 1000 });
 
-  // Ưu tiên tìm theo slug mới (chỉ tên, không có ID)
+  // Ưu tiên tìm theo slug từ API (nếu có)
+  for (const product of allProducts.result) {
+    if (product.slug && product.slug === slug) {
+      return product;
+    }
+  }
+
+  // Backward compatibility: Nếu product chưa có slug, thử generate từ name
   for (const product of allProducts.result) {
     const productSlug = createProductSlug(product.name);
     if (productSlug === slug) {
@@ -126,14 +167,18 @@ export async function getZaloProductBySlug(slug: string) {
     }
   }
 
-  // Backward compatibility: Nếu không tìm thấy, thử tìm theo slug cũ có ID (format: {name}-{6chars})
+  // Backward compatibility: Thử tìm theo slug cũ có ID (format: {name}-{6chars})
   const shortId = parseSlugToId(slug);
   if (shortId) {
-    // Loại bỏ phần ID khỏi slug để lấy phần tên
     const slugWithoutId = slug.replace(`-${shortId}$`, "");
     for (const product of allProducts.result) {
+      if (
+        product.slug &&
+        (product.slug === slug || product.slug === slugWithoutId)
+      ) {
+        return product;
+      }
       const productSlug = createProductSlug(product.name);
-      // Kiểm tra xem slug có khớp với tên (có hoặc không có ID)
       if (productSlug === slug || productSlug === slugWithoutId) {
         return product;
       }

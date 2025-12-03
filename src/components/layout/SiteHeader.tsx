@@ -4,12 +4,14 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
+import { Button } from "@/components/ui/button";
+
 const navLinks = [
   { label: "Trang chủ", href: "/" },
-  { label: "Căn hộ", href: "#apartments" },
-  { label: "Đánh giá", href: "#reviews" },
-  { label: "Guide Book", href: "#explore" },
-  { label: "Liên hệ", href: "#cta" },
+  { label: "Căn hộ The Sóng", href: "/can-ho-the-song" },
+  { label: "Villa", href: "#villas" },
+  { label: "Guide Book", href: "/blog" },
+  { label: "Liên hệ", href: "/lien-he" },
 ];
 
 export const SiteHeader = () => {
@@ -56,19 +58,15 @@ export const SiteHeader = () => {
         <div className="flex items-center gap-3">
           <Link
             href="https://zalo.me"
-            className="hidden rounded-full bg-[#0055A4] px-5 py-2 text-sm font-semibold text-white shadow-md transition hover:bg-[#0b67c6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#80b9ff] md:inline-flex"
+            className="hidden rounded-full bg-[#0055A4] px-5 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[#0b67c6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#80b9ff] md:inline-flex"
           >
-            Đặt phòng qua Zalo
+            Liên hệ Zalo
           </Link>
-          <Link
-            href="/login"
-            className="hidden rounded-full border border-[#0055A4]/30 px-5 py-2 text-sm font-semibold text-[#0055A4] transition hover:border-[#0055A4] hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#80b9ff] md:inline-flex"
-          >
-            Đăng nhập
-          </Link>
-          <button
+          <Button
             type="button"
             onClick={handleToggleMenu}
+            variant="outline"
+            size="icon"
             aria-label="Mở menu"
             aria-expanded={isMenuOpen}
             className="rounded-full border border-slate-200 p-2 text-slate-700 transition hover:border-slate-400 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300 md:hidden"
@@ -77,7 +75,7 @@ export const SiteHeader = () => {
             <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24" aria-hidden="true">
               <path strokeLinecap="round" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
-          </button>
+          </Button>
         </div>
       </div>
       {isMenuOpen ? (
@@ -99,12 +97,6 @@ export const SiteHeader = () => {
               className="rounded-full bg-[#0055A4] px-4 py-2 text-center font-semibold text-white transition hover:bg-[#0b67c6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#80b9ff]"
             >
               Đặt phòng qua Zalo
-            </Link>
-            <Link
-              href="/login"
-              className="rounded-full border border-[#0055A4]/30 px-4 py-2 text-center font-semibold text-[#0055A4] transition hover:border-[#0055A4] hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#80b9ff]"
-            >
-              Đăng nhập
             </Link>
           </div>
         </div>

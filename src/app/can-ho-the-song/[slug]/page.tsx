@@ -24,6 +24,7 @@ import {
 } from "react-icons/fa";
 
 import { ImageCarousel } from "@/components/apartment/ImageCarousel";
+import { Breadcrumb } from "@/components/common/Breadcrumb";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { getZaloProductBySlug } from "@/lib/api/zalo";
@@ -196,38 +197,14 @@ export default async function ApartmentDetailPage({ params }: ApartmentDetailPag
     return (
         <div className="min-h-screen text-slate-900" style={beachBackgroundStyle}>
             <SiteHeader />
-            <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
-                {/* Breadcrumb */}
-                <nav aria-label="Breadcrumb" className="mb-6">
-                    <ol className="flex flex-wrap items-center gap-2 text-sm text-slate-600">
-                        <li>
-                            <Link
-                                href="/"
-                                className="transition hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300"
-                            >
-                                Trang chủ
-                            </Link>
-                        </li>
-                        <li aria-hidden="true" className="text-slate-400">
-                            /
-                        </li>
-                        <li>
-                            <Link
-                                href="/can-ho-the-song"
-                                className="transition hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300"
-                            >
-                                Căn hộ The Sóng
-                            </Link>
-                        </li>
-                        <li aria-hidden="true" className="text-slate-400">
-                            /
-                        </li>
-                        <li className="font-semibold text-slate-900" aria-current="page">
-                            {product.name}
-                        </li>
-                    </ol>
-                </nav>
-
+            <main className="mx-auto max-w-6xl px-4 pt-4 pb-12 sm:px-6 lg:px-8 lg:pt-3 lg:pb-16">
+                <Breadcrumb
+                    items={[
+                        { label: "Trang chủ", href: "/" },
+                        { label: "Căn hộ The Sóng", href: "/can-ho-the-song" },
+                        { label: product.name },
+                    ]}
+                />
                 <div className="flex flex-col gap-8 lg:flex-row lg:gap-12">
                     {/* Left Column - Images & Info */}
                     <div className="flex-1 space-y-8">

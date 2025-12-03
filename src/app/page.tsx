@@ -1,13 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { SiteFooter } from "@/components/layout/SiteFooter";
-import { SiteHeader } from "@/components/layout/SiteHeader";
 import { AmenitiesSection } from "@/components/common/AmenitiesSection";
 import { ReviewsSection } from "@/components/common/ReviewsSection";
-import { ApartmentCard } from "@/components/apartment/ApartmentCard";
+import { SiteFooter } from "@/components/layout/SiteFooter";
+import { SiteHeader } from "@/components/layout/SiteHeader";
+import { BlogTeaserSection } from "@/components/home/BlogTeaserSection";
+import { FeaturedApartmentsSection } from "@/components/home/FeaturedApartmentsSection";
+import { getBlogTravelPosts } from "@/lib/api/blog-list";
 import { getZaloProducts } from "@/lib/api/zalo";
-import type { ZaloProduct } from "@/lib/types/zalo";
+import type { BlogTravelPost } from "@/lib/types/blog";
+import type { ZaloProduct, ZaloProductMeta } from "@/lib/types/zalo";
 
 const heroHighlights = [
   { id: 1, text: "Hồ bơi vô cực trên tầng 36, view biển cực đẹp" },
@@ -119,32 +122,17 @@ const reviews = [
   },
 ];
 
-const exploreSpots = [
-  {
-    title: "Mũi Nghinh Phong",
-    desc: "Đón bình minh, chụp ảnh cổng trời, nên đi buổi sáng sớm.",
-    image: "/thesong/Tien-ich-The-Song-Vung-Tau3.jpeg",
-  },
-  {
-    title: "Bãi Sau",
-    desc: "Bãi biển đông vui, nhiều hàng quán hải sản địa phương, phù hợp nhóm trẻ.",
-    image: "/thesong/Tien-ich-The-Song-Vung-Tau14.jpeg",
-  },
-  {
-    title: "Chợ Xóm Lưới",
-    desc: "Mua hải sản tươi lúc sáng sớm, nhờ chế biến tại chỗ hoặc đem về căn hộ.",
-    image: "/thesong/Tien-ich-The-Song-Vung-Tau5.jpeg",
-  },
-];
-
 const beachBackgroundStyle = {
   backgroundImage:
-    "radial-gradient(circle at 15% 20%, rgba(255,255,255,0.6), transparent 45%), radial-gradient(circle at 80% 0%, rgba(255,255,255,0.4), transparent 40%), linear-gradient(180deg, #E8F6FF 0%, #F5FBFF 45%, #FFF7EA 100%)",
+    "radial-gradient(circle at 15% 20%, rgba(255,255,255,0.6), transparent 45%), radial-gradient(circle at 80% 0%, rgba(255,255,255,0.35), transparent 40%), linear-gradient(180deg, #CCE9FF 0%, #E1F2FF 45%, #FFF7EA 100%)",
 };
 
 const WaveDivider = () => (
   <>
-    <div className="wave-divider mx-auto w-full max-w-6xl drop-shadow-[0_12px_28px_rgba(0,85,164,0.15)]" aria-hidden="true">
+    <div
+      className="wave-divider relative left-1/2 w-screen -translate-x-1/2 drop-shadow-[0_12px_28px_rgba(0,85,164,0.15)]"
+      aria-hidden="true"
+    >
       <svg viewBox="0 0 1440 140" className="h-16 w-full transition-transform duration-1000" preserveAspectRatio="none">
         <defs>
           <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -172,13 +160,32 @@ const WaveDivider = () => (
 
 export default async function Home() {
   let featuredApartments: ZaloProduct[] = [];
+  let featuredMeta: ZaloProductMeta = {
+    current: 1,
+    pageSize: 5,
+    pages: 1,
+    total: 0,
+  };
+
+  let blogPosts: BlogTravelPost[] = [];
 
   try {
-    const productsData = await getZaloProducts({ current: 1, pageSize: 3 });
-    featuredApartments = productsData.result.slice(0, 3);
+    // Fetch tất cả sản phẩm một lần để tránh giật hình khi scroll
+    const productsData = await getZaloProducts({ current: 1, pageSize: 100 });
+    featuredApartments = productsData.result;
+    featuredMeta = productsData.meta;
   } catch {
     // Nếu không fetch được dữ liệu, section sẽ hiển thị rỗng hoặc có thể thêm fallback
   }
+
+  try {
+    const blogData = await getBlogTravelPosts({ current: 1, pageSize: 6 });
+    blogPosts = blogData.result;
+  } catch {
+    // Nếu lỗi, section blog sẽ ẩn
+  }
+
+  const heroBlogPosts = blogPosts.slice(0, 3);
 
   return (
     <div className="min-h-screen text-slate-900" style={beachBackgroundStyle}>
@@ -310,41 +317,7 @@ export default async function Home() {
           </div>
         </section>
 
-        <WaveDivider />
-
-        <section id="apartments" className="space-y-8">
-          <div className="flex flex-col gap-3 text-left">
-            <p className="text-sm uppercase tracking-[0.3em] text-[#b88b5a]">Căn hộ nổi bật</p>
-            <h2 className="text-3xl font-semibold text-slate-900">Chọn căn phù hợp với bạn</h2>
-            <p className="text-base text-slate-600">
-              Bộ sưu tập căn hộ đẹp nhất tại The Sóng cho mọi nhu cầu nghỉ dưỡng.
-            </p>
-          </div>
-          {featuredApartments.length === 0 ? (
-            <div className="rounded-[32px] border border-dashed border-slate-200 bg-white/70 p-8 text-center">
-              <p className="text-lg font-semibold text-slate-900">Đang tải danh sách căn hộ...</p>
-              <p className="mt-2 text-sm text-slate-500">
-                Vui lòng thử lại sau hoặc chat với Châu Homestay qua Zalo để được hỗ trợ nhanh.
-              </p>
-            </div>
-          ) : (
-            <>
-              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {featuredApartments.map((product) => (
-                  <ApartmentCard key={product._id} product={product} />
-                ))}
-              </div>
-              <div className="flex justify-center pt-4">
-                <Link
-                  href="/can-ho-the-song"
-                  className="rounded-full border-2 border-[#0055A4] bg-white px-8 py-3 text-center text-sm font-semibold text-[#0055A4] transition hover:bg-[#0055A4] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#80b9ff]"
-                >
-                  Xem thêm tất cả căn hộ
-                </Link>
-              </div>
-            </>
-          )}
-        </section>
+        <FeaturedApartmentsSection initialApartments={featuredApartments} initialMeta={featuredMeta} />
 
         <WaveDivider />
 
@@ -389,51 +362,7 @@ export default async function Home() {
 
         <WaveDivider />
 
-        <section
-          id="explore"
-          className="space-y-8 rounded-[40px] bg-gradient-to-b from-white/90 to-[#fff4e3]/80 p-8 shadow-xl shadow-slate-200/60"
-        >
-          <div className="space-y-3 text-center">
-            <p className="text-sm uppercase tracking-[0.3em] text-[#b88b5a]">Khám phá</p>
-            <h2 className="text-3xl font-semibold text-slate-900">Khám phá Vũng Tàu</h2>
-            <p className="text-base text-slate-600">
-              Gợi ý trải nghiệm gần Châu Homestay để bạn lên lịch trình nhẹ nhàng.
-            </p>
-          </div>
-          <div className="grid gap-6 md:grid-cols-3">
-            {exploreSpots.map((spot) => (
-              <article
-                key={spot.title}
-                className="rounded-3xl border border-slate-100 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-2xl"
-              >
-                <div className="h-56 overflow-hidden rounded-3xl rounded-b-none">
-                  <div className="relative h-full w-full">
-                    <Image
-                      src={spot.image}
-                      alt={spot.title}
-                      fill
-                      sizes="(min-width:1024px) 360px, 100vw"
-                      className="object-cover object-center"
-                    />
-                  </div>
-                </div>
-                <div className="space-y-3 p-5">
-                  <div className="flex items-center gap-2 text-[#c78b37]">
-                    <span aria-hidden>🏖️</span>
-                    <h3 className="text-xl font-semibold text-slate-900">{spot.title}</h3>
-                  </div>
-                  <p className="text-sm text-slate-600">{spot.desc}</p>
-                  <Link
-                    href="#cta"
-                    className="text-sm font-semibold text-[#0055A4] underline-offset-4 transition hover:underline"
-                  >
-                    Xem gợi ý lịch trình
-                  </Link>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
+        <BlogTeaserSection posts={heroBlogPosts} />
 
         <section
           id="cta"
@@ -452,13 +381,13 @@ export default async function Home() {
             <div className="flex flex-col gap-4 sm:flex-row">
               <Link
                 href="https://zalo.me"
-                className="rounded-full bg-white px-6 py-3 text-center text-sm font-semibold text-[#0055A4] shadow-lg shadow-white/30 transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+                className="rounded-full bg-white px-4 py-2 text-center text-xs font-semibold uppercase tracking-wide text-[#0055A4] shadow-lg shadow-white/30 transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 sm:px-5 sm:text-sm sm:tracking-[0.2em] whitespace-nowrap"
               >
                 Chat Zalo ngay
               </Link>
               <Link
-                href="tel:+84909000000"
-                className="rounded-full border border-white/60 px-6 py-3 text-center text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+                href="tel:+84963686963"
+                className="rounded-full border border-white/60 px-4 py-2 text-center text-xs font-semibold uppercase tracking-wide text-white transition hover:-translate-y-0.5 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 sm:px-5 sm:text-sm sm:tracking-[0.2em] whitespace-nowrap"
               >
                 Gọi cho chúng tôi
               </Link>

@@ -1,7 +1,8 @@
 export interface ZaloProduct {
   _id: string;
-  code: string;
   name: string;
+  slug: string;
+  productType: string;
   maxGuests: number;
   area: number;
   bedrooms: number;
@@ -11,6 +12,7 @@ export interface ZaloProduct {
   location: string;
   amenities: string[];
   coverImageUrl: string;
+  description: string;
 }
 
 export interface ZaloProductMeta {

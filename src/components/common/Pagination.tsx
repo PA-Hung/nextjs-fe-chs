@@ -4,6 +4,7 @@ interface PaginationProps {
   current: number;
   totalPages: number;
   basePath?: string;
+  query?: Record<string, string | undefined>;
 }
 
 const createPageNumbers = (current: number, total: number) => {
@@ -18,7 +19,12 @@ const createPageNumbers = (current: number, total: number) => {
   return pages;
 };
 
-export const Pagination = ({ current, totalPages, basePath = "/can-ho-the-song" }: PaginationProps) => {
+export const Pagination = ({
+  current,
+  totalPages,
+  basePath = "/can-ho-the-song",
+  query,
+}: PaginationProps) => {
   if (totalPages <= 1) {
     return null;
   }
@@ -26,7 +32,18 @@ export const Pagination = ({ current, totalPages, basePath = "/can-ho-the-song" 
   const pageNumbers = createPageNumbers(current, totalPages);
 
   const buildHref = (page: number) => {
-    const params = new URLSearchParams({ current: page.toString() });
+    const params = new URLSearchParams();
+
+    if (query) {
+      Object.entries(query).forEach(([key, value]) => {
+        if (value) {
+          params.set(key, value);
+        }
+      });
+    }
+
+    params.set("current", page.toString());
+
     return `${basePath}?${params.toString()}`;
   };
 
@@ -44,11 +61,10 @@ export const Pagination = ({ current, totalPages, basePath = "/can-ho-the-song" 
           key={page}
           href={buildHref(page)}
           aria-current={page === current ? "page" : undefined}
-          className={`rounded-full px-4 py-2 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#80b9ff] ${
-            page === current
+          className={`rounded-full px-4 py-2 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#80b9ff] ${page === current
               ? "bg-[#0055A4] text-white shadow-lg"
               : "border border-slate-200 text-slate-700 hover:border-slate-400 hover:text-slate-900"
-          }`}
+            }`}
         >
           {page}
         </Link>
