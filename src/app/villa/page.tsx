@@ -14,19 +14,20 @@ const beachBackgroundStyle = {
 };
 
 export const metadata: Metadata = {
-  title: "Danh sách căn hộ The Sóng Vũng Tàu",
+  title: "Danh sách Villa Vũng Tàu",
   description:
-    "Khám phá bộ sưu tập căn hộ và villa tại Châu Homestay – The Sóng Vũng Tàu. Dữ liệu cập nhật trực tiếp từ hệ thống đặt phòng.",
+    "Khám phá bộ sưu tập villa tại Châu Homestay Vũng Tàu. Dữ liệu cập nhật trực tiếp từ hệ thống đặt phòng.",
 };
 
 type ProductTypeFilter = "căn hộ" | "villa";
 
-interface ApartmentsPageProps {
+interface VillasPageProps {
   searchParams?: Promise<{
     current?: string;
     pageSize?: string;
     bedrooms?: string;
     productType?: string;
+    hasPool?: string;
   }>;
 }
 
@@ -64,13 +65,42 @@ const parseProductTypeFilter = (value?: string): ProductTypeFilter | undefined =
   return undefined;
 };
 
-export default async function ApartmentsPage({ searchParams }: ApartmentsPageProps) {
+const parseHasPoolFilter = (value?: string): boolean | undefined => {
+  if (!value || value === "all") {
+    return undefined;
+  }
+
+  if (value === "yes") {
+    return true;
+  }
+
+  if (value === "no") {
+    return false;
+  }
+
+  return undefined;
+};
+
+// Helper function để kiểm tra villa có hồ bơi không
+const hasPool = (amenities: string[]): boolean => {
+  if (!amenities || amenities.length === 0) {
+    return false;
+  }
+
+  const poolKeywords = ["hồ bơi", "pool", "bơi", "swimming"];
+  return amenities.some((amenity) =>
+    poolKeywords.some((keyword) => amenity.toLowerCase().includes(keyword.toLowerCase()))
+  );
+};
+
+export default async function VillasPage({ searchParams }: VillasPageProps) {
   const resolvedSearchParams = searchParams ? await searchParams : undefined;
   const current = Number(resolvedSearchParams?.current) > 0 ? Number(resolvedSearchParams?.current) : 1;
   const pageSize = Number(resolvedSearchParams?.pageSize) > 0 ? Number(resolvedSearchParams?.pageSize) : 9;
   const bedroomsFilter = parseBedroomsFilter(resolvedSearchParams?.bedrooms);
-  // Mặc định là "căn hộ" nếu không có filter từ URL
-  const productTypeFilter = parseProductTypeFilter(resolvedSearchParams?.productType) ?? "căn hộ";
+  // Mặc định là "villa" nếu không có filter từ URL
+  const productTypeFilter: ProductTypeFilter = parseProductTypeFilter(resolvedSearchParams?.productType) ?? "villa";
+  const hasPoolFilter = parseHasPoolFilter(resolvedSearchParams?.hasPool);
 
   const bedroomOptions = [
     { label: "Tất cả phòng ngủ", value: "all" },
@@ -83,6 +113,12 @@ export default async function ApartmentsPage({ searchParams }: ApartmentsPagePro
     { label: "Tất cả loại hình", value: "all" },
     { label: "Căn hộ", value: "căn hộ" },
     { label: "Villa", value: "villa" },
+  ];
+
+  const poolOptions = [
+    { label: "Tất cả", value: "all" },
+    { label: "Có hồ bơi", value: "yes" },
+    { label: "Không hồ bơi", value: "no" },
   ];
 
   let productsData: Awaited<ReturnType<typeof getZaloProducts>>;
@@ -100,7 +136,7 @@ export default async function ApartmentsPage({ searchParams }: ApartmentsPagePro
         <SiteHeader />
         <main className="flex min-h-[60vh] items-center justify-center px-4 py-16">
           <div className="max-w-xl rounded-3xl bg-white p-8 text-center shadow-xl">
-            <p className="text-lg font-semibold text-slate-900">Không thể tải danh sách căn hộ</p>
+            <p className="text-lg font-semibold text-slate-900">Không thể tải danh sách villa</p>
             <p className="mt-2 text-sm text-slate-500">
               Vui lòng thử lại sau hoặc chat với Châu Homestay qua Zalo để được hỗ trợ nhanh.
             </p>
@@ -111,12 +147,29 @@ export default async function ApartmentsPage({ searchParams }: ApartmentsPagePro
     );
   }
 
-  const { result, meta } = productsData;
+  let { result, meta } = productsData;
+
+  // Filter theo hồ bơi ở client-side nếu có filter
+  if (hasPoolFilter !== undefined) {
+    const filteredResult = result.filter((product) => {
+      const productHasPool = hasPool(product.amenities || []);
+      return hasPoolFilter === productHasPool;
+    });
+
+    result = filteredResult;
+    // Cập nhật meta để phản ánh số lượng đã filter
+    meta = {
+      ...meta,
+      total: filteredResult.length,
+      pages: Math.ceil(filteredResult.length / pageSize),
+    };
+  }
 
   const paginationQuery = {
     pageSize: String(pageSize),
     ...(bedroomsFilter ? { bedrooms: String(bedroomsFilter) } : {}),
     productType: productTypeFilter,
+    ...(hasPoolFilter !== undefined ? { hasPool: hasPoolFilter ? "yes" : "no" } : {}),
   };
 
   return (
@@ -126,19 +179,19 @@ export default async function ApartmentsPage({ searchParams }: ApartmentsPagePro
         <Breadcrumb
           items={[
             { label: "Trang chủ", href: "/" },
-            { label: "Căn hộ The Sóng" },
+            { label: "Villa" },
           ]}
         />
         <section className="flex flex-col gap-10 rounded-[48px] bg-white/85 p-6 shadow-2xl shadow-slate-200/70 ring-1 ring-white/60 lg:p-10">
           <header className="space-y-4 text-center">
-            <p className="text-sm uppercase tracking-[0.3em] text-[#b88b5a]">Căn hộ nổi bật</p>
-            <h1 className="text-3xl font-semibold text-slate-900 md:text-4xl">Chọn căn phù hợp với bạn</h1>
+            <p className="text-sm uppercase tracking-[0.3em] text-[#b88b5a]">Villa nổi bật</p>
+            <h1 className="text-3xl font-semibold text-slate-900 md:text-4xl">Chọn villa phù hợp với bạn</h1>
             <p className="text-base text-slate-600">
-              Bộ sưu tập căn hộ đẹp nhất tại The Sóng, dữ liệu cập nhật trực tiếp từ hệ thống đặt phòng Châu Homestay.
+              Bộ sưu tập villa đẹp nhất tại Vũng Tàu, dữ liệu cập nhật trực tiếp từ hệ thống đặt phòng Châu Homestay.
             </p>
           </header>
 
-          <div className="grid gap-4 rounded-[32px] bg-white/60 p-4 ring-1 ring-white/70 md:grid-cols-2">
+          <div className="grid gap-4 rounded-[32px] bg-white/60 p-4 ring-1 ring-white/70 md:grid-cols-2 lg:grid-cols-3">
             <FilterSelect
               id="productType"
               name="productType"
@@ -155,11 +208,19 @@ export default async function ApartmentsPage({ searchParams }: ApartmentsPagePro
               label="Số phòng ngủ"
               ariaLabel="Lọc theo số phòng ngủ"
             />
+            <FilterSelect
+              id="hasPool"
+              name="hasPool"
+              defaultValue={hasPoolFilter !== undefined ? (hasPoolFilter ? "yes" : "no") : "all"}
+              options={poolOptions}
+              label="Tiện ích"
+              ariaLabel="Lọc theo tiện ích hồ bơi"
+            />
           </div>
 
           {result.length === 0 ? (
             <div className="rounded-[32px] border border-dashed border-slate-200 bg-white/70 p-8 text-center">
-              <p className="text-lg font-semibold text-slate-900">Chưa có căn nào sẵn sàng</p>
+              <p className="text-lg font-semibold text-slate-900">Chưa có villa nào sẵn sàng</p>
               <p className="mt-2 text-sm text-slate-500">
                 Vui lòng điều chỉnh bộ lọc hoặc chat với Châu Homestay qua Zalo để được tư vấn nhanh.
               </p>
@@ -171,7 +232,7 @@ export default async function ApartmentsPage({ searchParams }: ApartmentsPagePro
                   <ApartmentCard key={product._id} product={product} />
                 ))}
               </div>
-              <Pagination current={meta.current} totalPages={meta.pages} query={paginationQuery} />
+              <Pagination current={meta.current} totalPages={meta.pages} basePath="/villa" query={paginationQuery} />
             </>
           )}
         </section>

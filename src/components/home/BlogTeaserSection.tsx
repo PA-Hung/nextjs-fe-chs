@@ -38,7 +38,7 @@ export const BlogTeaserSection = ({ posts }: BlogTeaserSectionProps) => {
                     </p>
                 </div>
                 <Link
-                    href="/blog"
+                    href="/guide-book"
                     className="hidden items-center text-sm font-semibold text-[#0055A4] underline-offset-4 hover:underline sm:inline-flex"
                 >
                     Xem tất cả bài viết
@@ -76,7 +76,7 @@ export const BlogTeaserSection = ({ posts }: BlogTeaserSectionProps) => {
                                     Blog du lịch
                                 </p>
                                 <Link
-                                    href={`/blog/${post.slug}`}
+                                    href={`/guide-book/${post.slug}`}
                                     className="mt-2 line-clamp-2 text-sm font-semibold text-slate-900 hover:text-[#0055A4]"
                                 >
                                     {post.title}
@@ -98,7 +98,7 @@ export const BlogTeaserSection = ({ posts }: BlogTeaserSectionProps) => {
 
             <div className="flex justify-center sm:hidden">
                 <Link
-                    href="/blog"
+                    href="/guide-book"
                     className="inline-flex items-center text-sm font-semibold text-[#0055A4] underline-offset-4 hover:underline"
                 >
                     Xem tất cả bài viết

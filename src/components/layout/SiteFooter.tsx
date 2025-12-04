@@ -4,7 +4,9 @@ const footerLinks = [
   { label: "Trang chủ", href: "/" },
   { label: "Căn hộ The Sóng", href: "/can-ho-the-song" },
   { label: "Villa", href: "/villa" },
-  { label: "Guide Book", href: "/blog" },
+  { label: "Bảng giá", href: "/bang-gia" },
+  { label: "Guide Book", href: "/guide-book" },
+  { label: "Nội quy", href: "/noi-quy" },
   { label: "Liên hệ", href: "/lien-he" },
 ];
 

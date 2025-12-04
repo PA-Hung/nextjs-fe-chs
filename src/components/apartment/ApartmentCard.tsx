@@ -78,13 +78,10 @@ export const ApartmentCard = ({ product }: ApartmentCardProps) => {
           <FaMapMarkerAlt className="mt-0.5 h-4 w-4 shrink-0 text-slate-400" />
           <p className="line-clamp-2">{product.location}</p>
         </div>
-        <div className="mt-4 space-y-3">
-          <p className="text-lg font-semibold text-[#b88b5a]">
-            Giá từ {currencyFormatter.format(product.priceNormal)}/đêm
-          </p>
+        <div className="mt-4">
           <div className="flex flex-wrap gap-3">
             <Link
-              href="https://zalo.me"
+              href="https://zalo.me/0963686963"
               className="flex-1 rounded-full bg-[#0055A4] px-4 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-[#0b67c6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#80b9ff]"
             >
               Đặt qua Zalo

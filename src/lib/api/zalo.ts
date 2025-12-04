@@ -37,7 +37,7 @@ export async function getZaloProducts(params?: GetZaloProductsParams) {
 
   try {
     const response = await fetch(
-      `${buildApiUrl("/zalo-products")}?${searchParams.toString()}`,
+      `${buildApiUrl("/apartment")}?${searchParams.toString()}`,
       {
         signal: controller.signal,
         cache: "no-store",
@@ -61,7 +61,7 @@ export async function getZaloProductById(id: string) {
   const timeout = setTimeout(() => controller.abort(), API_TIMEOUT);
 
   try {
-    const response = await fetch(buildApiUrl(`/zalo-products/${id}`), {
+    const response = await fetch(buildApiUrl(`/apartment/${id}`), {
       signal: controller.signal,
       cache: "no-store",
       headers: {
@@ -120,17 +120,14 @@ export async function getZaloProductBySlug(slug: string) {
   const timeout = setTimeout(() => controller.abort(), API_TIMEOUT);
 
   try {
-    // Thử endpoint mới: /api/v1/zalo-products/by-slug/:slug
-    const response = await fetch(
-      buildApiUrl(`/zalo-products/by-slug/${slug}`),
-      {
-        signal: controller.signal,
-        cache: "no-store",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    // Thử endpoint mới: /api/v1/apartment/by-slug/:slug
+    const response = await fetch(buildApiUrl(`/apartment/by-slug/${slug}`), {
+      signal: controller.signal,
+      cache: "no-store",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     if (response.ok) {
       const payload = (await response.json()) as {

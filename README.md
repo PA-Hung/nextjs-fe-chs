@@ -29,9 +29,26 @@ NEXT_PUBLIC_API_URL=https://api.chauhomestay.com
 AUTH_ACCESS_COOKIE_NAME=chauhomestay_access
 AUTH_REFRESH_COOKIE_NAME=chauhomestay_refresh
 AUTH_REQUEST_TIMEOUT_MS=8000
+NEXT_PUBLIC_FEATURABLE_WIDGET_ID=your-featurable-widget-id
+NEXT_PUBLIC_FEATURABLE_WIDGET_ID_2=your-second-widget-id
 ```
 
 Các biến có thể điều chỉnh tùy môi trường deploy.
+
+**Lưu ý về Google Reviews:**
+
+- Để hiển thị đánh giá Google, bạn cần tạo tài khoản miễn phí tại [Featurable.com](https://featurable.com)
+- Tạo widget mới và copy Widget ID vào biến `NEXT_PUBLIC_FEATURABLE_WIDGET_ID`
+- Để hiển thị nhiều địa điểm, thêm `NEXT_PUBLIC_FEATURABLE_WIDGET_ID_2` cho địa điểm thứ 2
+- Component `GoogleReviewsSection` sẽ tự động fetch và hiển thị đánh giá từ Google Business Profile
+- Sử dụng props `widgetId` và `locationName` để hiển thị địa điểm cụ thể:
+  ```tsx
+  <GoogleReviewsSection
+    layout="carousel"
+    widgetId={appConfig.featurableWidgetId2}
+    locationName="Villa Châu Homestay"
+  />
+  ```
 
 ### Chạy dự án
 

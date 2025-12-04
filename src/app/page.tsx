@@ -2,13 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { AmenitiesSection } from "@/components/common/AmenitiesSection";
-import { ReviewsSection } from "@/components/common/ReviewsSection";
+import { GoogleReviewsSection } from "@/components/common/GoogleReviewsSection";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { BlogTeaserSection } from "@/components/home/BlogTeaserSection";
 import { FeaturedApartmentsSection } from "@/components/home/FeaturedApartmentsSection";
 import { getBlogTravelPosts } from "@/lib/api/blog-list";
 import { getZaloProducts } from "@/lib/api/zalo";
+import { appConfig } from "@/lib/config";
 import type { BlogTravelPost } from "@/lib/types/blog";
 import type { ZaloProduct, ZaloProductMeta } from "@/lib/types/zalo";
 
@@ -42,83 +43,6 @@ const benefits = [
     title: "Hỗ trợ nhanh",
     desc: "Nhắn Zalo là có ngay gợi ý căn phù hợp nhu cầu và ngân sách.",
     icon: "⚡",
-  },
-];
-
-
-
-const reviews = [
-  {
-    name: "Anh T. – TP.HCM",
-    tag: "Gia đình 4 người",
-    content:
-      "Căn hộ rất sạch và thơm, ban công nhìn biển sáng sớm đẹp mê ly. Host hỗ trợ nhận phòng tự động cực nhanh.",
-  },
-  {
-    name: "Chị L. – Đồng Nai",
-    tag: "Đặt qua Zalo",
-    content:
-      "Lần đầu ở The Sóng mà cảm giác thân thiện như ở nhà. Bé con mê khu vui chơi, còn mình thì thích khu sauna.",
-  },
-  {
-    name: "Anh H. – Bình Dương",
-    tag: "Team 6 người",
-    content:
-      "Layout căn hộ hợp lý, có đủ bếp và dụng cụ nấu BBQ. Bạn host tư vấn rất kỹ về lịch trình ăn uống.",
-  },
-  {
-    name: "Chị M. – Hà Nội",
-    tag: "Gia đình 5 người",
-    content:
-      "View biển từ ban công quá đẹp, sáng sớm ngắm bình minh không thể nào quên. Căn hộ decor rất tinh tế, đầy đủ tiện nghi.",
-  },
-  {
-    name: "Anh K. – Đà Nẵng",
-    tag: "Nhóm bạn 8 người",
-    content:
-      "Hồ bơi vô cực trên tầng 36 view cực đẹp, chụp ảnh sống ảo không cần chỉnh. Khu BBQ trên rooftop rất tiện cho party cuối tuần.",
-  },
-  {
-    name: "Chị N. – Cần Thơ",
-    tag: "Gia đình 3 người",
-    content:
-      "Bé nhà mình mê khu vui chơi trẻ em, còn mình thì thích phòng gym và sauna. Vị trí gần biển, đi bộ vài phút là tới.",
-  },
-  {
-    name: "Anh P. – TP.HCM",
-    tag: "Cặp đôi",
-    content:
-      "Không gian rất lãng mạn, ban công view biển hoàng hôn đẹp xuất sắc. Host nhiệt tình, tư vấn các địa điểm ăn uống rất hay.",
-  },
-  {
-    name: "Chị Q. – Bình Phước",
-    tag: "Gia đình 6 người",
-    content:
-      "Căn hộ rộng rãi, đủ chỗ cho cả gia đình. Bếp đầy đủ dụng cụ, nấu ăn rất tiện. Khu vực an ninh tốt, yên tâm để trẻ con chơi.",
-  },
-  {
-    name: "Anh R. – Long An",
-    tag: "Team building 10 người",
-    content:
-      "Phòng tiệc trên tầng thượng rất rộng, tổ chức team building hoàn hảo. Hồ bơi và sky bar view đẹp, mọi người đều thích.",
-  },
-  {
-    name: "Chị S. – An Giang",
-    tag: "Gia đình 4 người",
-    content:
-      "Lần đầu đến Vũng Tàu, chọn Châu Homestay là đúng đắn. Căn hộ sạch sẽ, view đẹp, tiện ích đầy đủ. Sẽ quay lại lần sau.",
-  },
-  {
-    name: "Anh V. – TP.HCM",
-    tag: "Nhóm bạn 7 người",
-    content:
-      "Giá cả hợp lý so với chất lượng. Hồ bơi vô cực và khu BBQ là điểm cộng lớn. Host phản hồi nhanh, hỗ trợ tận tình.",
-  },
-  {
-    name: "Chị Y. – Đồng Tháp",
-    tag: "Gia đình 5 người",
-    content:
-      "Decor căn hộ theo phong cách Japandi rất đẹp, không gian ấm cúng. Bé con thích khu vui chơi, người lớn thích phòng gym và sauna.",
   },
 ];
 
@@ -233,7 +157,7 @@ export default async function Home() {
                 Xem các căn hộ
               </Link>
               <Link
-                href="https://zalo.me"
+                href="https://zalo.me/0963686963"
                 className="rounded-full border border-[#0055A4] px-6 py-3 text-center text-sm font-semibold text-[#0055A4] transition hover:-translate-y-0.5 hover:bg-[#0055A4] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#80b9ff]"
               >
                 Tư vấn qua Zalo
@@ -344,13 +268,6 @@ export default async function Home() {
                   lòng thành phố biển. Scroll nhẹ để cảm nhận hiệu ứng parallax mô phỏng trải nghiệm
                   thực tế khi dạo bước trong khuôn viên.
                 </p>
-                <Link
-                  href="#cta"
-                  className="inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/10 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/20"
-                >
-                  Xem video tour 3 phút
-                  <span aria-hidden>➜</span>
-                </Link>
               </div>
             </div>
           </div>
@@ -358,7 +275,13 @@ export default async function Home() {
 
         <WaveDivider />
 
-        <ReviewsSection reviews={reviews} />
+        <GoogleReviewsSection layout="carousel" />
+        <GoogleReviewsSection
+          layout="carousel"
+          widgetId={appConfig.featurableWidgetId2}
+          locationName="Villa Châu Homestay"
+          showTitle={false}
+        />
 
         <WaveDivider />
 
@@ -380,7 +303,7 @@ export default async function Home() {
             </div>
             <div className="flex flex-col gap-4 sm:flex-row">
               <Link
-                href="https://zalo.me"
+                href="https://zalo.me/0963686963"
                 className="rounded-full bg-white px-4 py-2 text-center text-xs font-semibold uppercase tracking-wide text-[#0055A4] shadow-lg shadow-white/30 transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 sm:px-5 sm:text-sm sm:tracking-[0.2em] whitespace-nowrap"
               >
                 Chat Zalo ngay

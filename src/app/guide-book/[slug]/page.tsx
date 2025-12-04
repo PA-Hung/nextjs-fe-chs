@@ -16,7 +16,7 @@ const pageBackgroundStyle = {
         "radial-gradient(circle at 15% 20%, rgba(255,255,255,0.6), transparent 45%), radial-gradient(circle at 80% 0%, rgba(255,255,255,0.35), transparent 40%), linear-gradient(180deg, #CCE9FF 0%, #E1F2FF 45%, #FFF7EA 100%)",
 };
 
-interface BlogPostPageProps {
+interface GuideBookPostPageProps {
     params: Promise<{ slug: string }>;
 }
 
@@ -43,7 +43,7 @@ const resolveImageUrl = (url: string | undefined | null): string | undefined => 
 
 export const generateMetadata = async ({
     params,
-}: BlogPostPageProps): Promise<Metadata> => {
+}: GuideBookPostPageProps): Promise<Metadata> => {
     const { slug } = await params;
 
     try {
@@ -60,12 +60,12 @@ export const generateMetadata = async ({
                 title: post.title,
                 description,
                 image: ogImage,
-                url: `/blog/${slug}`,
+                url: `/guide-book/${slug}`,
                 type: "article",
                 publishedTime: post.publishedAt || post.createdAt,
                 modifiedTime: post.updatedAt,
                 author: "Châu Homestay",
-                tags: ["blog du lịch", "vũng tàu", "hướng dẫn", "chau homestay"],
+                tags: ["guide book", "vũng tàu", "hướng dẫn", "chau homestay"],
             },
             "https://chauhomestay.com",
         );
@@ -108,15 +108,15 @@ const createArticleSchema = (post: BlogTravelPost, slug: string): ArticleSchema 
                 height: 200,
             },
         },
-        url: `https://chauhomestay.com/blog/${slug}`,
+        url: `https://chauhomestay.com/guide-book/${slug}`,
         mainEntityOfPage: {
             "@type": "WebPage",
-            "@id": `https://chauhomestay.com/blog/${slug}`,
+            "@id": `https://chauhomestay.com/guide-book/${slug}`,
         },
     };
 };
 
-const BlogPostPage = async ({ params }: BlogPostPageProps) => {
+const GuideBookPostPage = async ({ params }: GuideBookPostPageProps) => {
     const { slug } = await params;
 
     let post: BlogTravelPost;
@@ -143,7 +143,7 @@ const BlogPostPage = async ({ params }: BlogPostPageProps) => {
                     <Breadcrumb
                         items={[
                             { label: "Trang chủ", href: "/" },
-                            { label: "Blog du lịch", href: "/blog" },
+                            { label: "Guide Book", href: "/guide-book" },
                             { label: post.title },
                         ]}
                     />
@@ -151,7 +151,7 @@ const BlogPostPage = async ({ params }: BlogPostPageProps) => {
                         <article className="mx-auto max-w-3xl">
                             <header className="mb-8">
                                 <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#b88b5a]">
-                                    Blog du lịch
+                                    Guide Book
                                 </p>
                                 <h1 className="mt-3 text-3xl font-semibold text-slate-900 sm:text-4xl">
                                     {post.title}
@@ -195,6 +195,5 @@ const BlogPostPage = async ({ params }: BlogPostPageProps) => {
     );
 };
 
-export default BlogPostPage;
-
+export default GuideBookPostPage;
 

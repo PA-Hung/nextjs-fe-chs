@@ -174,3 +174,10 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Ẩn slick dots trên mobile */
+@media (max-width: 768px) {
+  .slick-dots {
+    display: none !important;
+  }
+}

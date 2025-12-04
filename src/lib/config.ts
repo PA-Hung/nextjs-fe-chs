@@ -15,6 +15,8 @@ const normalizedBaseUrl = normalizeBaseUrl(RAW_API_BASE_URL);
 export const appConfig = {
   apiBaseUrl: normalizedBaseUrl,
   apiVersionPath: API_VERSION_PATH,
+  featurableWidgetId: process.env.NEXT_PUBLIC_FEATURABLE_WIDGET_ID ?? "",
+  featurableWidgetId2: process.env.NEXT_PUBLIC_FEATURABLE_WIDGET_ID_2 ?? "",
 };
 
 export const buildApiUrl = (path: string) => {

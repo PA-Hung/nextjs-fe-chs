@@ -9,8 +9,10 @@ import { Button } from "@/components/ui/button";
 const navLinks = [
   { label: "Trang chủ", href: "/" },
   { label: "Căn hộ The Sóng", href: "/can-ho-the-song" },
-  { label: "Villa", href: "#villas" },
-  { label: "Guide Book", href: "/blog" },
+  { label: "Villa", href: "/villa" },
+  { label: "Bảng giá", href: "/bang-gia" },
+  { label: "Guide Book", href: "/guide-book" },
+  { label: "Nội quy", href: "/noi-quy" },
   { label: "Liên hệ", href: "/lien-he" },
 ];
 
@@ -57,7 +59,7 @@ export const SiteHeader = () => {
         </nav>
         <div className="flex items-center gap-3">
           <Link
-            href="https://zalo.me"
+            href="https://zalo.me/0963686963"
             className="hidden rounded-full bg-[#0055A4] px-5 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[#0b67c6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#80b9ff] md:inline-flex"
           >
             Liên hệ Zalo
@@ -93,7 +95,7 @@ export const SiteHeader = () => {
               </a>
             ))}
             <Link
-              href="https://zalo.me"
+              href="https://zalo.me/0963686963"
               className="rounded-full bg-[#0055A4] px-4 py-2 text-center font-semibold text-white transition hover:bg-[#0b67c6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#80b9ff]"
             >
               Đặt phòng qua Zalo

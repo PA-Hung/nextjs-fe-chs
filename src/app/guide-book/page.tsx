@@ -10,7 +10,7 @@ import { getBlogTravelPosts } from "@/lib/api/blog-list";
 import type { BlogTravelPost } from "@/lib/types/blog";
 
 export const metadata: Metadata = {
-    title: "Blog du lịch Vũng Tàu",
+    title: "Guide Book du lịch Vũng Tàu",
     description:
         "Các bài viết chia sẻ kinh nghiệm du lịch Vũng Tàu, gợi ý lịch trình, địa điểm ăn uống và trải nghiệm gần Châu Homestay.",
 };
@@ -23,7 +23,7 @@ const stripHtml = (html: string): string => {
     return html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
 };
 
-interface BlogListPageProps {
+interface GuideBookListPageProps {
     searchParams: Promise<{
         [key: string]: string | string[] | undefined;
     }>;
@@ -34,7 +34,7 @@ const pageBackgroundStyle = {
         "radial-gradient(circle at 15% 20%, rgba(255,255,255,0.6), transparent 45%), radial-gradient(circle at 80% 0%, rgba(255,255,255,0.35), transparent 40%), linear-gradient(180deg, #CCE9FF 0%, #E1F2FF 45%, #FFF7EA 100%)",
 };
 
-const BlogListPage = async ({ searchParams }: BlogListPageProps) => {
+const GuideBookListPage = async ({ searchParams }: GuideBookListPageProps) => {
     const resolvedSearchParams = await searchParams;
     const currentParam = resolvedSearchParams?.current;
     const currentPage =
@@ -59,11 +59,11 @@ const BlogListPage = async ({ searchParams }: BlogListPageProps) => {
         <div className="min-h-screen text-slate-900" style={pageBackgroundStyle}>
             <SiteHeader />
             <main className="mx-auto flex max-w-6xl flex-col px-4 pt-4 pb-12 sm:px-6 lg:px-8 lg:pt-3 lg:pb-16">
-                <Breadcrumb items={[{ label: "Trang chủ", href: "/" }, { label: "Blog du lịch" }]} />
+                <Breadcrumb items={[{ label: "Trang chủ", href: "/" }, { label: "Guide Book" }]} />
                 <section className="space-y-6 rounded-[40px] bg-white/80 p-6 shadow-xl shadow-slate-200/60 sm:p-10">
                     <header className="space-y-3 text-center">
                         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#b88b5a]">
-                            Blog du lịch
+                            Guide Book
                         </p>
                         <h1 className="text-3xl font-semibold text-slate-900 sm:text-4xl">
                             Cẩm nang du lịch Vũng Tàu cùng Châu Homestay
@@ -105,10 +105,10 @@ const BlogListPage = async ({ searchParams }: BlogListPageProps) => {
                                             ) : null}
                                             <div className="flex flex-1 flex-col p-5">
                                                 <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#b88b5a]">
-                                                    Blog du lịch
+                                                    Guide Book
                                                 </p>
                                                 <Link
-                                                    href={`/blog/${post.slug}`}
+                                                    href={`/guide-book/${post.slug}`}
                                                     className="mt-2 text-base font-semibold text-slate-900 transition hover:text-[#0055A4]"
                                                 >
                                                     {post.title}
@@ -124,7 +124,7 @@ const BlogListPage = async ({ searchParams }: BlogListPageProps) => {
                                                 </div>
                                                 <div className="mt-4">
                                                     <Link
-                                                        href={`/blog/${post.slug}`}
+                                                        href={`/guide-book/${post.slug}`}
                                                         className="inline-flex items-center text-sm font-semibold text-[#0055A4] underline-offset-4 hover:underline"
                                                     >
                                                         Đọc tiếp
@@ -143,7 +143,7 @@ const BlogListPage = async ({ searchParams }: BlogListPageProps) => {
                                 <Pagination
                                     current={currentPage}
                                     totalPages={totalPages}
-                                    basePath="/blog"
+                                    basePath="/guide-book"
                                     // Giữ pageSize trong query để nếu sau này BE/FE dùng lại sẽ không mất
                                     query={{ pageSize: String(pageSize) }}
                                 />
@@ -157,6 +157,5 @@ const BlogListPage = async ({ searchParams }: BlogListPageProps) => {
     );
 };
 
-export default BlogListPage;
-
+export default GuideBookListPage;
 

@@ -66,16 +66,15 @@ export const ImageCarousel = ({ images, productName }: ImageCarouselProps) => {
                 <div className="flex">
                     {images.map((image, index) => (
                         <div key={index} className="relative min-w-0 flex-[0_0_100%]">
-                            <div className="relative h-[400px] w-full sm:h-[500px] lg:h-[600px]">
-                                <Image
-                                    src={image}
-                                    alt={`${productName} - Ảnh ${index + 1}`}
-                                    fill
-                                    sizes="(min-width: 1024px) 66vw, 100vw"
-                                    className="object-cover"
-                                    priority={index === 0}
-                                />
-                            </div>
+                            <Image
+                                src={image}
+                                alt={`${productName} - Ảnh ${index + 1}`}
+                                width={1600}
+                                height={900}
+                                sizes="(min-width: 1024px) 66vw, 100vw"
+                                className="h-[400px] w-full object-cover sm:h-[500px] lg:h-[600px]"
+                                priority={index === 0}
+                            />
                         </div>
                     ))}
                 </div>
@@ -84,31 +83,29 @@ export const ImageCarousel = ({ images, productName }: ImageCarouselProps) => {
             {/* Thumbnails */}
             {images.length > 1 ? (
                 <div className="overflow-hidden" ref={emblaThumbsRef}>
-                    <div className="flex gap-2">
+                    <div className="flex gap-3 py-1">
                         {images.map((image, index) => (
                             <Button
                                 key={index}
                                 type="button"
                                 onClick={() => onThumbClick(index)}
                                 variant="ghost"
-                                className={`relative min-w-0 flex-[0_0_20%] p-0 transition-all ${index === selectedIndex
-                                    ? "p-1"
-                                    : "opacity-60 hover:opacity-100"
+                                className={`relative h-20 min-w-0 flex-[0_0_18%] rounded-2xl border border-transparent p-0 shadow-sm transition-all focus-visible:ring-2 focus-visible:ring-[#80b9ff] ${index === selectedIndex
+                                    ? "border-[#b88b5a] bg-white shadow-md"
+                                    : "bg-white/60 opacity-70 hover:opacity-100 hover:shadow-md"
                                     }`}
                                 aria-label={`Xem ảnh ${index + 1}`}
                             >
                                 <div
-                                    className={`relative aspect-square overflow-hidden rounded-xl ${index === selectedIndex
-                                        ? "ring-2 ring-[#b88b5a]"
-                                        : ""
-                                        }`}
+                                    className="relative h-full w-full overflow-hidden rounded-2xl"
                                 >
                                     <Image
                                         src={image}
                                         alt={`${productName} - Thumbnail ${index + 1}`}
-                                        fill
+                                        width={300}
+                                        height={300}
                                         sizes="(min-width: 1024px) 20vw, 20vw"
-                                        className="object-cover"
+                                        className="h-full w-full object-cover"
                                     />
                                 </div>
                             </Button>

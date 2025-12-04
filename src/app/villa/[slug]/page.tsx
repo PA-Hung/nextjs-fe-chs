@@ -118,11 +118,11 @@ const getAmenityIcon = (amenity: string) => {
     return <FaCheck className={iconClassName} />;
 };
 
-interface ApartmentDetailPageProps {
+interface VillaDetailPageProps {
     params: Promise<{ slug: string }>;
 }
 
-export async function generateMetadata({ params }: ApartmentDetailPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: VillaDetailPageProps): Promise<Metadata> {
     const { slug } = await params;
 
     try {
@@ -130,7 +130,7 @@ export async function generateMetadata({ params }: ApartmentDetailPageProps): Pr
 
         return {
             title: product.name,
-            description: `${product.name} - ${product.area}m², ${product.bedrooms} phòng ngủ, ${product.bathrooms} phòng tắm. Tối đa ${product.maxGuests} khách. ${product.location}.`,
+            description: `${product.name} - ${product.area}m², ${product.bedrooms} phòng ngủ, ${product.bathrooms} phòng tắm. Tối đa ${product.maxGuests} khách. ${product.location}. Giá từ ${currencyFormatter.format(product.priceNormal)}/đêm.`,
             openGraph: {
                 title: product.name,
                 description: `${product.area}m² · ${product.bedrooms} phòng ngủ · ${product.bathrooms} phòng tắm · Tối đa ${product.maxGuests} khách`,
@@ -145,18 +145,18 @@ export async function generateMetadata({ params }: ApartmentDetailPageProps): Pr
                 type: "website",
             },
             alternates: {
-                canonical: `/can-ho-the-song/${slug}`,
+                canonical: `/villa/${slug}`,
             },
         };
     } catch {
         return {
-            title: "Không tìm thấy căn hộ",
-            description: "Căn hộ bạn đang tìm không tồn tại hoặc đã bị xóa.",
+            title: "Không tìm thấy villa",
+            description: "Villa bạn đang tìm không tồn tại hoặc đã bị xóa.",
         };
     }
 }
 
-export default async function ApartmentDetailPage({ params }: ApartmentDetailPageProps) {
+export default async function VillaDetailPage({ params }: VillaDetailPageProps) {
     const { slug } = await params;
 
     let product;
@@ -172,12 +172,12 @@ export default async function ApartmentDetailPage({ params }: ApartmentDetailPag
                 <SiteHeader />
                 <main className="flex min-h-[60vh] items-center justify-center px-4 py-16">
                     <div className="max-w-xl rounded-3xl bg-white p-8 text-center shadow-xl">
-                        <p className="text-lg font-semibold text-slate-900">Không thể tải thông tin căn hộ</p>
+                        <p className="text-lg font-semibold text-slate-900">Không thể tải thông tin villa</p>
                         <p className="mt-2 text-sm text-slate-500">
                             Vui lòng thử lại sau hoặc chat với Châu Homestay qua Zalo để được hỗ trợ nhanh.
                         </p>
                         <Link
-                            href="/can-ho-the-song"
+                            href="/villa"
                             className="mt-6 inline-block rounded-full bg-[#0055A4] px-6 py-2 text-sm font-semibold text-white transition hover:bg-[#0b67c6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#80b9ff]"
                         >
                             Quay lại danh sách
@@ -201,7 +201,7 @@ export default async function ApartmentDetailPage({ params }: ApartmentDetailPag
                 <Breadcrumb
                     items={[
                         { label: "Trang chủ", href: "/" },
-                        { label: "Căn hộ The Sóng", href: "/can-ho-the-song" },
+                        { label: "Villa", href: "/villa" },
                         { label: product.name },
                     ]}
                 />
@@ -214,7 +214,7 @@ export default async function ApartmentDetailPage({ params }: ApartmentDetailPag
                         {/* Description Section */}
                         <section className="rounded-[32px] bg-white/85 p-6 shadow-xl shadow-slate-200/70 ring-1 ring-white/60 lg:p-10">
                             <h2 className="mb-4 flex items-center gap-3 text-2xl font-semibold text-slate-900">
-                                Mô tả căn hộ
+                                Mô tả villa
                             </h2>
                             <div className="space-y-4 text-slate-700">
                                 <p className="text-base leading-relaxed">{product.location}</p>
@@ -307,7 +307,14 @@ export default async function ApartmentDetailPage({ params }: ApartmentDetailPag
                                     </div>
                                 </div>
 
-                                <div className="space-y-3 pt-4 border-t border-slate-200">
+                                <div className="border-t border-slate-200 pt-4">
+                                    <p className="mb-2 text-xs uppercase tracking-wider text-slate-500">Giá mỗi đêm từ</p>
+                                    <p className="text-3xl font-bold text-[#b88b5a]">
+                                        {currencyFormatter.format(product.priceNormal)}
+                                    </p>
+                                </div>
+
+                                <div className="space-y-3 pt-2">
                                     <Link
                                         href="https://zalo.me/0963686963"
                                         className="flex w-full items-center justify-center gap-2 rounded-full bg-[#0055A4] px-6 py-3 text-center text-base font-semibold text-white shadow-md transition hover:bg-[#0b67c6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#80b9ff]"
@@ -319,10 +326,10 @@ export default async function ApartmentDetailPage({ params }: ApartmentDetailPag
                                         Đặt phòng qua Zalo
                                     </Link>
                                     <Link
-                                        href="/can-ho-the-song"
+                                        href="/villa"
                                         className="flex w-full items-center justify-center rounded-full border border-slate-200 px-6 py-3 text-center text-base font-semibold text-slate-700 transition hover:border-slate-400 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300"
                                     >
-                                        Xem thêm căn hộ khác
+                                        Xem thêm villa khác
                                     </Link>
                                 </div>
 
