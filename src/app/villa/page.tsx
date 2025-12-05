@@ -7,6 +7,7 @@ import { Pagination } from "@/components/common/Pagination";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { getZaloProducts } from "@/lib/api/zalo";
+import { getProductTypeDisplayText, parseProductTypeFromQuery, type ProductTypeInternal } from "@/lib/types/product-type";
 
 const beachBackgroundStyle = {
   backgroundImage:
@@ -17,9 +18,17 @@ export const metadata: Metadata = {
   title: "Danh sách Villa Vũng Tàu",
   description:
     "Khám phá bộ sưu tập villa tại Châu Homestay Vũng Tàu. Dữ liệu cập nhật trực tiếp từ hệ thống đặt phòng.",
+  openGraph: {
+    title: "Danh sách Villa Vũng Tàu - Châu Homestay",
+    description:
+      "Bộ sưu tập villa Châu Homestay Vũng Tàu, dữ liệu đồng bộ NestJS.",
+    url: "https://chauhomestay.com/villa",
+    type: "website",
+  },
+  alternates: {
+    canonical: "/villa",
+  },
 };
-
-type ProductTypeFilter = "căn hộ" | "villa";
 
 interface VillasPageProps {
   searchParams?: Promise<{
@@ -42,27 +51,6 @@ const parseBedroomsFilter = (value?: string) => {
   }
 
   return Number(value);
-};
-
-const parseProductTypeFilter = (value?: string): ProductTypeFilter | undefined => {
-  if (!value || value === "all") {
-    return undefined;
-  }
-
-  // Decode URL encoded value nếu cần
-  const decodedValue = decodeURIComponent(value);
-
-  // Backend expect "căn hộ" và "villa" (tiếng Việt)
-  if (decodedValue === "căn hộ" || decodedValue === "villa") {
-    return decodedValue;
-  }
-
-  // Fallback: kiểm tra giá trị gốc
-  if (value === "căn hộ" || value === "villa") {
-    return value;
-  }
-
-  return undefined;
 };
 
 const parseHasPoolFilter = (value?: string): boolean | undefined => {
@@ -99,7 +87,7 @@ export default async function VillasPage({ searchParams }: VillasPageProps) {
   const pageSize = Number(resolvedSearchParams?.pageSize) > 0 ? Number(resolvedSearchParams?.pageSize) : 9;
   const bedroomsFilter = parseBedroomsFilter(resolvedSearchParams?.bedrooms);
   // Mặc định là "villa" nếu không có filter từ URL
-  const productTypeFilter: ProductTypeFilter = parseProductTypeFilter(resolvedSearchParams?.productType) ?? "villa";
+  const productTypeFilter: ProductTypeInternal = parseProductTypeFromQuery(resolvedSearchParams?.productType) ?? "villa";
   const hasPoolFilter = parseHasPoolFilter(resolvedSearchParams?.hasPool);
 
   const bedroomOptions = [
@@ -111,8 +99,8 @@ export default async function VillasPage({ searchParams }: VillasPageProps) {
 
   const productTypeOptions = [
     { label: "Tất cả loại hình", value: "all" },
-    { label: "Căn hộ", value: "căn hộ" },
-    { label: "Villa", value: "villa" },
+    { label: getProductTypeDisplayText("apartment"), value: "apartment" },
+    { label: getProductTypeDisplayText("villa"), value: "villa" },
   ];
 
   const poolOptions = [

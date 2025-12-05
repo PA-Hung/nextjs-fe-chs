@@ -27,7 +27,9 @@ import { ImageCarousel } from "@/components/apartment/ImageCarousel";
 import { Breadcrumb } from "@/components/common/Breadcrumb";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { getZaloProductBySlug } from "@/lib/api/zalo";
+import { generateProductSchema } from "@/lib/seo/jsonld";
 
 const beachBackgroundStyle = {
     backgroundImage:
@@ -198,6 +200,26 @@ export default async function ApartmentDetailPage({ params }: ApartmentDetailPag
         <div className="min-h-screen text-slate-900" style={beachBackgroundStyle}>
             <SiteHeader />
             <main className="mx-auto max-w-6xl px-4 pt-4 pb-12 sm:px-6 lg:px-8 lg:pt-3 lg:pb-16">
+                <JsonLd
+                    data={generateProductSchema({
+                        name: product.name,
+                        description:
+                            product.description ||
+                            `${product.area}m², ${product.bedrooms} phòng ngủ, ${product.bathrooms} phòng tắm, tối đa ${product.maxGuests} khách.`,
+                        image: allImages,
+                        url: `https://chauhomestay.com/can-ho-the-song/${slug}`,
+                        price: product.priceNormal,
+                        priceCurrency: "VND",
+                        availability: "InStock",
+                        brand: { name: "Châu Homestay" },
+                        offers: {
+                            price: product.priceNormal,
+                            priceCurrency: "VND",
+                            availability: "InStock",
+                            url: `https://chauhomestay.com/can-ho-the-song/${slug}`,
+                        },
+                    })}
+                />
                 <Breadcrumb
                     items={[
                         { label: "Trang chủ", href: "/" },

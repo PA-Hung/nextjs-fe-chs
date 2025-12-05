@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import { useAuth } from "@/auth/hooks/useAuth";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 interface FormState {
   email: string;
@@ -72,7 +73,7 @@ const LoginForm = () => {
         <label className="block text-sm font-medium text-zinc-700" htmlFor="email">
           Email
         </label>
-        <input
+        <Input
           id="email"
           name="email"
           type="email"
@@ -80,14 +81,13 @@ const LoginForm = () => {
           value={formState.email}
           onChange={handleInputChange}
           required
-          className="w-full rounded-xl border border-zinc-200 bg-white/90 px-4 py-3 text-base text-zinc-900 shadow-sm outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-200"
           placeholder="you@example.com"
         />
 
         <label className="block text-sm font-medium text-zinc-700" htmlFor="password">
           Mật khẩu
         </label>
-        <input
+        <Input
           id="password"
           name="password"
           type="password"
@@ -95,7 +95,6 @@ const LoginForm = () => {
           value={formState.password}
           onChange={handleInputChange}
           required
-          className="w-full rounded-xl border border-zinc-200 bg-white/90 px-4 py-3 text-base text-zinc-900 shadow-sm outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-200"
           placeholder="••••••••"
         />
       </fieldset>

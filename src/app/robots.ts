@@ -1,8 +1,3 @@
-/**
- * Robots.txt cho Next.js
- * Next.js sẽ tự động generate robots.txt từ file này
- */
-
 import type { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
@@ -17,5 +12,6 @@ export default function robots(): MetadataRoute.Robots {
       },
     ],
     sitemap: `${baseUrl}/sitemap.xml`,
+    host: baseUrl,
   };
 }

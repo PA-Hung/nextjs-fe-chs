@@ -1,18 +1,17 @@
 import "server-only";
 
 import { buildApiUrl } from "@/lib/config";
+import type { ProductTypeInternal } from "@/lib/types/product-type";
 import type { ZaloProduct, ZaloProductListResponse } from "@/lib/types/zalo";
 import { createProductSlug, parseSlugToId } from "@/lib/utils/slug";
 
 const API_TIMEOUT = 15000;
 
-type ProductTypeFilter = "căn hộ" | "villa";
-
 interface GetZaloProductsParams {
   current?: number;
   pageSize?: number;
   bedrooms?: number;
-  productType?: ProductTypeFilter;
+  productType?: ProductTypeInternal;
 }
 
 export async function getZaloProducts(params?: GetZaloProductsParams) {

@@ -5,6 +5,8 @@ import "./globals.css";
 
 import { AuthProvider } from "@/auth/context/AuthProvider";
 import { getServerSession } from "@/auth/session";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { generateLodgingBusinessSchema, generateOrganizationSchema } from "@/lib/seo/jsonld";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,6 +40,50 @@ export const metadata: Metadata = {
   },
 };
 
+const localBusinessSchema = generateLodgingBusinessSchema({
+  name: "Châu Homestay",
+  description:
+    "Hệ thống căn hộ The Sóng và villa boutique tại Vũng Tàu, hỗ trợ khách du lịch gia đình và nhóm bạn.",
+  image: [
+    "https://chauhomestay.com/logo.png",
+    "https://chauhomestay.com/og-image.jpg",
+  ],
+  address: {
+    streetAddress: "28 Thi Sách, Phường Thắng Tam",
+    addressLocality: "Vũng Tàu",
+    addressRegion: "Bà Rịa - Vũng Tàu",
+    postalCode: "790000",
+    addressCountry: "VN",
+  },
+  telephone: "+84-963-686-963",
+  priceRange: "1.000.000đ - 5.000.000đ",
+  starRating: {
+    ratingValue: 4.8,
+  },
+  amenityFeature: [
+    { name: "Hồ bơi vô cực" },
+    { name: "Sauna & steam" },
+    { name: "Sky Gym" },
+    { name: "Công viên nước trẻ em" },
+    { name: "View biển" },
+  ],
+});
+
+const organizationSchema = generateOrganizationSchema({
+  name: "Châu Homestay",
+  url: "https://chauhomestay.com",
+  logo: "https://chauhomestay.com/logo.png",
+  contactPoint: {
+    telephone: "+84-963-686-963",
+    contactType: "customer support",
+    areaServed: "VN",
+  },
+  sameAs: [
+    "https://zalo.me/0963686963",
+    "https://www.facebook.com/chauhomestaythesong",
+  ],
+});
+
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -50,6 +96,8 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} bg-white text-zinc-900 antialiased`}
       >
+        <JsonLd data={localBusinessSchema} />
+        <JsonLd data={organizationSchema} />
         <AuthProvider initialUser={session.user}>{children}</AuthProvider>
       </body>
     </html>

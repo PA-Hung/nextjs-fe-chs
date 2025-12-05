@@ -6,6 +6,7 @@ import { RefreshCcw, Users } from "lucide-react";
 import { Breadcrumb } from "@/components/common/Breadcrumb";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
+import { Button } from "@/components/ui/button";
 
 const SHEET_CSV_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vRVdvJcxlXLLZbgoCjnZbsPq7lKrW9OEKeeK86y9nWWM5HfHtVYXK6aUusOd12ZRb4IEJl8AsaPPEp1/pub?gid=2908382&single=true&output=csv";
@@ -342,23 +343,20 @@ const PricingPage = () => {
                   {lastUpdatedLabel}
                 </p>
               </div>
-              <button
+              <Button
                 type="button"
                 onClick={() => fetchPricing(true)}
                 disabled={loading || isRefreshing}
                 aria-label="Làm mới bảng giá"
-                className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300 ${
-                  loading || isRefreshing
-                    ? "cursor-not-allowed border-slate-100 text-slate-400"
-                    : "border-slate-200 text-slate-700 hover:border-slate-300 hover:bg-slate-50"
-                }`}
+                variant="outline"
+                className="inline-flex items-center gap-2 rounded-full border-slate-200 px-4 py-2 text-sm font-medium hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:border-slate-100 disabled:text-slate-400"
               >
                 <RefreshCcw
                   size={16}
                   className={isRefreshing ? "animate-spin" : ""}
                 />
                 <span>Làm mới</span>
-              </button>
+              </Button>
             </div>
           </section>
 

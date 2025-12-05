@@ -5,11 +5,11 @@ import { FaRulerCombined, FaBed, FaBath, FaUsers, FaMapMarkerAlt } from "react-i
 import type { ZaloProduct } from "@/lib/types/zalo";
 import { createProductSlug } from "@/lib/utils/slug";
 
-const currencyFormatter = new Intl.NumberFormat("vi-VN", {
-  style: "currency",
-  currency: "VND",
-  maximumFractionDigits: 0,
-});
+// const currencyFormatter = new Intl.NumberFormat("vi-VN", {
+//   style: "currency",
+//   currency: "VND",
+//   maximumFractionDigits: 0,
+// });
 
 interface ApartmentCardProps {
   product: ZaloProduct;
@@ -81,10 +81,10 @@ export const ApartmentCard = ({ product }: ApartmentCardProps) => {
         <div className="mt-4">
           <div className="flex flex-wrap gap-3">
             <Link
-              href="https://zalo.me/0963686963"
+              href="/dat-phong"
               className="flex-1 rounded-full bg-[#0055A4] px-4 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-[#0b67c6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#80b9ff]"
             >
-              Đặt qua Zalo
+              Đặt ngay
             </Link>
             <Link
               href={`/can-ho-the-song/${productSlug}`}

@@ -13,6 +13,16 @@ export const metadata: Metadata = {
     title: "Guide Book du lịch Vũng Tàu",
     description:
         "Các bài viết chia sẻ kinh nghiệm du lịch Vũng Tàu, gợi ý lịch trình, địa điểm ăn uống và trải nghiệm gần Châu Homestay.",
+    openGraph: {
+        title: "Guide Book du lịch Vũng Tàu",
+        description:
+            "Kinh nghiệm du lịch, lịch trình và gợi ý địa điểm gần Châu Homestay Vũng Tàu.",
+        url: "https://chauhomestay.com/guide-book",
+        type: "website",
+    },
+    alternates: {
+        canonical: "/guide-book",
+    },
 };
 
 const stripHtml = (html: string): string => {

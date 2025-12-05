@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { getZaloProducts } from "@/lib/api/zalo";
+import { parseProductTypeFromQuery } from "@/lib/types/product-type";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -12,10 +13,7 @@ export async function GET(request: Request) {
     Number.isFinite(currentParam) && currentParam > 0 ? currentParam : 1;
   const pageSize =
     Number.isFinite(pageSizeParam) && pageSizeParam > 0 ? pageSizeParam : 5;
-  const productType =
-    productTypeParam === "villa" || productTypeParam === "apartment"
-      ? productTypeParam
-      : undefined;
+  const productType = parseProductTypeFromQuery(productTypeParam);
 
   try {
     const data = await getZaloProducts({

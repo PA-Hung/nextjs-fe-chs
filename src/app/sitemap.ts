@@ -40,20 +40,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly",
       priority: 0.5,
     },
-    {
-      url: `${baseUrl}/ve-chung-toi`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.5,
-    },
   ];
 
   // Dynamic routes - fetch từ API
   try {
     const { getZaloProducts } = await import("@/lib/api/zalo");
+    const { getBlogTravelPosts } = await import("@/lib/api/blog-list");
+
     const apartmentsData = await getZaloProducts({
       current: 1,
       pageSize: 1000,
+      productType: "apartment",
     });
     const apartmentsRoutes = apartmentsData.result.map((apt) => ({
       url: `${baseUrl}/can-ho-the-song/${apt.slug || apt._id}`,
@@ -62,7 +59,34 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     }));
 
-    return [...staticRoutes, ...apartmentsRoutes];
+    const villasData = await getZaloProducts({
+      current: 1,
+      pageSize: 1000,
+      productType: "villa",
+    });
+    const villasRoutes = villasData.result.map((villa) => ({
+      url: `${baseUrl}/villa/${villa.slug || villa._id}`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+      priority: 0.8,
+    }));
+
+    const blogData = await getBlogTravelPosts({ current: 1, pageSize: 500 });
+    const blogRoutes = blogData.result.map((post) => ({
+      url: `${baseUrl}/guide-book/${post.slug}`,
+      lastModified: new Date(
+        post.updatedAt || post.publishedAt || post.createdAt
+      ),
+      changeFrequency: "weekly" as const,
+      priority: 0.7,
+    }));
+
+    return [
+      ...staticRoutes,
+      ...apartmentsRoutes,
+      ...villasRoutes,
+      ...blogRoutes,
+    ];
   } catch {
     // Nếu không fetch được, chỉ trả về static routes
     return staticRoutes;

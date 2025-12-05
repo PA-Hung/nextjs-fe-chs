@@ -30,6 +30,10 @@ export const generateSeoMetadata = (
       : `${baseUrl}${seo.image}`
     : `${baseUrl}/og-image.jpg`;
 
+  // OpenGraph chỉ hỗ trợ "website" | "article", map "product" thành "website"
+  const openGraphType =
+    seo.type === "product" ? "website" : seo.type || "website";
+
   return {
     title: seo.title,
     description: seo.description,
@@ -47,7 +51,7 @@ export const generateSeoMetadata = (
         },
       ],
       locale: "vi_VN",
-      type: seo.type || "website",
+      type: openGraphType,
       ...(seo.publishedTime && { publishedTime: seo.publishedTime }),
       ...(seo.modifiedTime && { modifiedTime: seo.modifiedTime }),
       ...(seo.author && {

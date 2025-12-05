@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -12,6 +13,22 @@ import { getZaloProducts } from "@/lib/api/zalo";
 import { appConfig } from "@/lib/config";
 import type { BlogTravelPost } from "@/lib/types/blog";
 import type { ZaloProduct, ZaloProductMeta } from "@/lib/types/zalo";
+
+export const metadata: Metadata = {
+  title: "Châu Homestay | Căn hộ The Sóng & Villa Vũng Tàu",
+  description:
+    "Đặt căn hộ The Sóng và villa Châu Homestay Vũng Tàu. Ảnh thật, giá thật, cập nhật trực tiếp từ hệ thống NestJS.",
+  openGraph: {
+    title: "Châu Homestay | Căn hộ The Sóng & Villa Vũng Tàu",
+    description:
+      "Đặt căn hộ The Sóng và villa Châu Homestay Vũng Tàu. Ảnh thật, giá thật, cập nhật trực tiếp từ hệ thống NestJS.",
+    url: "https://chauhomestay.com",
+    type: "website",
+  },
+  alternates: {
+    canonical: "/",
+  },
+};
 
 const heroHighlights = [
   { id: 1, text: "Hồ bơi vô cực trên tầng 36, view biển cực đẹp" },

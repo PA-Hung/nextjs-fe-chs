@@ -7,6 +7,7 @@ import { Pagination } from "@/components/common/Pagination";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { getZaloProducts } from "@/lib/api/zalo";
+import { getProductTypeDisplayText, parseProductTypeFromQuery, type ProductTypeInternal } from "@/lib/types/product-type";
 
 const beachBackgroundStyle = {
   backgroundImage:
@@ -17,9 +18,17 @@ export const metadata: Metadata = {
   title: "Danh sách căn hộ The Sóng Vũng Tàu",
   description:
     "Khám phá bộ sưu tập căn hộ và villa tại Châu Homestay – The Sóng Vũng Tàu. Dữ liệu cập nhật trực tiếp từ hệ thống đặt phòng.",
+  openGraph: {
+    title: "Danh sách căn hộ The Sóng Vũng Tàu",
+    description:
+      "Bộ sưu tập căn hộ Châu Homestay tại The Sóng, dữ liệu đồng bộ NestJS.",
+    url: "https://chauhomestay.com/can-ho-the-song",
+    type: "website",
+  },
+  alternates: {
+    canonical: "/can-ho-the-song",
+  },
 };
-
-type ProductTypeFilter = "căn hộ" | "villa";
 
 interface ApartmentsPageProps {
   searchParams?: Promise<{
@@ -43,34 +52,13 @@ const parseBedroomsFilter = (value?: string) => {
   return Number(value);
 };
 
-const parseProductTypeFilter = (value?: string): ProductTypeFilter | undefined => {
-  if (!value || value === "all") {
-    return undefined;
-  }
-
-  // Decode URL encoded value nếu cần
-  const decodedValue = decodeURIComponent(value);
-
-  // Backend expect "căn hộ" và "villa" (tiếng Việt)
-  if (decodedValue === "căn hộ" || decodedValue === "villa") {
-    return decodedValue;
-  }
-
-  // Fallback: kiểm tra giá trị gốc
-  if (value === "căn hộ" || value === "villa") {
-    return value;
-  }
-
-  return undefined;
-};
-
 export default async function ApartmentsPage({ searchParams }: ApartmentsPageProps) {
   const resolvedSearchParams = searchParams ? await searchParams : undefined;
   const current = Number(resolvedSearchParams?.current) > 0 ? Number(resolvedSearchParams?.current) : 1;
   const pageSize = Number(resolvedSearchParams?.pageSize) > 0 ? Number(resolvedSearchParams?.pageSize) : 9;
   const bedroomsFilter = parseBedroomsFilter(resolvedSearchParams?.bedrooms);
-  // Mặc định là "căn hộ" nếu không có filter từ URL
-  const productTypeFilter = parseProductTypeFilter(resolvedSearchParams?.productType) ?? "căn hộ";
+  // Mặc định là "apartment" nếu không có filter từ URL
+  const productTypeFilter: ProductTypeInternal = parseProductTypeFromQuery(resolvedSearchParams?.productType) ?? "apartment";
 
   const bedroomOptions = [
     { label: "Tất cả phòng ngủ", value: "all" },
@@ -81,8 +69,8 @@ export default async function ApartmentsPage({ searchParams }: ApartmentsPagePro
 
   const productTypeOptions = [
     { label: "Tất cả loại hình", value: "all" },
-    { label: "Căn hộ", value: "căn hộ" },
-    { label: "Villa", value: "villa" },
+    { label: getProductTypeDisplayText("apartment"), value: "apartment" },
+    { label: getProductTypeDisplayText("villa"), value: "villa" },
   ];
 
   let productsData: Awaited<ReturnType<typeof getZaloProducts>>;
