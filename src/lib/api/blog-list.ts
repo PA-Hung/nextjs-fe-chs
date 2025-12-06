@@ -28,7 +28,7 @@ interface GetBlogTravelListParams {
 
 /**
  * Lấy danh sách blog du lịch (PUBLIC, chỉ published)
- * Backend endpoint (giả định): GET /blog-travel?current=&pageSize=
+ * Backend endpoint: GET /blog-travel?current=&pageSize=&status=published
  */
 export const getBlogTravelPosts = async (
   params?: GetBlogTravelListParams
@@ -38,6 +38,7 @@ export const getBlogTravelPosts = async (
   const searchParams = new URLSearchParams({
     current: String(current),
     pageSize: String(pageSize),
+    status: "published",
   });
 
   const controller = new AbortController();
