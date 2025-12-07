@@ -15,13 +15,13 @@ const beachBackgroundStyle = {
 };
 
 export const metadata: Metadata = {
-  title: "Danh sách căn hộ The Sóng Vũng Tàu",
+  title: "Căn hộ The Sóng Vũng Tàu cho thuê theo ngày | Châu Homestay",
   description:
-    "Khám phá bộ sưu tập căn hộ và villa tại Châu Homestay – The Sóng Vũng Tàu. Dữ liệu cập nhật trực tiếp từ hệ thống đặt phòng.",
+    "Danh sách căn hộ The Sóng Vũng Tàu tại Châu Homestay, đầy đủ tiện ích hồ bơi vô cực, công viên nước, gần biển, phù hợp gia đình và nhóm bạn.",
   openGraph: {
-    title: "Danh sách căn hộ The Sóng Vũng Tàu",
+    title: "Căn hộ The Sóng Vũng Tàu cho thuê theo ngày | Châu Homestay",
     description:
-      "Bộ sưu tập căn hộ Châu Homestay tại The Sóng, dữ liệu đồng bộ NestJS.",
+      "Danh sách căn hộ The Sóng Vũng Tàu tại Châu Homestay, đầy đủ tiện ích hồ bơi vô cực, công viên nước, gần biển, phù hợp gia đình và nhóm bạn.",
     url: "https://chauhomestay.com/can-ho-the-song",
     type: "website",
   },
@@ -120,9 +120,9 @@ export default async function ApartmentsPage({ searchParams }: ApartmentsPagePro
         <section className="flex flex-col gap-10 rounded-[48px] bg-white/85 p-6 shadow-2xl shadow-slate-200/70 ring-1 ring-white/60 lg:p-10">
           <header className="space-y-4 text-center">
             <p className="text-sm uppercase tracking-[0.3em] text-[#b88b5a]">Căn hộ nổi bật</p>
-            <h1 className="text-3xl font-semibold text-slate-900 md:text-4xl">Chọn căn phù hợp với bạn</h1>
+            <h1 className="text-3xl font-semibold text-slate-900 md:text-4xl">Căn hộ The Sóng Vũng Tàu cho thuê theo ngày</h1>
             <p className="text-base text-slate-600">
-              Bộ sưu tập căn hộ đẹp nhất tại The Sóng, dữ liệu cập nhật trực tiếp từ hệ thống đặt phòng Châu Homestay.
+              Bộ sưu tập căn hộ đẹp nhất tại The Sóng Vũng Tàu. Thông tin và giá cập nhật theo thời gian thực, giúp bạn đặt phòng nhanh chóng và chính xác.
             </p>
           </header>
 

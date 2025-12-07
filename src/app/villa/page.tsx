@@ -15,13 +15,13 @@ const beachBackgroundStyle = {
 };
 
 export const metadata: Metadata = {
-  title: "Danh sách Villa Vũng Tàu",
+  title: "Villa Vũng Tàu gần biển, có hồ bơi | Châu Homestay",
   description:
-    "Khám phá bộ sưu tập villa tại Châu Homestay Vũng Tàu. Dữ liệu cập nhật trực tiếp từ hệ thống đặt phòng.",
+    "Các villa Vũng Tàu nguyên căn của Châu Homestay, gần biển, có hồ bơi, BBQ, phòng rộng cho gia đình, nhóm bạn, phù hợp nghỉ dưỡng và tụ tập.",
   openGraph: {
-    title: "Danh sách Villa Vũng Tàu - Châu Homestay",
+    title: "Villa Vũng Tàu gần biển, có hồ bơi | Châu Homestay",
     description:
-      "Bộ sưu tập villa Châu Homestay Vũng Tàu, dữ liệu đồng bộ NestJS.",
+      "Các villa Vũng Tàu nguyên căn của Châu Homestay, gần biển, có hồ bơi, BBQ, phòng rộng cho gia đình, nhóm bạn, phù hợp nghỉ dưỡng và tụ tập.",
     url: "https://chauhomestay.com/villa",
     type: "website",
   },
@@ -173,9 +173,9 @@ export default async function VillasPage({ searchParams }: VillasPageProps) {
         <section className="flex flex-col gap-10 rounded-[48px] bg-white/85 p-6 shadow-2xl shadow-slate-200/70 ring-1 ring-white/60 lg:p-10">
           <header className="space-y-4 text-center">
             <p className="text-sm uppercase tracking-[0.3em] text-[#b88b5a]">Villa nổi bật</p>
-            <h1 className="text-3xl font-semibold text-slate-900 md:text-4xl">Chọn villa phù hợp với bạn</h1>
+            <h1 className="text-3xl font-semibold text-slate-900 md:text-4xl">Villa Vũng Tàu gần biển, có hồ bơi</h1>
             <p className="text-base text-slate-600">
-              Bộ sưu tập villa đẹp nhất tại Vũng Tàu, dữ liệu cập nhật trực tiếp từ hệ thống đặt phòng Châu Homestay.
+              Bộ sưu tập villa đẹp nhất tại Vũng Tàu. Thông tin và giá cập nhật theo thời gian thực, giúp bạn đặt phòng nhanh chóng và chính xác.
             </p>
           </header>
 

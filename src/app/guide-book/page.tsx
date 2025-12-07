@@ -10,13 +10,13 @@ import { getBlogTravelPosts } from "@/lib/api/blog-list";
 import type { BlogTravelPost } from "@/lib/types/blog";
 
 export const metadata: Metadata = {
-    title: "Guide Book du lịch Vũng Tàu",
+    title: "Cẩm nang du lịch Vũng Tàu tự túc | Blog Châu Homestay",
     description:
-        "Các bài viết chia sẻ kinh nghiệm du lịch Vũng Tàu, gợi ý lịch trình, địa điểm ăn uống và trải nghiệm gần Châu Homestay.",
+        "Cẩm nang du lịch Vũng Tàu của Châu Homestay: kinh nghiệm đi biển, ăn uống, lịch trình, điểm check-in đẹp, mẹo đặt phòng tiết kiệm chi phí.",
     openGraph: {
-        title: "Guide Book du lịch Vũng Tàu",
+        title: "Cẩm nang du lịch Vũng Tàu tự túc | Blog Châu Homestay",
         description:
-            "Kinh nghiệm du lịch, lịch trình và gợi ý địa điểm gần Châu Homestay Vũng Tàu.",
+            "Cẩm nang du lịch Vũng Tàu của Châu Homestay: kinh nghiệm đi biển, ăn uống, lịch trình, điểm check-in đẹp, mẹo đặt phòng tiết kiệm chi phí.",
         url: "https://chauhomestay.com/guide-book",
         type: "website",
     },
@@ -76,7 +76,7 @@ const GuideBookListPage = async ({ searchParams }: GuideBookListPageProps) => {
                             Guide Book
                         </p>
                         <h1 className="text-3xl font-semibold text-slate-900 sm:text-4xl">
-                            Cẩm nang du lịch Vũng Tàu cùng Châu Homestay
+                            Cẩm nang du lịch Vũng Tàu tự túc
                         </h1>
                         <p className="text-base text-slate-600">
                             Tổng hợp kinh nghiệm, lịch trình gợi ý và những điểm đến thú vị gần căn hộ The Sóng

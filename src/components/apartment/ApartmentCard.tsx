@@ -79,16 +79,16 @@ export const ApartmentCard = ({ product }: ApartmentCardProps) => {
           <p className="line-clamp-2">{product.location}</p>
         </div>
         <div className="mt-4">
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-col gap-3 sm:flex-row">
             <Link
               href="/dat-phong"
-              className="flex-1 rounded-full bg-[#0055A4] px-4 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-[#0b67c6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#80b9ff]"
+              className="flex w-full items-center justify-center rounded-full bg-[#0055A4] px-4 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-[#0b67c6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#80b9ff] sm:flex-1"
             >
               Đặt ngay
             </Link>
             <Link
               href={`/can-ho-the-song/${productSlug}`}
-              className="flex-1 rounded-full border border-slate-200 px-4 py-2.5 text-center text-sm font-semibold text-slate-700 transition hover:border-slate-400 hover:bg-slate-50 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300"
+              className="flex w-full items-center justify-center rounded-full border border-slate-200 px-4 py-2.5 text-center text-sm font-semibold text-slate-700 transition hover:border-slate-400 hover:bg-slate-50 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300 sm:flex-1"
             >
               Xem chi tiết
             </Link>

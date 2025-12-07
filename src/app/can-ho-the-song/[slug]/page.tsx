@@ -331,14 +331,10 @@ export default async function ApartmentDetailPage({ params }: ApartmentDetailPag
 
                                 <div className="space-y-3 pt-4 border-t border-slate-200">
                                     <Link
-                                        href="https://zalo.me/0963686963"
+                                        href={`/dat-phong?product=${slug}`}
                                         className="flex w-full items-center justify-center gap-2 rounded-full bg-[#0055A4] px-6 py-3 text-center text-base font-semibold text-white shadow-md transition hover:bg-[#0b67c6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#80b9ff]"
                                     >
-                                        <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                                            <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.41 1.32 4.84L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm.01 18.31c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.21-.31c-.82-1.31-1.26-2.83-1.26-4.38 0-4.54 3.7-8.24 8.24-8.24s8.24 3.7 8.24 8.24-3.7 8.23-8.24 8.23z" />
-                                            <path d="M17.84 13.75c-.2-.1-1.19-.59-1.37-.66-.19-.07-.32-.1-.46.1-.14.2-.57.66-.7.8-.14.14-.28.16-.52.05-.25-.1-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.46-1.11-.63-1.52-.17-.41-.35-.35-.46-.36-.12-.01-.25-.01-.37-.01s-.34.05-.52.24c-.18.19-.69.67-.69 1.64s.71 1.91.81 2.04c.1.13 1.4 2.13 3.39 2.99.47.21.84.34 1.13.43.47.15.9.13 1.23.08.38-.05 1.19-.49 1.36-.96.17-.47.17-.87.12-.96-.05-.1-.2-.16-.41-.26z" />
-                                        </svg>
-                                        Đặt phòng qua Zalo
+                                        Đặt ngay
                                     </Link>
                                     <Link
                                         href="/can-ho-the-song"

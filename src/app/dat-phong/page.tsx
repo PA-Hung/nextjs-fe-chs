@@ -6,13 +6,13 @@ import { SiteHeader } from "@/components/layout/SiteHeader";
 import BookingForm from "@/components/dat-phong/BookingForm";
 
 export const metadata: Metadata = {
-  title: "Đặt phòng Châu Homestay Vũng Tàu",
+  title: "Đặt phòng căn hộ The Sóng & villa Vũng Tàu | Châu Homestay",
   description:
-    "Gửi yêu cầu đặt phòng căn hộ The Sóng và villa Châu Homestay tại Vũng Tàu. Nhập thông tin liên hệ, số khách và ngày nhận/trả home để được tư vấn nhanh.",
+    "Đặt phòng căn hộ The Sóng và villa Châu Homestay Vũng Tàu nhanh chóng, xác nhận trực tiếp, hỗ trợ đổi ngày, tư vấn lịch trình du lịch.",
   openGraph: {
-    title: "Đặt phòng Châu Homestay Vũng Tàu",
+    title: "Đặt phòng căn hộ The Sóng & villa Vũng Tàu | Châu Homestay",
     description:
-      "Form đặt phòng chính thức của Châu Homestay – giúp bạn chọn căn hộ/villa phù hợp với số khách và lịch trình tại Vũng Tàu.",
+      "Đặt phòng căn hộ The Sóng và villa Châu Homestay Vũng Tàu nhanh chóng, xác nhận trực tiếp, hỗ trợ đổi ngày, tư vấn lịch trình du lịch.",
     url: "https://chauhomestay.com/dat-phong",
     type: "website",
   },
@@ -40,7 +40,7 @@ const BookingPage = () => {
               @đặt-phòng
             </p>
             <h1 className="text-[2rem] font-semibold leading-snug text-slate-900 md:text-[2.4rem]">
-              Gửi yêu cầu đặt phòng Châu Homestay
+              Đặt phòng Châu Homestay Vũng Tàu
             </h1>
             <p className="text-base text-slate-600">
               Điền thông tin bên dưới, đội ngũ Châu Homestay sẽ gọi điện hoặc

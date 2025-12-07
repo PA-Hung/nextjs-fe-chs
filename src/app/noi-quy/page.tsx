@@ -12,9 +12,19 @@ const beachBackgroundStyle = {
 };
 
 export const metadata: Metadata = {
-    title: "Nội quy lưu trú - Châu Homestay",
+    title: "Nội quy lưu trú tại Châu Homestay Vũng Tàu",
     description:
-        "Nội quy và quy định lưu trú tại Châu Homestay Vũng Tàu. Thông tin về check-in, check-out, phụ phí và các quy định cần biết.",
+        "Nội quy lưu trú tại Châu Homestay Vũng Tàu giúp kỳ nghỉ của bạn và mọi người xung quanh thoải mái, an toàn và văn minh hơn.",
+    openGraph: {
+        title: "Nội quy lưu trú tại Châu Homestay Vũng Tàu",
+        description:
+            "Nội quy lưu trú tại Châu Homestay Vũng Tàu giúp kỳ nghỉ của bạn và mọi người xung quanh thoải mái, an toàn và văn minh hơn.",
+        url: "https://chauhomestay.com/noi-quy",
+        type: "website",
+    },
+    alternates: {
+        canonical: "/noi-quy",
+    },
 };
 
 export default function AccommodationRulesPage() {
@@ -34,7 +44,7 @@ export default function AccommodationRulesPage() {
                     <header className="space-y-4 text-center">
                         <p className="text-sm uppercase tracking-[0.3em] text-[#b88b5a]">Quy định & Nội quy</p>
                         <h1 className="text-3xl font-semibold text-slate-900 md:text-4xl lg:text-5xl">
-                            Nội quy lưu trú
+                            Nội quy lưu trú Châu Homestay
                         </h1>
                         <p className="text-base text-slate-600 md:text-lg">Accommodation Rules</p>
                     </header>

@@ -2,8 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    // Bật cả domains và remotePatterns để tránh lỗi 400 khi proxy ảnh Cloudinary
-    domains: ["res.cloudinary.com", "images.pexels.com"],
+    // Sử dụng remotePatterns thay vì domains (domains đã deprecated)
     remotePatterns: [
       {
         protocol: "https",

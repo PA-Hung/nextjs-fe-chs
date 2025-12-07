@@ -327,12 +327,12 @@ const PricingPage = () => {
                 id="pricing-heading"
                 className="mt-3 text-2xl font-semibold sm:text-3xl"
               >
-                Châu Homestay – The Sóng
+                Bảng giá căn hộ The Sóng & villa Châu Homestay
               </h1>
               <p className="mt-3 text-sm text-white/85 sm:max-w-2xl">
-                Dữ liệu bảng giá được đồng bộ trực tiếp từ Google Sheet của Châu
-                Homestay Vũng Tàu, giúp bạn luôn xem được mức giá mới nhất cho
-                từng loại căn hộ và villa.
+                Bảng giá được cập nhật thường xuyên, giúp bạn luôn xem được mức
+                giá mới nhất và chính xác cho từng loại căn hộ và villa tại Châu
+                Homestay Vũng Tàu.
               </p>
             </div>
 

@@ -8,7 +8,8 @@ services:
       dockerfile: Dockerfile
       args:
         # Pass biến vào build stage (NEXT_PUBLIC_* được embed vào bundle tại build time)
-        - NEXT_PUBLIC_API_URL=https://8pksl6tj-8080.asse.devtunnels.ms
+        - NEXT_PUBLIC_API_URL=https://api.chauhomestay.com
+        # - NEXT_PUBLIC_API_URL=https://8pksl6tj-8080.asse.devtunnels.ms/
         - NEXT_PUBLIC_FEATURABLE_WIDGET_ID=${NEXT_PUBLIC_FEATURABLE_WIDGET_ID:-}
         - NEXT_PUBLIC_FEATURABLE_WIDGET_ID_2=${NEXT_PUBLIC_FEATURABLE_WIDGET_ID_2:-}
     environment:
@@ -18,4 +19,5 @@ services:
       - "3200:3200" # Truy cập Next.js trên cổng 3200
     restart: unless-stopped
 
-#docker compose -p chauhomestay up -d
+#docker compose -p chauhomestay up -d --build
+#docker compose -p chauhomestay up -d --build --force-recreate

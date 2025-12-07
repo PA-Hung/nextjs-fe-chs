@@ -21,15 +21,15 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://chauhomestay.com"),
   title: {
-    default: "Châu Homestay | Căn hộ & Villa Vũng Tàu",
+    default: "The Sóng Vũng Tàu | Châu Homestay - Căn hộ & Villa View Biển",
     template: "%s | Châu Homestay",
   },
   description:
-    "Hệ thống đặt phòng chính thức cho căn hộ The Sóng và villa boutique của Châu Homestay tại Vũng Tàu.",
+    "Châu Homestay - Đặt phòng căn hộ The Sóng Vũng Tàu và villa boutique view biển. Hệ thống đặt phòng chính thức với giá tốt nhất, cập nhật tình trạng phòng theo thời gian thực.",
   openGraph: {
-    title: "Châu Homestay | Căn hộ & Villa Vũng Tàu",
+    title: "The Sóng Vũng Tàu | Châu Homestay - Căn hộ & Villa View Biển",
     description:
-      "Đặt căn hộ The Sóng và villa Châu Homestay trực tuyến, cập nhật giá và tình trạng phòng theo thời gian thực.",
+      "Châu Homestay - Đặt phòng căn hộ The Sóng Vũng Tàu và villa boutique view biển. Hệ thống đặt phòng chính thức với giá tốt nhất, cập nhật tình trạng phòng theo thời gian thực.",
     url: "https://chauhomestay.com",
     siteName: "Châu Homestay",
     locale: "vi_VN",

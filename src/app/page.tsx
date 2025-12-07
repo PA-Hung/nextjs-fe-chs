@@ -15,19 +15,47 @@ import type { BlogTravelPost } from "@/lib/types/blog";
 import type { ZaloProduct, ZaloProductMeta } from "@/lib/types/zalo";
 
 export const metadata: Metadata = {
-  title: "Châu Homestay | Căn hộ The Sóng & Villa Vũng Tàu",
+  title: "Châu Homestay Vũng Tàu – Căn hộ The Sóng & Villa gần biển",
   description:
-    "Đặt căn hộ The Sóng và villa Châu Homestay Vũng Tàu. Ảnh thật, giá thật, cập nhật trực tiếp từ hệ thống NestJS.",
+    "Châu Homestay Vũng Tàu – căn hộ The Sóng và villa gần biển, ảnh thật giá thật, hỗ trợ check-in 24/7, đặt phòng dễ dàng cho kỳ nghỉ thoải mái.",
   openGraph: {
+    title: "Châu Homestay Vũng Tàu – Căn hộ The Sóng & Villa gần biển",
+    description:
+      "Châu Homestay Vũng Tàu – căn hộ The Sóng và villa gần biển, ảnh thật giá thật, hỗ trợ check-in 24/7, đặt phòng dễ dàng cho kỳ nghỉ thoải mái.",
+    url: "https://chauhomestay.com",
+    siteName: "Châu Homestay",
+    locale: "vi_VN",
+    type: "website",
+    images: [
+      {
+        url: "https://chauhomestay.com/apartment/cover1.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Căn hộ The Sóng Vũng Tàu - Châu Homestay",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
     title: "Châu Homestay | Căn hộ The Sóng & Villa Vũng Tàu",
     description:
-      "Đặt căn hộ The Sóng và villa Châu Homestay Vũng Tàu. Ảnh thật, giá thật, cập nhật trực tiếp từ hệ thống NestJS.",
-    url: "https://chauhomestay.com",
-    type: "website",
+      "Đặt căn hộ The Sóng và villa Châu Homestay Vũng Tàu. Hồ bơi vô cực tầng 36, view biển cực đẹp, đầy đủ tiện ích cao cấp.",
+    images: ["https://chauhomestay.com/apartment/cover1.jpg"],
   },
   alternates: {
-    canonical: "/",
+    canonical: "https://chauhomestay.com",
   },
+  keywords: [
+    "Châu Homestay",
+    "The Sóng Vũng Tàu",
+    "căn hộ The Sóng",
+    "villa Vũng Tàu",
+    "đặt phòng Vũng Tàu",
+    "homestay Vũng Tàu",
+    "căn hộ view biển Vũng Tàu",
+    "villa view biển",
+    "hồ bơi vô cực The Sóng",
+  ],
 };
 
 const heroHighlights = [
@@ -146,9 +174,7 @@ export default async function Home() {
               <div className="rounded-[28px] bg-white/80 px-6 py-4">
                 <p className="text-sm uppercase tracking-[0.4em] text-[#0055A4]">Châu Homestay</p>
                 <h1 className="text-[1.4rem] font-semibold leading-snug text-slate-900 sm:text-[1.9rem]">
-                  Căn hộ nghỉ dưỡng tại
-                  <br />
-                  The Sóng Vũng Tàu
+                  Châu Homestay Vũng Tàu – Căn hộ The Sóng & Villa gần biển
                 </h1>
               </div>
             </div>
