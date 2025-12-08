@@ -15,20 +15,17 @@ interface ApartmentCardProps {
   product: ZaloProduct;
 }
 
-const getBadgeLabel = (product: ZaloProduct) => {
-  if (product.area >= 90) {
-    return "Căn góc";
-  }
-
-  if (product.area >= 60) {
-    return "View biển";
-  }
-
-  return "Hot";
+const getViewBadgeColor = (view?: string) => {
+  if (!view) return "bg-white/90 text-slate-900";
+  const v = view.toLowerCase();
+  if (v.includes("biển")) return "bg-blue-100 text-blue-700";
+  if (v.includes("núi")) return "bg-green-100 text-green-700";
+  if (v.includes("thành phố")) return "bg-yellow-100 text-yellow-700";
+  return "bg-white/90 text-slate-900";
 };
 
 export const ApartmentCard = ({ product }: ApartmentCardProps) => {
-  const badge = getBadgeLabel(product);
+
   // Ưu tiên dùng slug từ API, fallback về generate từ name nếu chưa có
   const productSlug = product.slug || createProductSlug(product.name);
 
@@ -43,15 +40,21 @@ export const ApartmentCard = ({ product }: ApartmentCardProps) => {
           className="object-cover"
           priority={false}
         />
-        <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-slate-900">
-          {badge}
-        </span>
+        {product.view && (
+          <span
+            className={`absolute left-4 top-4 rounded-full px-3 py-1 text-xs font-semibold ${getViewBadgeColor(
+              product.view
+            )}`}
+          >
+            {product.view}
+          </span>
+        )}
       </div>
 
       <div className="flex flex-1 flex-col p-6">
         <div className="space-y-3">
           <Link href={`/can-ho-the-song/${productSlug}`}>
-            <h3 className="mb-3 text-base font-semibold leading-tight text-slate-900 transition hover:text-[#b88b5a]">
+            <h3 className="mb-3 min-h-[60px] text-base font-semibold leading-tight text-slate-900 transition hover:text-[#b88b5a] line-clamp-3">
               {product.name}
             </h3>
           </Link>
@@ -76,7 +79,7 @@ export const ApartmentCard = ({ product }: ApartmentCardProps) => {
         </div>
         <div className="mt-3 flex items-start gap-1.5 text-sm leading-relaxed text-slate-600">
           <FaMapMarkerAlt className="mt-0.5 h-4 w-4 shrink-0 text-slate-400" />
-          <p className="line-clamp-2">{product.location}</p>
+          <p className="line-clamp-1">{product.location}</p>
         </div>
         <div className="mt-4">
           <div className="flex flex-col gap-3 sm:flex-row">

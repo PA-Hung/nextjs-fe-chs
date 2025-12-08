@@ -13,6 +13,7 @@ export interface ZaloProduct {
   amenities: string[];
   coverImageUrl: string;
   description: string;
+  view?: string;
 }
 
 export interface ZaloProductMeta {

@@ -36,11 +36,11 @@ const beachBackgroundStyle = {
         "radial-gradient(circle at 15% 20%, rgba(255,255,255,0.6), transparent 45%), radial-gradient(circle at 80% 0%, rgba(255,255,255,0.4), transparent 40%), linear-gradient(180deg, #E8F6FF 0%, #F5FBFF 45%, #FFF7EA 100%)",
 };
 
-const currencyFormatter = new Intl.NumberFormat("vi-VN", {
-    style: "currency",
-    currency: "VND",
-    maximumFractionDigits: 0,
-});
+// const currencyFormatter = new Intl.NumberFormat("vi-VN", {
+//     style: "currency",
+//     currency: "VND",
+//     maximumFractionDigits: 0,
+// });
 
 const getAmenityIcon = (amenity: string) => {
     const lowerAmenity = amenity.toLowerCase();
@@ -236,10 +236,10 @@ export default async function ApartmentDetailPage({ params }: ApartmentDetailPag
                         {/* Description Section */}
                         <section className="rounded-[32px] bg-white/85 p-6 shadow-xl shadow-slate-200/70 ring-1 ring-white/60 lg:p-10">
                             <h2 className="mb-4 flex items-center gap-3 text-2xl font-semibold text-slate-900">
-                                Mô tả căn hộ
+                                Mô tả
                             </h2>
                             <div className="space-y-4 text-slate-700">
-                                <p className="text-base leading-relaxed">{product.location}</p>
+                                {/* <p className="text-base leading-relaxed">{product.location}</p> */}
                                 <div className="grid gap-4 sm:grid-cols-2">
                                     <div className="flex items-center gap-3">
                                         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#b88b5a]/10">
@@ -281,6 +281,7 @@ export default async function ApartmentDetailPage({ params }: ApartmentDetailPag
                             </div>
                         </section>
 
+
                         {/* Amenities Section */}
                         {product.amenities && product.amenities.length > 0 ? (
                             <section className="rounded-[32px] bg-white/85 p-6 shadow-xl shadow-slate-200/70 ring-1 ring-white/60 lg:p-10">
@@ -299,6 +300,21 @@ export default async function ApartmentDetailPage({ params }: ApartmentDetailPag
                                 </div>
                             </section>
                         ) : null}
+
+                        <section className="rounded-[32px] bg-white/85 p-6 shadow-xl shadow-slate-200/70 ring-1 ring-white/60 lg:p-10">
+                            <h2 className="mb-4 flex items-center gap-3 text-2xl font-semibold text-slate-900">
+                                Thông tin chi tiết
+                            </h2>
+                            <div className="space-y-4 text-slate-700">
+                                {product.description && (
+                                    <section
+                                        className="ck-content prose prose-lg max-w-none prose-headings:text-slate-900 prose-p:text-slate-700 prose-a:text-[#0055A4] prose-a:no-underline hover:prose-a:underline prose-strong:text-slate-900 prose-img:rounded-2xl"
+                                        dangerouslySetInnerHTML={{ __html: product.description }}
+                                    />
+                                )}
+                            </div>
+                        </section>
+
                     </div>
 
                     {/* Right Column - Booking Card */}
