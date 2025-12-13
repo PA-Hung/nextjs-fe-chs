@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { FaFacebookF, FaTiktok } from "react-icons/fa";
 
 const footerLinks = [
   { label: "Trang chủ", href: "/" },
@@ -29,6 +30,26 @@ export const SiteFooter = () => {
                 <span className="font-semibold text-slate-700">{item.label}:</span> {item.value}
               </div>
             ))}
+          </div>
+          <div className="flex items-center justify-center gap-3 lg:justify-start">
+            <Link
+              href="https://www.facebook.com/chauhomestaythesong"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1877F2] text-white shadow-md transition hover:bg-[#166fe5]"
+              aria-label="Facebook"
+            >
+              <FaFacebookF size={18} />
+            </Link>
+            <Link
+              href="https://www.tiktok.com/@chauhomestay"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex h-8 w-8 items-center justify-center rounded-full bg-black text-white shadow-md transition hover:bg-neutral-800"
+              aria-label="TikTok"
+            >
+              <FaTiktok size={16} />
+            </Link>
           </div>
         </div>
         <div className="flex flex-col gap-3 text-center text-sm font-medium text-slate-600 lg:text-right">

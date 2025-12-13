@@ -39,7 +39,7 @@ export default function AccommodationRulesPage() {
                     ]}
                 />
 
-                <section className="mt-8 space-y-8 rounded-[48px] bg-white/85 p-6 shadow-2xl shadow-slate-200/70 ring-1 ring-white/60 lg:p-12">
+                <section className="space-y-8 rounded-[48px] bg-white/85 p-6 shadow-2xl shadow-slate-200/70 ring-1 ring-white/60 lg:p-12">
                     {/* Header */}
                     <header className="space-y-4 text-center">
                         <p className="text-sm uppercase tracking-[0.3em] text-[#b88b5a]">Quy định & Nội quy</p>

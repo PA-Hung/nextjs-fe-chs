@@ -3,7 +3,6 @@ import "server-only";
 import { buildApiUrl } from "@/lib/config";
 import type { ProductTypeInternal } from "@/lib/types/product-type";
 import type { ZaloProduct, ZaloProductListResponse } from "@/lib/types/zalo";
-import { createProductSlug, parseSlugToId } from "@/lib/utils/slug";
 
 const API_TIMEOUT = 15000;
 
@@ -101,26 +100,14 @@ export async function getZaloProductById(id: string) {
 
 /**
  * Lấy sản phẩm theo slug
- * Ưu tiên query trực tiếp theo slug từ API, fallback về cách cũ nếu cần
+ * Backend endpoint: GET /apartment/:slug
  */
 export async function getZaloProductBySlug(slug: string) {
-  // Kiểm tra nếu slug là ID thuần (24 ký tự hex - MongoDB ObjectId format)
-  if (/^[a-f0-9]{24}$/i.test(slug)) {
-    // Nếu là ID thuần, query trực tiếp
-    try {
-      return await getZaloProductById(slug);
-    } catch {
-      throw new Error("Không tìm thấy căn hộ này.");
-    }
-  }
-
-  // Ưu tiên: Thử query trực tiếp theo slug từ API (nếu BE có endpoint này)
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), API_TIMEOUT);
 
   try {
-    // Thử endpoint mới: /api/v1/apartment/by-slug/:slug
-    const response = await fetch(buildApiUrl(`/apartment/by-slug/${slug}`), {
+    const response = await fetch(buildApiUrl(`/apartment/${slug}`), {
       signal: controller.signal,
       cache: "no-store",
       headers: {
@@ -128,58 +115,30 @@ export async function getZaloProductBySlug(slug: string) {
       },
     });
 
-    if (response.ok) {
-      const payload = (await response.json()) as {
-        statusCode: number;
-        message: string;
-        data: ZaloProduct;
-      };
-
-      if (payload.data) {
-        return payload.data;
+    if (!response.ok) {
+      if (response.status === 404) {
+        const notFoundError = new Error("APARTMENT_NOT_FOUND");
+        notFoundError.name = "NotFoundError";
+        throw notFoundError;
       }
+      const errorText = await response.text();
+      throw new Error(
+        `Không thể tải thông tin căn hộ. Status: ${response.status}. ${errorText}`
+      );
     }
-  } catch {
-    // Nếu endpoint không tồn tại hoặc lỗi, fallback về cách cũ
+
+    const payload = (await response.json()) as {
+      statusCode: number;
+      message: string;
+      data: ZaloProduct;
+    };
+
+    if (!payload.data) {
+      throw new Error("Dữ liệu sản phẩm không hợp lệ.");
+    }
+
+    return payload.data;
   } finally {
     clearTimeout(timeout);
   }
-
-  // Fallback: Query tất cả sản phẩm và tìm theo slug
-  const allProducts = await getZaloProducts({ current: 1, pageSize: 1000 });
-
-  // Ưu tiên tìm theo slug từ API (nếu có)
-  for (const product of allProducts.result) {
-    if (product.slug && product.slug === slug) {
-      return product;
-    }
-  }
-
-  // Backward compatibility: Nếu product chưa có slug, thử generate từ name
-  for (const product of allProducts.result) {
-    const productSlug = createProductSlug(product.name);
-    if (productSlug === slug) {
-      return product;
-    }
-  }
-
-  // Backward compatibility: Thử tìm theo slug cũ có ID (format: {name}-{6chars})
-  const shortId = parseSlugToId(slug);
-  if (shortId) {
-    const slugWithoutId = slug.replace(`-${shortId}$`, "");
-    for (const product of allProducts.result) {
-      if (
-        product.slug &&
-        (product.slug === slug || product.slug === slugWithoutId)
-      ) {
-        return product;
-      }
-      const productSlug = createProductSlug(product.name);
-      if (productSlug === slug || productSlug === slugWithoutId) {
-        return product;
-      }
-    }
-  }
-
-  throw new Error("Không tìm thấy căn hộ này.");
 }

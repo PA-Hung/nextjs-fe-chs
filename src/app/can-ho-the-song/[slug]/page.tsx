@@ -165,7 +165,7 @@ export default async function ApartmentDetailPage({ params }: ApartmentDetailPag
     try {
         product = await getZaloProductBySlug(slug);
     } catch (error) {
-        if (error instanceof Error && error.message.includes("Không tìm thấy")) {
+        if (error instanceof Error && (error.message === "APARTMENT_NOT_FOUND" || error.message.includes("Không tìm thấy"))) {
             notFound();
         }
 
@@ -301,19 +301,19 @@ export default async function ApartmentDetailPage({ params }: ApartmentDetailPag
                             </section>
                         ) : null}
 
-                        <section className="rounded-[32px] bg-white/85 p-6 shadow-xl shadow-slate-200/70 ring-1 ring-white/60 lg:p-10">
-                            <h2 className="mb-4 flex items-center gap-3 text-2xl font-semibold text-slate-900">
-                                Thông tin chi tiết
-                            </h2>
-                            <div className="space-y-4 text-slate-700">
-                                {product.description && (
+                        {product.description && (
+                            <section className="rounded-[32px] bg-white/85 p-6 shadow-xl shadow-slate-200/70 ring-1 ring-white/60 lg:p-10">
+                                <h2 className="mb-4 flex items-center gap-3 text-2xl font-semibold text-slate-900">
+                                    Thông tin chi tiết
+                                </h2>
+                                <div className="space-y-4 text-slate-700">
                                     <section
                                         className="ck-content prose prose-lg max-w-none prose-headings:text-slate-900 prose-p:text-slate-700 prose-a:text-[#0055A4] prose-a:no-underline hover:prose-a:underline prose-strong:text-slate-900 prose-img:rounded-2xl"
                                         dangerouslySetInnerHTML={{ __html: product.description }}
                                     />
-                                )}
-                            </div>
-                        </section>
+                                </div>
+                            </section>
+                        )}
 
                     </div>
 
@@ -323,6 +323,7 @@ export default async function ApartmentDetailPage({ params }: ApartmentDetailPag
                             <div className="space-y-6">
                                 <div>
                                     <h1 className="mb-2 text-2xl font-semibold text-slate-900">{product.name}</h1>
+                                    <p className="mt-1 text-xs text-slate-500" hidden>id: {product._id}</p>
                                     <p className="text-sm text-slate-600">{product.location}</p>
                                 </div>
 

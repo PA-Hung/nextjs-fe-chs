@@ -6,6 +6,7 @@ import "./globals.css";
 import { AuthProvider } from "@/auth/context/AuthProvider";
 import { getServerSession } from "@/auth/session";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { Toaster } from "@/components/ui/sonner";
 import { generateLodgingBusinessSchema, generateOrganizationSchema } from "@/lib/seo/jsonld";
 
 const geistSans = Geist({
@@ -99,6 +100,7 @@ export default async function RootLayout({
         <JsonLd data={localBusinessSchema} />
         <JsonLd data={organizationSchema} />
         <AuthProvider initialUser={session.user}>{children}</AuthProvider>
+        <Toaster />
       </body>
     </html>
   );

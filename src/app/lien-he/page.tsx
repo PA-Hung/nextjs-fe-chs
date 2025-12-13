@@ -115,7 +115,7 @@ const ContactPage = () => {
 
             <main className="mx-auto flex max-w-6xl flex-col px-3 pt-4 pb-12 sm:px-4 md:px-6 lg:px-8 lg:pt-3 lg:pb-16">
                 <Breadcrumb items={[{ label: "Trang chủ", href: "/" }, { label: "Liên hệ" }]} />
-                <div className="mt-6 space-y-6 sm:space-y-8 lg:space-y-10">
+                <div className="space-y-6 sm:space-y-8 lg:space-y-10">
                     <section className="grid gap-6 rounded-3xl bg-white/80 p-4 shadow-2xl shadow-sky-100/80 ring-1 ring-white/60 sm:rounded-[32px] sm:gap-8 sm:p-6 lg:grid-cols-[1.05fr_0.95fr] lg:rounded-[48px] lg:gap-10 lg:p-10">
                         <article className="space-y-4 sm:space-y-6">
                             <p className="text-xs uppercase tracking-[0.4em] text-[#b88b5a] sm:text-sm">Kết nối nhanh</p>

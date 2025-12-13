@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-
+import { toast } from "sonner"
 import { BookingDateField } from "@/components/dat-phong/BookingDateField"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -16,14 +16,12 @@ const ZALO_CHAT_IDS = [
 
 const BookingForm = () => {
     const [isSubmitting, setIsSubmitting] = React.useState(false)
-    const [submitMessage, setSubmitMessage] = React.useState<string | null>(null)
-    const [submitError, setSubmitError] = React.useState<string | null>(null)
+    const [isSuccess, setIsSuccess] = React.useState(false)
+    const [formKey, setFormKey] = React.useState(Date.now())
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
 
-        setSubmitMessage(null)
-        setSubmitError(null)
         setIsSubmitting(true)
 
         const formData = new FormData(event.currentTarget)
@@ -79,16 +77,20 @@ const BookingForm = () => {
             const hasSuccess = responses.some((response) => response.ok)
 
             if (hasSuccess) {
-                setSubmitMessage(
+                toast.success(
                     "Cảm ơn bạn! Thông tin đã được gửi tới Châu Homestay. Đội ngũ sẽ liên hệ lại trong 5–15 phút."
                 )
+                setFormKey(Date.now())
+                setIsSuccess(true)
+                setTimeout(() => setIsSuccess(false), 10000)
+
             } else {
-                setSubmitError(
+                toast.error(
                     "Không thể gửi thông tin ngay lúc này. Bạn vui lòng thử lại sau ít phút hoặc liên hệ trực tiếp qua Zalo/Hotline nhé."
                 )
             }
         } catch {
-            setSubmitError(
+            toast.error(
                 "Có lỗi kết nối khi gửi thông tin. Bạn vui lòng thử lại sau hoặc liên hệ trực tiếp qua Zalo/Hotline nhé."
             )
         } finally {
@@ -98,6 +100,7 @@ const BookingForm = () => {
 
     return (
         <form
+            key={formKey}
             className="mt-8 grid gap-6"
             aria-label="Form đặt phòng Châu Homestay"
             onSubmit={handleSubmit}
@@ -247,24 +250,13 @@ const BookingForm = () => {
                 </p>
                 <Button
                     type="submit"
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || isSuccess}
                     className="rounded-full bg-[#0055A4] px-6 py-2.5 text-sm font-semibold text-white hover:bg-[#004280] disabled:cursor-not-allowed disabled:opacity-70"
                 >
-                    {isSubmitting ? "Đang gửi..." : "Gửi thông tin"}
+                    {isSubmitting ? "Đang gửi..." : isSuccess ? "Gửi thành công" : "Gửi thông tin"}
                 </Button>
             </div>
 
-            {submitMessage ? (
-                <p className="mt-3 rounded-2xl border border-emerald-100 bg-emerald-50 px-4 py-3 text-xs text-emerald-800">
-                    {submitMessage}
-                </p>
-            ) : null}
-
-            {submitError ? (
-                <p className="mt-3 rounded-2xl border border-rose-100 bg-rose-50 px-4 py-3 text-xs text-rose-700">
-                    {submitError}
-                </p>
-            ) : null}
         </form>
     )
 }

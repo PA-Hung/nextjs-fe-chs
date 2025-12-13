@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
+import { FaFacebook, FaFacebookF, FaTiktok } from "react-icons/fa";
 
 const navLinks = [
   { label: "Trang chủ", href: "/" },
@@ -64,6 +65,26 @@ export const SiteHeader = () => {
           >
             Liên hệ Zalo
           </Link>
+          <div className="hidden gap-2 md:flex">
+            <Link
+              href="https://www.facebook.com/chauhomestaythesong"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-[#1877F2] text-white shadow-md transition hover:bg-[#166fe5]"
+              aria-label="Facebook"
+            >
+              <FaFacebookF size={20} />
+            </Link>
+            <Link
+              href="https://www.tiktok.com/@chauhomestay"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-black text-white shadow-md transition hover:bg-neutral-800"
+              aria-label="TikTok"
+            >
+              <FaTiktok size={18} />
+            </Link>
+          </div>
           <Button
             type="button"
             onClick={handleToggleMenu}
@@ -80,30 +101,52 @@ export const SiteHeader = () => {
           </Button>
         </div>
       </div>
-      {isMenuOpen ? (
-        <div className="border-t border-slate-100 bg-white/95 px-4 py-4 shadow-lg md:hidden">
-          <div className="flex flex-col gap-4 text-sm font-medium text-slate-600">
-            {navLinks.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                tabIndex={0}
-                onClick={handleCloseMenu}
-                className="rounded-full px-4 py-2 transition hover:bg-slate-100 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300"
+      {
+        isMenuOpen ? (
+          <div className="border-t border-slate-100 bg-white/95 px-4 py-4 shadow-lg md:hidden">
+            <div className="flex flex-col gap-4 text-sm font-medium text-slate-600">
+              {navLinks.map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  tabIndex={0}
+                  onClick={handleCloseMenu}
+                  className="rounded-full px-4 py-2 transition hover:bg-slate-100 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300"
+                >
+                  {item.label}
+                </a>
+              ))}
+              <Link
+                href="https://zalo.me/0963686963"
+                className="rounded-full bg-[#0055A4] px-4 py-2 text-center font-semibold text-white transition hover:bg-[#0b67c6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#80b9ff]"
               >
-                {item.label}
-              </a>
-            ))}
-            <Link
-              href="https://zalo.me/0963686963"
-              className="rounded-full bg-[#0055A4] px-4 py-2 text-center font-semibold text-white transition hover:bg-[#0b67c6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#80b9ff]"
-            >
-              Đặt phòng qua Zalo
-            </Link>
+                Đặt phòng qua Zalo
+              </Link>
+              <div className="mt-2 flex items-center justify-center gap-4 border-t border-slate-100 pt-4">
+                <Link
+                  href="https://www.facebook.com/chauhomestaythesong"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-slate-600 transition hover:text-[#1877F2]"
+                >
+                  <FaFacebook size={24} />
+                  <span>Facebook</span>
+                </Link>
+                <Link
+                  href="https://www.tiktok.com/@chauhomestay"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-slate-600 transition hover:text-black"
+                >
+                  <FaTiktok size={24} />
+                  <span>TikTok</span>
+                </Link>
+              </div>
+            </div>
           </div>
-        </div>
-      ) : null}
-    </header>
+        ) : null
+      }
+    </header >
   );
 };
 
