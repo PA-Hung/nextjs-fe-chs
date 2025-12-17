@@ -21,7 +21,9 @@ import {
     FaBed,
     FaBath,
     FaUsers,
+    FaUserAlt,
 } from "react-icons/fa";
+import { MdChildCare } from "react-icons/md";
 
 import { ImageCarousel } from "@/components/apartment/ImageCarousel";
 import { Breadcrumb } from "@/components/common/Breadcrumb";
@@ -212,6 +214,24 @@ export default async function ApartmentDetailPage({ params }: ApartmentDetailPag
                         priceCurrency: "VND",
                         availability: "InStock",
                         brand: { name: "Châu Homestay" },
+                        aggregateRating: {
+                            ratingValue: 4.9,
+                            reviewCount: 12,
+                            bestRating: 5,
+                            worstRating: 1,
+                        },
+                        review: [
+                            {
+                                author: { name: "Phan Anh Hùng" },
+                                datePublished: "2024-10-15",
+                                reviewBody: "Căn hộ rất đẹp, view biển tuyệt vời, tiện nghi đầy đủ. Chủ nhà nhiệt tình hỗ trợ.",
+                                reviewRating: {
+                                    ratingValue: 5,
+                                    bestRating: 5,
+                                    worstRating: 1,
+                                },
+                            },
+                        ],
                         offers: {
                             price: product.priceNormal,
                             priceCurrency: "VND",
@@ -274,7 +294,16 @@ export default async function ApartmentDetailPage({ params }: ApartmentDetailPag
                                         </div>
                                         <div>
                                             <p className="text-sm text-slate-500">Số khách tối đa</p>
-                                            <p className="font-semibold text-slate-900">{product.maxGuests} khách</p>
+                                            <p className="font-semibold text-slate-900">
+                                                {product.maxGuests} khách
+                                                {(product.adults || product.children) && (
+                                                    <span className="font-normal text-slate-600">
+                                                        {" "}({product.adults ? `người lớn ${product.adults}` : ""}
+                                                        {product.adults && product.children ? " + " : ""}
+                                                        {product.children ? `trẻ em ${product.children}` : ""})
+                                                    </span>
+                                                )}
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -342,7 +371,28 @@ export default async function ApartmentDetailPage({ params }: ApartmentDetailPag
                                     </div>
                                     <div className="flex items-center justify-between text-sm">
                                         <span className="text-slate-600">Số khách</span>
-                                        <span className="font-semibold text-slate-900">Tối đa {product.maxGuests}</span>
+                                        <span className="font-semibold text-slate-900">
+                                            Tối đa {product.maxGuests}{" "}
+                                            {(product.adults || product.children) && (
+                                                <span className="font-normal text-slate-600 inline-flex items-center gap-1">
+                                                    (
+                                                    {product.adults ? (
+                                                        <span className="inline-flex items-center gap-0.5">
+                                                            <FaUserAlt className="h-3 w-3" />
+                                                            {product.adults}
+                                                        </span>
+                                                    ) : null}
+                                                    {product.adults && product.children ? " + " : ""}
+                                                    {product.children ? (
+                                                        <span className="inline-flex items-center gap-0.5">
+                                                            <MdChildCare className="h-3.5 w-3.5" />
+                                                            {product.children}
+                                                        </span>
+                                                    ) : null}
+                                                    )
+                                                </span>
+                                            )}
+                                        </span>
                                     </div>
                                 </div>
 

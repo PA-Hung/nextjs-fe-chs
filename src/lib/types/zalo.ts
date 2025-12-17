@@ -4,6 +4,8 @@ export interface ZaloProduct {
   slug: string;
   productType: string;
   maxGuests: number;
+  adults?: number;
+  children?: number;
   area: number;
   bedrooms: number;
   bathrooms: number;

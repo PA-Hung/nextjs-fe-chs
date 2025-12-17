@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { FaRulerCombined, FaBed, FaBath, FaUsers, FaMapMarkerAlt } from "react-icons/fa";
+import { FaRulerCombined, FaBed, FaBath, FaUsers, FaMapMarkerAlt, FaUserAlt } from "react-icons/fa";
+import { MdChildCare } from "react-icons/md";
 
 import type { ZaloProduct } from "@/lib/types/zalo";
 import { createProductSlug } from "@/lib/utils/slug";
@@ -54,7 +55,7 @@ export const ApartmentCard = ({ product }: ApartmentCardProps) => {
       <div className="flex flex-1 flex-col p-6">
         <div className="space-y-3">
           <Link href={`/can-ho-the-song/${productSlug}`}>
-            <h3 className="mb-3 min-h-[60px] text-base font-semibold leading-tight text-slate-900 transition hover:text-[#b88b5a] line-clamp-3">
+            <h3 className="mb-3 text-base font-semibold leading-tight text-slate-900 transition hover:text-[#b88b5a] line-clamp-2 overflow-hidden">
               {product.name}
             </h3>
           </Link>
@@ -71,10 +72,31 @@ export const ApartmentCard = ({ product }: ApartmentCardProps) => {
               <FaBath className="h-4 w-4 text-slate-400" />
               <span>{product.bathrooms}</span>
             </div>
+          </div>
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-600">
             <div className="flex items-center gap-1.5">
               <FaUsers className="h-4 w-4 text-slate-400" />
               <span>Tối đa {product.maxGuests}</span>
             </div>
+            {(product.adults || product.children) && (
+              <div className="flex items-center gap-2 text-slate-500">
+                <span>(</span>
+                {product.adults ? (
+                  <span className="inline-flex items-center gap-0.5">
+                    <FaUserAlt className="h-3 w-3" />
+                    {product.adults}
+                  </span>
+                ) : null}
+                {product.adults && product.children ? <span>+</span> : null}
+                {product.children ? (
+                  <span className="inline-flex items-center gap-0.5">
+                    <MdChildCare className="h-3.5 w-3.5" />
+                    {product.children}
+                  </span>
+                ) : null}
+                <span>)</span>
+              </div>
+            )}
           </div>
         </div>
         <div className="mt-3 flex items-start gap-1.5 text-sm leading-relaxed text-slate-600">
