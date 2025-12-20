@@ -46,8 +46,8 @@ const localBusinessSchema = generateLodgingBusinessSchema({
   description:
     "Hệ thống căn hộ The Sóng và villa boutique tại Vũng Tàu, hỗ trợ khách du lịch gia đình và nhóm bạn.",
   image: [
-    "https://chauhomestay.com/logo.png",
-    "https://chauhomestay.com/og-image.jpg",
+    "https://chauhomestay.com/logo1.png",
+    "https://chauhomestay.com/thesong/Tien-ich-The-Song-Vung-Tau14.jpg",
   ],
   address: {
     streetAddress: "28 Thi Sách, Phường Thắng Tam",

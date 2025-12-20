@@ -295,12 +295,30 @@ export default async function ApartmentDetailPage({ params }: ApartmentDetailPag
                                         <div>
                                             <p className="text-sm text-slate-500">Số khách tối đa</p>
                                             <p className="font-semibold text-slate-900">
-                                                {product.maxGuests} khách
+                                                {product.maxGuests} khách{" "}
                                                 {(product.adults || product.children) && (
-                                                    <span className="font-normal text-slate-600">
-                                                        {" "}({product.adults ? `người lớn ${product.adults}` : ""}
+                                                    <span className="font-normal text-slate-600 inline-flex items-center gap-1">
+                                                        {" "}(
+                                                        {product.adults ? (
+                                                            <>
+                                                                <span className="inline-flex items-center gap-0.5 sm:hidden">
+                                                                    <FaUserAlt className="h-3 w-3" />
+                                                                    {product.adults}
+                                                                </span>
+                                                                <span className="hidden sm:inline">người lớn {product.adults}</span>
+                                                            </>
+                                                        ) : null}
                                                         {product.adults && product.children ? " + " : ""}
-                                                        {product.children ? `trẻ em ${product.children}` : ""})
+                                                        {product.children ? (
+                                                            <>
+                                                                <span className="inline-flex items-center gap-0.5 sm:hidden">
+                                                                    <MdChildCare className="h-3.5 w-3.5" />
+                                                                    {product.children}
+                                                                </span>
+                                                                <span className="hidden sm:inline">trẻ em {product.children}</span>
+                                                            </>
+                                                        ) : null}
+                                                        )
                                                     </span>
                                                 )}
                                             </p>

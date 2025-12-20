@@ -28,7 +28,7 @@ export const generateSeoMetadata = (
     ? seo.image.startsWith("http")
       ? seo.image
       : `${baseUrl}${seo.image}`
-    : `${baseUrl}/og-image.jpg`;
+    : `${baseUrl}/thesong/Tien-ich-The-Song-Vung-Tau14.jpg.jpg`;
 
   // OpenGraph chỉ hỗ trợ "website" | "article", map "product" thành "website"
   const openGraphType =

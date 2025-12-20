@@ -55,53 +55,53 @@ export const ApartmentCard = ({ product }: ApartmentCardProps) => {
       <div className="flex flex-1 flex-col p-6">
         <div className="space-y-3">
           <Link href={`/can-ho-the-song/${productSlug}`}>
-            <h3 className="mb-3 text-base font-semibold leading-tight text-slate-900 transition hover:text-[#b88b5a] line-clamp-2 overflow-hidden">
+            <h3 className="mb-3 min-h-[2.5rem] text-base font-semibold leading-tight text-slate-900 transition hover:text-[#b88b5a] line-clamp-2 overflow-hidden">
               {product.name}
             </h3>
           </Link>
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-slate-600">
-            <div className="flex items-center gap-1.5">
-              <FaRulerCombined className="h-4 w-4 text-slate-400" />
+          <div className="flex flex-wrap items-center gap-2 text-xs">
+            <span className="inline-flex items-center gap-1 rounded-full bg-purple-50 px-2 py-0.5 text-purple-700 border border-purple-200">
+              <FaRulerCombined className="h-3 w-3" />
               <span>{product.area}m²</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <FaBed className="h-4 w-4 text-slate-400" />
+            </span>
+            <span className="inline-flex items-center gap-1 rounded-full bg-pink-50 px-2 py-0.5 text-pink-700 border border-pink-200">
+              <FaBed className="h-3 w-3" />
               <span>{product.bedrooms}</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <FaBath className="h-4 w-4 text-slate-400" />
+            </span>
+            <span className="inline-flex items-center gap-1 rounded-full bg-cyan-50 px-2 py-0.5 text-cyan-700 border border-cyan-200">
+              <FaBath className="h-3 w-3" />
               <span>{product.bathrooms}</span>
-            </div>
+            </span>
           </div>
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-600">
-            <div className="flex items-center gap-1.5">
-              <FaUsers className="h-4 w-4 text-slate-400" />
-              <span>Tối đa {product.maxGuests}</span>
-            </div>
+          <div className="flex flex-wrap items-center gap-2 text-xs">
+            <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-0.5 text-blue-700 border border-blue-200">
+              <FaUsers className="h-3 w-3" />
+              <span>Tối đa {product.maxGuests} khách</span>
+            </span>
             {(product.adults || product.children) && (
-              <div className="flex items-center gap-2 text-slate-500">
-                <span>(</span>
+              <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-amber-700 border border-amber-200">
                 {product.adults ? (
                   <span className="inline-flex items-center gap-0.5">
-                    <FaUserAlt className="h-3 w-3" />
+                    <FaUserAlt className="h-2.5 w-2.5" />
                     {product.adults}
                   </span>
                 ) : null}
                 {product.adults && product.children ? <span>+</span> : null}
                 {product.children ? (
                   <span className="inline-flex items-center gap-0.5">
-                    <MdChildCare className="h-3.5 w-3.5" />
+                    <MdChildCare className="h-3 w-3" />
                     {product.children}
                   </span>
                 ) : null}
-                <span>)</span>
-              </div>
+              </span>
             )}
           </div>
         </div>
-        <div className="mt-3 flex items-start gap-1.5 text-sm leading-relaxed text-slate-600">
-          <FaMapMarkerAlt className="mt-0.5 h-4 w-4 shrink-0 text-slate-400" />
-          <p className="line-clamp-1">{product.location}</p>
+        <div className="mt-2 text-xs">
+          <span className="inline-flex items-center gap-1 rounded-full bg-red-50 px-2 py-0.5 text-red-700 border border-red-200 max-w-full overflow-hidden">
+            <FaMapMarkerAlt className="h-3 w-3 shrink-0" />
+            <span className="truncate max-w-[200px]">{product.location}</span>
+          </span>
         </div>
         <div className="mt-4">
           <div className="flex flex-col gap-3 sm:flex-row">
