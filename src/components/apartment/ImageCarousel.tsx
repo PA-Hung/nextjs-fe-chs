@@ -206,14 +206,14 @@ export const ImageCarousel = ({ images, productName }: ImageCarouselProps) => {
                     {/* Close button */}
                     <button
                         onClick={closeLightbox}
-                        className="absolute top-4 right-4 z-10 rounded-full bg-white/10 p-3 text-white transition-colors hover:bg-white/20"
+                        className="absolute top-3 right-3 z-10 rounded-full bg-white/10 p-2 sm:p-3 text-white transition-colors hover:bg-white/20"
                         aria-label="Đóng"
                     >
-                        <FaTimes className="h-6 w-6" />
+                        <FaTimes className="h-5 w-5 sm:h-6 sm:w-6" />
                     </button>
 
                     {/* Image counter */}
-                    <div className="absolute top-4 left-4 z-10 rounded-full bg-white/10 px-4 py-2 text-sm text-white backdrop-blur-sm">
+                    <div className="absolute top-3 left-3 z-10 rounded-full bg-white/10 px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm text-white backdrop-blur-sm">
                         {lightboxIndex + 1} / {images.length}
                     </div>
 
@@ -224,10 +224,10 @@ export const ImageCarousel = ({ images, productName }: ImageCarouselProps) => {
                                 e.stopPropagation();
                                 goToPrevious();
                             }}
-                            className="absolute left-4 top-1/2 -translate-y-1/2 z-10 rounded-full bg-white/10 p-3 text-white transition-colors hover:bg-white/20"
+                            className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-10 rounded-full bg-white/10 p-2 sm:p-3 text-white transition-colors hover:bg-white/20"
                             aria-label="Ảnh trước"
                         >
-                            <FaChevronLeft className="h-6 w-6" />
+                            <FaChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
                         </button>
                     )}
 
@@ -238,41 +238,43 @@ export const ImageCarousel = ({ images, productName }: ImageCarouselProps) => {
                                 e.stopPropagation();
                                 goToNext();
                             }}
-                            className="absolute right-4 top-1/2 -translate-y-1/2 z-10 rounded-full bg-white/10 p-3 text-white transition-colors hover:bg-white/20"
+                            className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-10 rounded-full bg-white/10 p-2 sm:p-3 text-white transition-colors hover:bg-white/20"
                             aria-label="Ảnh sau"
                         >
-                            <FaChevronRight className="h-6 w-6" />
+                            <FaChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
                         </button>
                     )}
 
                     {/* Lightbox Carousel */}
-                    <div
-                        className="h-full w-full px-16 py-16"
-                        onClick={(e) => e.stopPropagation()}
-                        ref={emblaLightboxRef}
-                    >
-                        <div className="flex h-full">
-                            {images.map((image, index) => (
-                                <div
-                                    key={index}
-                                    className="relative min-w-0 flex-[0_0_100%] flex items-center justify-center"
-                                >
-                                    <Image
-                                        src={image}
-                                        alt={`${productName} - Ảnh ${index + 1}`}
-                                        width={1920}
-                                        height={1080}
-                                        sizes="100vw"
-                                        className="max-h-full max-w-full object-contain"
-                                        priority={index === lightboxIndex}
-                                    />
-                                </div>
-                            ))}
+                    <div className="h-full w-full px-8 py-6 sm:px-12 sm:py-8">
+                        <div
+                            className="h-full w-full overflow-hidden"
+                            onClick={(e) => e.stopPropagation()}
+                            ref={emblaLightboxRef}
+                        >
+                            <div className="flex h-full">
+                                {images.map((image, index) => (
+                                    <div
+                                        key={index}
+                                        className="relative min-w-0 flex-[0_0_100%] flex items-center justify-center"
+                                    >
+                                        <Image
+                                            src={image}
+                                            alt={`${productName} - Ảnh ${index + 1}`}
+                                            width={1920}
+                                            height={1080}
+                                            sizes="100vw"
+                                            className="max-h-full max-w-full object-contain"
+                                            priority={index === lightboxIndex}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
 
-                    {/* Keyboard hint */}
-                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-white/10 px-4 py-2 text-xs text-white/70 backdrop-blur-sm">
+                    {/* Keyboard hint - hidden on mobile */}
+                    <div className="hidden sm:block absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-white/10 px-4 py-2 text-xs text-white/70 backdrop-blur-sm">
                         Phím ← → để chuyển ảnh • ESC để đóng
                     </div>
                 </div>
