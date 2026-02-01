@@ -184,11 +184,11 @@ export default async function Home() {
             </p>
             <ul className="space-y-4">
               {heroHighlights.map((item) => (
-                <li key={item.id} className="flex items-center gap-3 text-sm text-slate-700">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#E1F4FF] text-[#0055A4] shadow-inner">
+                <li key={item.id} className="flex items-start gap-3 text-sm text-slate-700">
+                  <span className="flex h-8 w-8 min-h-8 min-w-8 shrink-0 items-center justify-center rounded-full bg-[#E1F4FF] text-[#0055A4] shadow-inner aspect-square sm:h-10 sm:w-10 sm:min-h-10 sm:min-w-10">
                     ✓
                   </span>
-                  <span>{item.text}</span>
+                  <span className="pt-1 sm:pt-2">{item.text}</span>
                 </li>
               ))}
             </ul>

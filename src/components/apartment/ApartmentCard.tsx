@@ -32,13 +32,13 @@ export const ApartmentCard = ({ product }: ApartmentCardProps) => {
 
   return (
     <article className="flex h-full flex-col rounded-[32px] border border-slate-100 bg-white transition hover:border-[#0055A4]">
-      <div className="relative h-56 overflow-hidden rounded-[32px] rounded-b-none">
+      <Link href={`/can-ho-the-song/${productSlug}`} className="relative block h-56 overflow-hidden rounded-[32px] rounded-b-none">
         <Image
           src={product.coverImageUrl || product.images[0]}
           alt={product.name}
           fill
           sizes="(min-width:1024px) 360px, 100vw"
-          className="object-cover"
+          className="object-cover transition-transform duration-300 hover:scale-105"
           priority={false}
         />
         {product.view && (
@@ -50,7 +50,7 @@ export const ApartmentCard = ({ product }: ApartmentCardProps) => {
             {product.view}
           </span>
         )}
-      </div>
+      </Link>
 
       <div className="flex flex-1 flex-col p-6">
         <div className="space-y-3">
