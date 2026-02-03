@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { format } from "date-fns";
 import { vi } from "date-fns/locale";
-import { CalendarIcon, Users, MapPin, ImageIcon } from "lucide-react";
+import { CalendarIcon, Users, MapPin, ImageIcon, MessageCircle } from "lucide-react";
 import { Breadcrumb } from "@/components/common/Breadcrumb";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
@@ -578,17 +578,29 @@ ${prepaid ? "✅ Đã áp dụng giảm giá thanh toán trước" : "💡 Thanh
                                 )}
                             </div>
 
-                            {/* Selected Room Link */}
-                            {selectedRoomData?.link && (
+                            {/* Selected Room Link or Contact Zalo */}
+                            {selectedRoomData && (
                                 <div className="flex justify-center">
-                                    <a
-                                        href={selectedRoomData.link}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="inline-flex items-center gap-1.5 rounded-full border-2 border-[#0055A4] bg-white px-4 py-2 text-sm font-semibold text-[#0055A4] transition hover:-translate-y-0.5 hover:bg-[#0055A4] hover:text-white"
-                                    >
-                                        🖼️ Xem hình ảnh căn đã chọn
-                                    </a>
+                                    {/* Căn 3, 5, 7 không có hình ảnh - hiện liên hệ Zalo */}
+                                    {[3, 5, 7].includes(selectedRoomData.id) ? (
+                                        <a
+                                            href="https://zalo.me/0963686963"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-blue-500 to-sky-400 px-4 py-2 text-sm font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl"
+                                        >
+                                            <MessageCircle className="h-4 w-4" /> Liên hệ Zalo để xem hình ảnh căn này
+                                        </a>
+                                    ) : (
+                                        <a
+                                            href={selectedRoomData.link}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="inline-flex items-center gap-1.5 rounded-full border-2 border-[#0055A4] bg-white px-4 py-2 text-sm font-semibold text-[#0055A4] transition hover:-translate-y-0.5 hover:bg-[#0055A4] hover:text-white"
+                                        >
+                                            <ImageIcon className="h-4 w-4" /> Xem hình ảnh căn đã chọn
+                                        </a>
+                                    )}
                                 </div>
                             )}
 
@@ -722,48 +734,95 @@ ${prepaid ? "✅ Đã áp dụng giảm giá thanh toán trước" : "💡 Thanh
                                 </div>
                             </div>
 
-                            {/* Price Breakdown Table */}
+                            {/* Price Breakdown - Card Layout for Mobile, Table for Desktop */}
                             <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_10px_30px_rgba(15,23,42,0.05)] sm:rounded-3xl">
-                                <div className="overflow-x-auto">
+                                {/* Mobile Card Layout */}
+                                <div className="divide-y divide-slate-100 sm:hidden">
+                                    {priceBreakdown.breakdown.map((item) => (
+                                        <div
+                                            key={item.key}
+                                            className={`flex items-center justify-between p-4 ${item.isHoliday ? "bg-gradient-to-r from-red-50 to-orange-50" : ""}`}
+                                        >
+                                            <div className="flex-1">
+                                                <div className="flex items-center gap-2">
+                                                    <span className="text-sm font-semibold text-slate-900">{item.date}</span>
+                                                    <span className="text-xs text-slate-500">({item.dayName})</span>
+                                                </div>
+                                                <div className="mt-1.5">
+                                                    <span
+                                                        className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium ${item.isHoliday
+                                                            ? "bg-gradient-to-r from-red-500 to-orange-500 text-white"
+                                                            : item.type === "Cuối tuần"
+                                                                ? "bg-gradient-to-r from-orange-400 to-amber-400 text-white"
+                                                                : "bg-gradient-to-r from-sky-400 to-blue-500 text-white"
+                                                            }`}
+                                                    >
+                                                        {item.isHoliday ? "🎉 Lễ/Tết" : item.type === "Cuối tuần" ? "🌅 Cuối tuần" : "📅 Ngày thường"}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div className="text-right">
+                                                <p className={`text-lg font-bold ${item.isHoliday ? "text-red-600" : "text-slate-900"}`}>
+                                                    {formatVND(item.price).replace(" ₫", "")}
+                                                </p>
+                                                <p className="text-xs text-slate-500">đ/đêm</p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                    {/* Mobile Total */}
+                                    <div className="bg-gradient-to-r from-slate-800 to-slate-700 p-4">
+                                        <div className="flex items-center justify-between">
+                                            <div>
+                                                <p className="text-sm font-medium text-slate-300">Tổng cộng</p>
+                                                <p className="text-xs text-slate-400">{priceBreakdown.nights} đêm</p>
+                                            </div>
+                                            <p className="text-2xl font-bold text-white">
+                                                {formatVND(priceBreakdown.total)}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Desktop Table Layout */}
+                                <div className="hidden sm:block">
                                     <table className="w-full">
                                         <thead className="bg-slate-50">
                                             <tr>
-                                                <th className="px-3 py-2.5 text-left text-xs font-semibold text-slate-700 sm:px-4 sm:py-3 sm:text-sm">
+                                                <th className="px-4 py-3 text-left text-sm font-semibold text-slate-700">
                                                     Ngày
                                                 </th>
-                                                <th className="hidden px-3 py-2.5 text-left text-xs font-semibold text-slate-700 sm:table-cell sm:px-4 sm:py-3 sm:text-sm">
+                                                <th className="px-4 py-3 text-left text-sm font-semibold text-slate-700">
                                                     Thứ
                                                 </th>
-                                                <th className="px-3 py-2.5 text-left text-xs font-semibold text-slate-700 sm:px-4 sm:py-3 sm:text-sm">
-                                                    Loại
+                                                <th className="px-4 py-3 text-left text-sm font-semibold text-slate-700">
+                                                    Loại ngày
                                                 </th>
-                                                <th className="px-3 py-2.5 text-right text-xs font-semibold text-slate-700 sm:px-4 sm:py-3 sm:text-sm">
-                                                    Giá
+                                                <th className="px-4 py-3 text-right text-sm font-semibold text-slate-700">
+                                                    Giá phòng
                                                 </th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-slate-100">
                                             {priceBreakdown.breakdown.map((item) => (
-                                                <tr key={item.key} className={item.isHoliday ? "bg-red-50" : ""}>
-                                                    <td className="px-3 py-2.5 text-xs text-slate-900 sm:px-4 sm:py-3 sm:text-sm">{item.date}</td>
-                                                    <td className="hidden px-3 py-2.5 text-xs text-slate-600 sm:table-cell sm:px-4 sm:py-3 sm:text-sm">
+                                                <tr key={item.key} className={item.isHoliday ? "bg-red-50" : "hover:bg-slate-50"}>
+                                                    <td className="px-4 py-3 text-sm font-medium text-slate-900">{item.date}</td>
+                                                    <td className="px-4 py-3 text-sm text-slate-600">
                                                         {item.dayName}
                                                     </td>
-                                                    <td className="px-3 py-2.5 sm:px-4 sm:py-3">
+                                                    <td className="px-4 py-3">
                                                         <span
-                                                            className={`inline-flex items-center gap-0.5 rounded-full px-1.5 py-0.5 text-[10px] font-semibold sm:gap-1 sm:px-2 sm:text-xs ${item.isHoliday
-                                                                ? "bg-red-100 text-red-700"
+                                                            className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold ${item.isHoliday
+                                                                ? "bg-gradient-to-r from-red-500 to-orange-500 text-white"
                                                                 : item.type === "Cuối tuần"
-                                                                    ? "bg-orange-100 text-orange-700"
-                                                                    : "bg-blue-100 text-blue-700"
+                                                                    ? "bg-gradient-to-r from-orange-400 to-amber-400 text-white"
+                                                                    : "bg-gradient-to-r from-sky-400 to-blue-500 text-white"
                                                                 }`}
                                                         >
-                                                            {item.isHoliday ? "🎉" : item.type === "Cuối tuần" ? "🌅" : "📅"}{" "}
-                                                            {item.type === "Cuối tuần" ? "Weekend" : item.type === "Ngày thường" ? "Weekday" : item.type}
+                                                            {item.isHoliday ? "🎉 Lễ/Tết" : item.type === "Cuối tuần" ? "🌅 Cuối tuần" : "📅 Ngày thường"}
                                                         </span>
                                                     </td>
                                                     <td
-                                                        className={`px-3 py-2.5 text-right text-xs font-semibold sm:px-4 sm:py-3 sm:text-sm ${item.isHoliday ? "text-red-600" : "text-slate-900"
+                                                        className={`px-4 py-3 text-right text-sm font-bold ${item.isHoliday ? "text-red-600" : "text-slate-900"
                                                             }`}
                                                     >
                                                         {formatVND(item.price)}
@@ -771,15 +830,15 @@ ${prepaid ? "✅ Đã áp dụng giảm giá thanh toán trước" : "💡 Thanh
                                                 </tr>
                                             ))}
                                         </tbody>
-                                        <tfoot className="bg-slate-50">
+                                        <tfoot className="bg-gradient-to-r from-slate-800 to-slate-700">
                                             <tr>
                                                 <td
                                                     colSpan={3}
-                                                    className="px-3 py-3 text-xs font-bold text-slate-900 sm:px-4 sm:py-4 sm:text-sm md:text-base"
+                                                    className="px-4 py-4 text-base font-bold text-white"
                                                 >
                                                     TỔNG ({priceBreakdown.nights} đêm)
                                                 </td>
-                                                <td className="px-3 py-3 text-right text-base font-bold text-[#0055A4] sm:px-4 sm:py-4 sm:text-lg">
+                                                <td className="px-4 py-4 text-right text-xl font-bold text-white">
                                                     {formatVND(priceBreakdown.total)}
                                                 </td>
                                             </tr>
