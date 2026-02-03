@@ -30,9 +30,9 @@ interface RoomData {
     area: string;
     link: string;
     prices: {
-        weekend: { normal: number; prepaid: number };
-        weekdayNormal: { normal: number; prepaid: number };
-        weekdayLow: { normal: number; prepaid: number };
+        saturday: { normal: number; prepaid: number };    // Đêm thứ 7
+        weekend: { normal: number; prepaid: number };     // Đêm thứ 6 và CN
+        weekday: { normal: number; prepaid: number };     // Đêm trong tuần
     };
 }
 
@@ -104,15 +104,18 @@ const parseNormalCSV = (csvText: string): RoomData[] => {
             area: cols[3] || "",
             link: cols[4] || "",
             prices: {
-                weekend: {
+                // Cột 5-6: Đêm thứ 7 (Saturday night)
+                saturday: {
                     normal: parsePrice(cols[5]),
                     prepaid: parsePrice(cols[6]),
                 },
-                weekdayNormal: {
+                // Cột 7-8: Đêm thứ 6 và CN (Friday + Sunday nights)
+                weekend: {
                     normal: parsePrice(cols[7]),
                     prepaid: parsePrice(cols[8]),
                 },
-                weekdayLow: {
+                // Cột 9-10: Đêm trong tuần (Mon-Thu nights)
+                weekday: {
                     normal: parsePrice(cols[9]),
                     prepaid: parsePrice(cols[10]),
                 },
@@ -197,10 +200,12 @@ const parseHolidayCSV = (csvText: string): { holidayPrices: Record<string, Recor
     return { holidayPrices, holidayDates };
 };
 
-// Helper: Check if date is weekend night (Friday or Saturday)
+// Helper: Check if date is weekend night (Friday or Sunday)
+// Đêm thứ 6 = check-in thứ 6 (day 5)
+// Đêm Chủ nhật = check-in Chủ nhật (day 0)
 const isWeekendNight = (date: Date): boolean => {
     const day = date.getDay();
-    return day === 5 || day === 6;
+    return day === 5 || day === 0; // Friday or Sunday
 };
 
 // Helper: Format VND currency
@@ -345,11 +350,23 @@ export default function BaoGiaTuDongPage() {
                 isHoliday = true;
                 hasHoliday = true;
             } else {
-                const isWeekend = isWeekendNight(currentDate);
+                const day = currentDate.getDay();
                 const priceKey = isPrepaid ? "prepaid" : "normal";
-                const priceCategory = isWeekend ? "weekend" : "weekdayNormal";
-                price = room.prices[priceCategory][priceKey];
-                priceType = isWeekend ? "Cuối tuần" : "Ngày thường";
+
+                // Xác định loại đêm
+                if (day === 6) {
+                    // Đêm thứ 7 (Saturday)
+                    price = room.prices.saturday[priceKey];
+                    priceType = "Cuối tuần";
+                } else if (day === 5 || day === 0) {
+                    // Đêm thứ 6 hoặc CN (Friday or Sunday)
+                    price = room.prices.weekend[priceKey];
+                    priceType = "Tối thứ 6 và CN";
+                } else {
+                    // Đêm trong tuần (Mon-Thu)
+                    price = room.prices.weekday[priceKey];
+                    priceType = "Ngày thường";
+                }
             }
 
             breakdown.push({
@@ -754,10 +771,18 @@ ${prepaid ? "✅ Đã áp dụng giảm giá thanh toán trước" : "💡 Thanh
                                                             ? "bg-gradient-to-r from-red-500 to-orange-500 text-white"
                                                             : item.type === "Cuối tuần"
                                                                 ? "bg-gradient-to-r from-orange-400 to-amber-400 text-white"
-                                                                : "bg-gradient-to-r from-sky-400 to-blue-500 text-white"
+                                                                : item.type === "Tối thứ 6 và CN"
+                                                                    ? "bg-gradient-to-r from-purple-400 to-indigo-500 text-white"
+                                                                    : "bg-gradient-to-r from-sky-400 to-blue-500 text-white"
                                                             }`}
                                                     >
-                                                        {item.isHoliday ? "🎉 Lễ/Tết" : item.type === "Cuối tuần" ? "🌅 Cuối tuần" : "📅 Ngày thường"}
+                                                        {item.isHoliday
+                                                            ? "🎉 Lễ/Tết"
+                                                            : item.type === "Cuối tuần"
+                                                                ? "🌅 Cuối tuần"
+                                                                : item.type === "Tối thứ 6 và CN"
+                                                                    ? "🌙 Tối thứ 6 và CN"
+                                                                    : "📅 Ngày thường"}
                                                     </span>
                                                 </div>
                                             </div>
@@ -815,10 +840,18 @@ ${prepaid ? "✅ Đã áp dụng giảm giá thanh toán trước" : "💡 Thanh
                                                                 ? "bg-gradient-to-r from-red-500 to-orange-500 text-white"
                                                                 : item.type === "Cuối tuần"
                                                                     ? "bg-gradient-to-r from-orange-400 to-amber-400 text-white"
-                                                                    : "bg-gradient-to-r from-sky-400 to-blue-500 text-white"
+                                                                    : item.type === "Tối thứ 6 và CN"
+                                                                        ? "bg-gradient-to-r from-purple-400 to-indigo-500 text-white"
+                                                                        : "bg-gradient-to-r from-sky-400 to-blue-500 text-white"
                                                                 }`}
                                                         >
-                                                            {item.isHoliday ? "🎉 Lễ/Tết" : item.type === "Cuối tuần" ? "🌅 Cuối tuần" : "📅 Ngày thường"}
+                                                            {item.isHoliday
+                                                                ? "🎉 Lễ/Tết"
+                                                                : item.type === "Cuối tuần"
+                                                                    ? "🌅 Cuối tuần"
+                                                                    : item.type === "Tối thứ 6 và CN"
+                                                                        ? "🌙 Tối thứ 6 và CN"
+                                                                        : "📅 Ngày thường"}
                                                         </span>
                                                     </td>
                                                     <td
