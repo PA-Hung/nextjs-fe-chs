@@ -35,7 +35,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/bang-gia`,
+      url: `${baseUrl}/bao-gia-tu-dong`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.7,
