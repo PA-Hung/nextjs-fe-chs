@@ -31,7 +31,7 @@ export default function AccommodationRulesPage() {
     return (
         <div className="min-h-screen text-slate-900" style={beachBackgroundStyle}>
             <SiteHeader />
-            <main className="mx-auto max-w-5xl px-4 pt-4 pb-12 sm:px-6 lg:px-8 lg:pt-3 lg:pb-16">
+            <main className="mx-auto max-w-6xl px-4 pt-4 pb-12 sm:px-6 lg:px-8 lg:pt-3 lg:pb-16">
                 <Breadcrumb
                     items={[
                         { label: "Trang chủ", href: "/" },
