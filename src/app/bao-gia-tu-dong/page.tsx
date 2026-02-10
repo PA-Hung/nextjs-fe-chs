@@ -248,6 +248,7 @@ export default function BaoGiaTuDongPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [guestCount, setGuestCount] = useState<number | null>(null);
+    const [selectedMaxGuests, setSelectedMaxGuests] = useState<string | null>(null);
     const [selectedRoom, setSelectedRoom] = useState<number | null>(null);
     const [checkInDate, setCheckInDate] = useState<Date | undefined>(undefined);
     const [checkOutDate, setCheckOutDate] = useState<Date | undefined>(undefined);
@@ -297,15 +298,17 @@ export default function BaoGiaTuDongPage() {
         fetchRoomData();
     }, []);
 
-    // Get unique guest count options from room data
-    const availableGuestOptions = [...new Set(roomData.map(room => parseGuestCount(room.maxGuests)))]
-        .filter(n => n > 0)
-        .sort((a, b) => a - b);
+    // Get unique maxGuests options from room data, sorted by parsed number
+    const availableGuestOptions = [...new Set(roomData.map(room => room.maxGuests))]
+        .filter(g => g.trim() !== "")
+        .sort((a, b) => parseGuestCount(a) - parseGuestCount(b));
 
-    // Filter rooms by guest count
-    const filteredRooms = guestCount
-        ? roomData.filter(room => parseGuestCount(room.maxGuests) >= guestCount)
-        : [];
+    // Filter rooms by selected maxGuests label
+    const filteredRooms = selectedMaxGuests
+        ? roomData.filter(room => room.maxGuests === selectedMaxGuests)
+        : (guestCount
+            ? roomData.filter(room => parseGuestCount(room.maxGuests) >= guestCount)
+            : []);
 
     // Calculate price
     const calculatePrice = () => {
@@ -503,9 +506,10 @@ ${prepaid ? "✅ Đã áp dụng giảm giá thanh toán trước" : "💡 Thanh
                                     👥 Số khách tối đa (người lớn + em bé)
                                 </Label>
                                 <Select
-                                    value={guestCount?.toString() || ""}
+                                    value={selectedMaxGuests || ""}
                                     onValueChange={(value) => {
-                                        setGuestCount(value ? parseInt(value) : null);
+                                        setSelectedMaxGuests(value || null);
+                                        setGuestCount(value ? parseGuestCount(value) : null);
                                         setSelectedRoom(null);
                                         setPriceBreakdown(null);
                                     }}
@@ -514,9 +518,9 @@ ${prepaid ? "✅ Đã áp dụng giảm giá thanh toán trước" : "💡 Thanh
                                         <SelectValue placeholder="-- Chọn số khách --" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        {availableGuestOptions.map((count) => (
-                                            <SelectItem key={count} value={count.toString()}>
-                                                {count} khách
+                                        {availableGuestOptions.map((label) => (
+                                            <SelectItem key={label} value={label}>
+                                                {label}
                                             </SelectItem>
                                         ))}
                                     </SelectContent>
@@ -539,7 +543,7 @@ ${prepaid ? "✅ Đã áp dụng giảm giá thanh toán trước" : "💡 Thanh
                                 <Label className="text-sm font-semibold text-slate-700">
                                     🏠 Chọn loại căn hộ
                                 </Label>
-                                {!guestCount ? (
+                                {!selectedMaxGuests ? (
                                     <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-center text-sm text-slate-500">
                                         Vui lòng chọn số khách trước
                                     </div>
