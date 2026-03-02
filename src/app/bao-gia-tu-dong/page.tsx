@@ -14,7 +14,6 @@ import { Calendar } from "@/components/ui/calendar";
 import { Label } from "@/components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
 
 // Google Sheets published CSV URLs
@@ -52,7 +51,6 @@ interface PriceBreakdown {
     nights: number;
     breakdown: PriceBreakdownItem[];
     total: number;
-    isPrepaid: boolean;
     hasHoliday: boolean;
 }
 
@@ -252,7 +250,6 @@ export default function BaoGiaTuDongPage() {
     const [selectedRoom, setSelectedRoom] = useState<number | null>(null);
     const [checkInDate, setCheckInDate] = useState<Date | undefined>(undefined);
     const [checkOutDate, setCheckOutDate] = useState<Date | undefined>(undefined);
-    const [isPrepaid, setIsPrepaid] = useState(false);
     const [priceBreakdown, setPriceBreakdown] = useState<PriceBreakdown | null>(null);
     const [calculating, setCalculating] = useState(false);
     const [copied, setCopied] = useState(false);
@@ -348,13 +345,13 @@ export default function BaoGiaTuDongPage() {
             let isHoliday = false;
 
             if (holidayPrice && holidayPrice > 0) {
-                price = isPrepaid ? Math.round(holidayPrice * 0.95) : holidayPrice;
+                price = holidayPrice;
                 priceType = "Lễ tết";
                 isHoliday = true;
                 hasHoliday = true;
             } else {
                 const day = currentDate.getDay();
-                const priceKey = isPrepaid ? "prepaid" : "normal";
+                const priceKey = "normal";
 
                 // Xác định loại đêm
                 if (day === 6) {
@@ -391,7 +388,6 @@ export default function BaoGiaTuDongPage() {
             nights,
             breakdown,
             total,
-            isPrepaid,
             hasHoliday,
         });
 
@@ -402,7 +398,7 @@ export default function BaoGiaTuDongPage() {
     const copyQuotation = () => {
         if (!priceBreakdown) return;
 
-        const { room, checkIn, checkOut, nights, total, isPrepaid: prepaid, hasHoliday } = priceBreakdown;
+        const { room, checkIn, checkOut, nights, total, hasHoliday } = priceBreakdown;
 
         const text = `🏨 BÁO GIÁ PHÒNG - CHÂU HOMESTAY
 
@@ -416,7 +412,6 @@ export default function BaoGiaTuDongPage() {
 ${hasHoliday ? "🎉 Có ngày lễ/tết" : ""}
 
 💰 Tổng tiền: ${formatVND(total)}
-${prepaid ? "✅ Đã áp dụng giảm giá thanh toán trước" : "💡 Thanh toán trước để được giảm giá"}
 
 ---
 📞 Zalo: 0963686963
@@ -695,22 +690,6 @@ ${prepaid ? "✅ Đã áp dụng giảm giá thanh toán trước" : "💡 Thanh
                                 </div>
                             </div>
 
-                            {/* Prepaid Toggle */}
-                            <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 p-3 sm:rounded-2xl sm:p-4">
-                                <div className="space-y-0.5">
-                                    <Label className="text-sm font-semibold text-slate-700 sm:text-base">💳 Thanh toán trước</Label>
-                                    <p className="text-xs text-slate-500 sm:text-sm">Được giảm giá khi thanh toán trước</p>
-                                </div>
-                                <Switch
-                                    checked={isPrepaid}
-                                    onCheckedChange={(checked) => {
-                                        setIsPrepaid(checked);
-                                        setPriceBreakdown(null);
-                                    }}
-                                    className="data-[state=checked]:bg-green-500"
-                                />
-                            </div>
-
                             {/* Calculate Button */}
                             <Button
                                 onClick={calculatePrice}
@@ -748,11 +727,6 @@ ${prepaid ? "✅ Đã áp dụng giảm giá thanh toán trước" : "💡 Thanh
                                         {priceBreakdown.hasHoliday && (
                                             <span className="rounded-full bg-yellow-400 px-2.5 py-0.5 text-xs text-yellow-900 sm:px-3 sm:py-1 sm:text-sm">
                                                 🎉 Có ngày lễ
-                                            </span>
-                                        )}
-                                        {priceBreakdown.isPrepaid && (
-                                            <span className="rounded-full bg-green-400 px-2.5 py-0.5 text-xs text-green-900 sm:px-3 sm:py-1 sm:text-sm">
-                                                ✅ Giảm giá
                                             </span>
                                         )}
                                     </div>
@@ -902,11 +876,6 @@ ${prepaid ? "✅ Đã áp dụng giảm giá thanh toán trước" : "💡 Thanh
                                 >
                                     {formatVND(priceBreakdown.total)}
                                 </p>
-                                {priceBreakdown.isPrepaid && (
-                                    <p className="mt-2 text-sm text-green-600">
-                                        ✅ Đã áp dụng giảm giá thanh toán trước
-                                    </p>
-                                )}
                             </div>
 
                             {/* Action Buttons */}
