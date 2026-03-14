@@ -537,7 +537,7 @@ ${hasHoliday ? "🎉 Có ngày lễ/tết" : ""}
                                 </Label>
                                 <Select
                                     value={selectedMaxGuests || ""}
-                                    onValueChange={(value) => {
+                                    onValueChange={(value: string) => {
                                         setSelectedMaxGuests(value || null);
                                         setGuestCount(value ? parseGuestCount(value) : null);
                                         setSelectedRoom(null);
