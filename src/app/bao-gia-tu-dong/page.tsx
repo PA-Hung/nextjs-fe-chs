@@ -77,9 +77,43 @@ const parseHolidayDate = (dateStr: string, referenceYear?: number): string | nul
     return `${year}-${month.toString().padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
 };
 
+// Helper: Parse CSV correctly with multiline quotes
+const parseCSVLines = (csvText: string): string[] => {
+    const rawLines = csvText.split('\n');
+    const lines: string[] = [];
+    let currentLine = '';
+    let insideQuotes = false;
+
+    for (let i = 0; i < rawLines.length; i++) {
+        const line = rawLines[i].replace(/\r$/, '');
+        const quoteCount = (line.match(/"/g) || []).length;
+        
+        if (currentLine === '') {
+            currentLine = line;
+        } else {
+            currentLine += '\n' + line;
+        }
+
+        if (quoteCount % 2 !== 0) {
+            insideQuotes = !insideQuotes;
+        }
+
+        if (!insideQuotes) {
+            if (currentLine.trim()) {
+                lines.push(currentLine.trim());
+            }
+            currentLine = '';
+        }
+    }
+    if (currentLine.trim()) {
+        lines.push(currentLine.trim());
+    }
+    return lines;
+};
+
 // Helper: Parse Normal CSV
 const parseNormalCSV = (csvText: string): RoomData[] => {
-    const lines = csvText.split("\n").filter((line) => line.trim());
+    const lines = parseCSVLines(csvText);
     const rooms: RoomData[] = [];
 
     for (let i = 1; i < lines.length; i++) {
@@ -130,7 +164,7 @@ const parseNormalCSV = (csvText: string): RoomData[] => {
 
 // Helper: Parse Holiday CSV
 const parseHolidayCSV = (csvText: string): { holidayPrices: Record<string, Record<number, number>>; holidayDates: string[] } => {
-    const lines = csvText.split("\n").filter((line) => line.trim());
+    const lines = parseCSVLines(csvText);
     const holidayPrices: Record<string, Record<number, number>> = {};
     const holidayDates: string[] = [];
 
@@ -139,7 +173,8 @@ const parseHolidayCSV = (csvText: string): { holidayPrices: Record<string, Recor
 
     for (let i = 0; i < Math.min(10, lines.length); i++) {
         const line = lines[i];
-        if (line.includes("M1") || line.includes("17/02") || line.includes("18/02")) {
+        const dateMatches = line.match(/\d{1,2}\/\d{1,2}/g);
+        if (line.includes("M1") || (dateMatches && dateMatches.length >= 2)) {
             dateHeaderRow = i;
             break;
         }
