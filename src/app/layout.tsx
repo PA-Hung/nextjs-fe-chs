@@ -39,6 +39,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
+  other: {
+    "zalo-platform-site-verification": "Jl3d6vZHR1jVzED1czXNOn2dnd_yr1GcCZK",
+  },
 };
 
 const localBusinessSchema = generateLodgingBusinessSchema({
