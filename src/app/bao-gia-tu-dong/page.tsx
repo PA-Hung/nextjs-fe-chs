@@ -335,12 +335,10 @@ export default function BaoGiaTuDongPage() {
         .filter(g => g.trim() !== "")
         .sort((a, b) => parseGuestCount(a) - parseGuestCount(b));
 
-    // Filter rooms by selected maxGuests label
-    const filteredRooms = selectedMaxGuests
-        ? roomData.filter(room => room.maxGuests === selectedMaxGuests)
-        : (guestCount
-            ? roomData.filter(room => parseGuestCount(room.maxGuests) >= guestCount)
-            : []);
+    // Filter rooms by guest count (>= selected count, not exact match)
+    const filteredRooms = guestCount
+        ? roomData.filter(room => parseGuestCount(room.maxGuests) >= guestCount)
+        : [];
 
     // Calculate price
     const calculatePrice = () => {
@@ -573,7 +571,7 @@ ${hasHoliday ? "🎉 Có ngày lễ/tết" : ""}
                                 <Label className="text-sm font-semibold text-slate-700">
                                     🏠 Chọn loại căn hộ
                                 </Label>
-                                {!selectedMaxGuests ? (
+                                {!guestCount ? (
                                     <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-center text-sm text-slate-500">
                                         Vui lòng chọn số khách trước
                                     </div>

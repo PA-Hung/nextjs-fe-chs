@@ -319,12 +319,6 @@ export default async function Home() {
         <WaveDivider />
 
         <GoogleReviewsSection layout="carousel" />
-        <GoogleReviewsSection
-          layout="carousel"
-          widgetId={appConfig.featurableWidgetId2}
-          locationName="Villa Châu Homestay"
-          showTitle={false}
-        />
 
         <WaveDivider />
 
