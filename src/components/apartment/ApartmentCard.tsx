@@ -25,14 +25,26 @@ const getViewBadgeColor = (view?: string) => {
   return "bg-white/90 text-slate-900";
 };
 
+/**
+ * Xác định base path dựa trên productType:
+ * - "villa" → /villa
+ * - mặc định → /can-ho-the-song
+ */
+const getProductBasePath = (productType?: string): string => {
+  if (productType === "villa") return "/villa";
+  return "/can-ho-the-song";
+};
+
 export const ApartmentCard = ({ product }: ApartmentCardProps) => {
 
   // Ưu tiên dùng slug từ API, fallback về generate từ name nếu chưa có
   const productSlug = product.slug || createProductSlug(product.name);
+  const basePath = getProductBasePath(product.productType);
+  const detailHref = `${basePath}/${productSlug}`;
 
   return (
     <article className="flex h-full flex-col rounded-[32px] border border-slate-100 bg-white transition hover:border-[#0055A4]">
-      <Link href={`/can-ho-the-song/${productSlug}`} className="relative block h-56 overflow-hidden rounded-[32px] rounded-b-none">
+      <Link href={detailHref} className="relative block h-56 overflow-hidden rounded-[32px] rounded-b-none">
         <Image
           src={product.coverImageUrl || product.images[0]}
           alt={product.name}
@@ -54,7 +66,7 @@ export const ApartmentCard = ({ product }: ApartmentCardProps) => {
 
       <div className="flex flex-1 flex-col p-6">
         <div className="space-y-3">
-          <Link href={`/can-ho-the-song/${productSlug}`}>
+          <Link href={detailHref}>
             <h3 className="mb-3 min-h-[2.5rem] text-base font-semibold leading-tight text-slate-900 transition hover:text-[#b88b5a] line-clamp-2 overflow-hidden">
               {product.name}
             </h3>
@@ -112,7 +124,7 @@ export const ApartmentCard = ({ product }: ApartmentCardProps) => {
               Đặt ngay
             </Link>
             <Link
-              href={`/can-ho-the-song/${productSlug}`}
+              href={detailHref}
               className="flex w-full items-center justify-center rounded-full border border-slate-200 px-4 py-2.5 text-center text-sm font-semibold text-slate-700 transition hover:border-slate-400 hover:bg-slate-50 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300 sm:flex-1"
             >
               Xem chi tiết

@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  output: 'standalone',
   images: {
     // Sử dụng remotePatterns thay vì domains (domains đã deprecated)
     remotePatterns: [

@@ -11,7 +11,6 @@ services:
         - NEXT_PUBLIC_API_URL=https://api.chauhomestay.com
         # - NEXT_PUBLIC_API_URL=https://8pksl6tj-8080.asse.devtunnels.ms/
         - NEXT_PUBLIC_FEATURABLE_WIDGET_ID=${NEXT_PUBLIC_FEATURABLE_WIDGET_ID:-}
-        - NEXT_PUBLIC_FEATURABLE_WIDGET_ID_2=${NEXT_PUBLIC_FEATURABLE_WIDGET_ID_2:-}
     environment:
       # Runtime environment (cho các biến không phải NEXT_PUBLIC_*)
       - NODE_ENV=production
