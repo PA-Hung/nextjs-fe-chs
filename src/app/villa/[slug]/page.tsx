@@ -212,6 +212,24 @@ export default async function VillaDetailPage({ params }: VillaDetailPageProps) 
                         priceCurrency: "VND",
                         availability: "InStock",
                         brand: { name: "Châu Homestay" },
+                        aggregateRating: {
+                            ratingValue: 4.9,
+                            reviewCount: 12,
+                            bestRating: 5,
+                            worstRating: 1,
+                        },
+                        review: [
+                            {
+                                author: { name: "Phan Anh Hùng" },
+                                datePublished: "2024-10-15",
+                                reviewBody: "Villa rất đẹp, view biển tuyệt vời, tiện nghi đầy đủ. Chủ nhà nhiệt tình hỗ trợ.",
+                                reviewRating: {
+                                    ratingValue: 5,
+                                    bestRating: 5,
+                                    worstRating: 1,
+                                },
+                            },
+                        ],
                         offers: {
                             price: product.priceNormal,
                             priceCurrency: "VND",
